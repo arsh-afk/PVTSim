@@ -102,9 +102,8 @@ dmypy.json
 # macOS
 .DS_Store
 
-# Simulation outputs
+# Simulation outputs (not generated yet)
 runs/
-reports/
 outputs/
 
 # Virtual environments
