@@ -1,0 +1,86 @@
+# Quantity Kinds for AquaSolar Living
+
+Maps each `quantity_kind` from `input_index.yaml` to a SI base dimension.
+Distinguishes absolute temperature from temperature difference explicitly.
+
+Dimension notation uses SI base dimensions: M (mass), L (length), T (time),
+Θ (thermodynamic temperature), I (electric current), N (amount of substance),
+J (luminous intensity).
+
+Temperature differences use the same dimension Θ as absolute temperature,
+but the unit convention is distinguished by `unit` string (e.g., "kelvin"
+vs "K" for absolute, "delta_K" or explicit "temperature_difference" kind
+for differences).
+
+---
+
+## Quantity Kind → Dimension Mapping
+
+| quantity_kind | SI dimension | Base dimensions | Notes |
+|---|---|---|---|
+| `density` | [M][L]⁻³ | M·L⁻³ | kg/m³ |
+| `specific_heat` | [L]²·[T]⁻²·[Θ]⁻¹ | L²·T⁻²·Θ⁻¹ | J/(kg·K) |
+| `text` | — | — | Free-form string |
+| `angle` | [dimensionless] | 1 | rad (but stored as number; convert via pi factor) |
+| `length` | [L] | L | m |
+| `time` | [T] | T | s |
+| `fraction` | [dimensionless] | 1 | ratio, no unit string needed |
+| `rate_per_time` | [T]⁻¹ | T⁻¹ | 1/s or 1/yr depending on context |
+| `irradiance` | [M][T]⁻³ | M·T⁻³ | W/m² = J/(s·m²) |
+| `temperature` | [Θ] | Θ | K (absolute); distinguish from delta_K |
+| `temperature_difference` | [Θ] | Θ | K or delta_K — must be tagged in unit string |
+| `flow_mass` | [M][T]⁻¹ | M·T⁻¹ | kg/s |
+| `flow_volumetric` | [L]³[T]⁻¹ | L³·T⁻¹ | m³/s |
+| `power` | [M][L]²[T]⁻³ | M·L²·T⁻³ | W = J/s |
+| `energy` | [M][L]²[T]⁻² | M·L²·T⁻² | J |
+| `heat_transfer_coefficient` | [M][T]⁻³·[Θ]⁻¹ | M·T⁻³·Θ⁻¹ | W/(m²·K) |
+| `thermal_conductance` | [M][L]²[T]⁻³·[Θ]⁻¹ | M·L²·T⁻³·Θ⁻¹ | W/K |
+| `thermal_conductivity` | [M][L][T]⁻³·[Θ]⁻¹ | M·L·T⁻³·Θ⁻¹ | W/(m·K) |
+| `area` | [L]² | L² | m² |
+| `area_thermal_resistance` | [Θ]·[L]⁻²·[T]·[M]⁻¹ | Θ·L⁻²·T·M⁻¹ | K·m²/W |
+| `areal_heat_capacity` | [M][L]⁰·[T]⁻²·[Θ]⁻¹ | M·T⁻²·Θ⁻¹ | J/(m²·K) |
+| `pressure` | [M][L]⁻¹[T]⁻² | M·L⁻¹·T⁻² | Pa = N/m² |
+| `count` | [dimensionless] | 1 | integer, no unit |
+| `boolean` | [dimensionless] | 1 | true/false |
+| `energy_per_volume` | [M][L]⁻¹[T]⁻² | M·L⁻¹·T⁻² | J/m³ |
+| `concentration` | [M][L]⁻³ | M·L⁻³ | kg/m³ or mg/L — user-specified unit string |
+| `uv_intensity` | [M][T]⁻³ | M·T⁻³ | W/m² (UV band) |
+| `uv_dose` | [M][T]⁻² | M·T⁻² | J/m² (UV dose) |
+| `permeability` | [L]³[T]⁻¹[M]⁻¹[Θ] | L³·T⁻¹·M⁻¹·Θ | see notes |
+| `loading_capacity` | [M] | M | kg (mass of contaminant loaded) |
+| `rate_per_volume` | [L]⁻³[T]⁻¹ | L⁻³·T⁻¹ | 1/(m³·s) |
+| `activation_energy` | [M][L]²[T]⁻²·[Θ]⁻¹ | M·L²·T⁻²·Θ⁻¹ | J/(mol·K) or equivalent |
+| `emission_per_energy` | [M][M]·[L]⁻²[T]⁻³ | see below | kg CO₂-eq/J or g/kWh — user-specified |
+| `emission_per_volume` | [M][L]⁻³ | M·L⁻³ | kg CO₂-eq/m³ |
+| `currency` | [dimensionless] | 1 | currency code in unit string |
+| `currency_per_time` | [T]⁻¹ | T⁻¹ | currency/year |
+| `currency_per_energy` | [M]⁻¹[L]⁻²[T]³ | M⁻¹·L⁻²·T³ | currency/J |
+| `currency_per_volume` | [M]⁻¹[L]⁻³[T]² | M⁻¹·L⁻³·T² | currency/m³ |
+| `dimensionless` | [dimensionless] | 1 | ratio, weighting factor |
+| `timestamp` | [T] offset from epoch | — | ISO 8601 string with explicit offset |
+| `volume` | [L]³ | L³ | m³ |
+| `mass` | [M] | M | kg |
+| `rate_per_temperature` | [T]⁻¹·[Θ]⁻¹ | T⁻¹·Θ⁻¹ | 1/(K·s) or 1/(K·°C) — same magnitude |
+
+---
+
+## Notes
+
+1. **Temperature vs temperature difference:** In Pint, both use "kelvin" as the
+   unit. The distinction is made via the `quantity_kind` field in the registry.
+   Code that reads `quantity_kind == "temperature"` must reject values that
+   represent differences (e.g., a delta from a table must be converted).
+
+2. **Angle:** Stored as a float in radians internally. User input may be in
+   degrees — the unit library handles conversion if the input unit is "degree".
+
+3. **Timestamp:** Not a physical quantity. Treated as a special scalar; parsed
+   with `datetime.fromisoformat()` and converted to UTC offset explicitly.
+
+4. **Currency:** Dimensionless for calculation purposes; the currency code is
+   carried in the unit string and checked for consistency across all monetary
+   values in a given run.
+
+5. **Permeability:** For membrane flux models, typical unit is m/(s·Pa) or
+   LMH/bar. The dimension reduces to [L]³[T]⁻¹[M]⁻¹[Θ] when pressure is
+   included; confirm exact expected unit in the equation register.

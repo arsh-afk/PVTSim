@@ -1,0 +1,241 @@
+# AquaSolar Living parameter template.
+# HOW TO FILL: for each entry set `value`, `unit`, `source_type`, `source_ref`, `uncertainty`, `valid_range`,
+# then set `status: confirmed` (only you do this). Leave an entry as `draft` and the simulation will refuse to run.
+# If `required_when` is false for your setup, set `status: not_applicable` and leave value empty.
+# `unit` must be a unit string the agent's unit library parses; the agent lists accepted examples in docs/units_accepted.md.
+# For categorical entries, `value` must be exactly one of `allowed_values`.
+# The agent must not edit any `value`, `unit` or `status` field.
+file: pvt_electrical
+title: PV side of the PVT collector
+schema_version: '1.0'
+status_options:
+- draft
+- confirmed
+- not_applicable
+source_type_options:
+- measured
+- datasheet
+- literature
+- standard
+- assumption
+parameters:
+- id: pvt_el.eta_ref
+  symbol: eta_ref
+  description: Electrical efficiency at reference conditions
+  quantity_kind: fraction
+  needed_by_phase: 3
+  required_when: always
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: pvt_el.T_ref
+  symbol: T_ref
+  description: Cell temperature at reference conditions
+  quantity_kind: temperature
+  needed_by_phase: 3
+  required_when: always
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: pvt_el.G_ref
+  symbol: G_ref
+  description: Irradiance at reference conditions
+  quantity_kind: irradiance
+  needed_by_phase: 3
+  required_when: always
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: pvt_el.beta
+  symbol: beta
+  description: Temperature coefficient of efficiency, relative per temperature
+  quantity_kind: rate_per_temperature
+  needed_by_phase: 3
+  required_when: always
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: pvt_el.irradiance_model
+  symbol: null
+  description: Efficiency dependence on irradiance
+  quantity_kind: categorical
+  needed_by_phase: 3
+  required_when: always
+  allowed_values:
+  - none
+  - user_curve_table
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: pvt_el.iam_model
+  symbol: null
+  description: Incidence-angle modifier model
+  quantity_kind: categorical
+  needed_by_phase: 3
+  required_when: always
+  allowed_values:
+  - none
+  - user_curve_table
+  - user_named_model_in_equation_register
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: pvt_el.inverter_efficiency
+  symbol: eta_inv
+  description: Inverter or power electronics efficiency (use the value for the actual device)
+  quantity_kind: fraction
+  needed_by_phase: 7
+  required_when: always
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: pvt_el.module_count
+  symbol: null
+  description: Number of modules in the array
+  quantity_kind: count
+  needed_by_phase: 3
+  required_when: always
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: pvt_el.mpp_assumption
+  symbol: null
+  description: How maximum power point operation is handled
+  quantity_kind: categorical
+  needed_by_phase: 3
+  required_when: always
+  allowed_values:
+  - ideal_mpp
+  - user_efficiency_factor
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: pvt_el.mpp_efficiency_factor
+  symbol: null
+  description: Tracking efficiency factor
+  quantity_kind: fraction
+  needed_by_phase: 3
+  required_when: pvt_el.mpp_assumption == user_efficiency_factor
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null

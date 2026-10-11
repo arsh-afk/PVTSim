@@ -1,0 +1,56 @@
+# Meta file for the data file with the same name. Fill every null field. The agent reads this before the CSV.
+# Units go here per column, not in the CSV body (except where a unit column exists in the CSV).
+file: scale_scenarios.csv
+description: Community scale-up scenarios
+needed_by_phase: 9
+encoding: UTF-8
+delimiter: comma
+decimal_separator: period
+header_row: true
+data_origin: null
+data_origin_options:
+- measured_onsite
+- measured_other_site
+- typical_year
+- datasheet
+- lab_report
+- other_described_in_notes
+provenance_ref: null
+notes: null
+columns:
+- name: scenario_id
+  description: Unique id
+  required: true
+  unit: null
+  quantity_kind: null
+  sensor_or_source: null
+- name: villa_count
+  description: Number of villas
+  required: true
+  unit: null
+  quantity_kind: null
+  sensor_or_source: null
+- name: demand_diversity_note
+  description: How demand differs between villas (text), or a reference to a table
+  required: true
+  unit: null
+  quantity_kind: null
+  sensor_or_source: null
+- name: shared_maintenance_saving_fraction
+  description: Fraction of maintenance cost saved by sharing
+  required: true
+  unit: null
+  quantity_kind: null
+  sensor_or_source: null
+- name: procurement_discount_fraction
+  description: Fraction of capital cost saved by bulk procurement
+  required: true
+  unit: null
+  quantity_kind: null
+  sensor_or_source: null
+- name: monitoring_cost_sharing
+  description: How monitoring cost is shared (text)
+  required: true
+  unit: null
+  quantity_kind: null
+  sensor_or_source: null

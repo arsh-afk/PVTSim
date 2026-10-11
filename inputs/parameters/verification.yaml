@@ -1,0 +1,210 @@
+# AquaSolar Living parameter template.
+# HOW TO FILL: for each entry set `value`, `unit`, `source_type`, `source_ref`, `uncertainty`, `valid_range`,
+# then set `status: confirmed` (only you do this). Leave an entry as `draft` and the simulation will refuse to run.
+# If `required_when` is false for your setup, set `status: not_applicable` and leave value empty.
+# `unit` must be a unit string the agent's unit library parses; the agent lists accepted examples in docs/units_accepted.md.
+# For categorical entries, `value` must be exactly one of `allowed_values`.
+# The agent must not edit any `value`, `unit` or `status` field.
+file: verification
+title: Tolerances and acceptance limits fixed before any comparison
+schema_version: '1.0'
+status_options:
+- draft
+- confirmed
+- not_applicable
+source_type_options:
+- measured
+- datasheet
+- literature
+- standard
+- assumption
+parameters:
+- id: ver.energy_balance_tol_abs
+  symbol: null
+  description: Absolute energy balance residual tolerance per step
+  quantity_kind: energy
+  needed_by_phase: 3
+  required_when: always
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: ver.energy_balance_tol_rel
+  symbol: null
+  description: Relative energy balance residual tolerance (basis in notes)
+  quantity_kind: fraction
+  needed_by_phase: 3
+  required_when: always
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: ver.mass_balance_tol_rel
+  symbol: null
+  description: Relative mass and solute balance tolerance
+  quantity_kind: fraction
+  needed_by_phase: 6
+  required_when: always
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: ver.analytical_test_tol_rel
+  symbol: null
+  description: Relative tolerance for analytical benchmark tests
+  quantity_kind: fraction
+  needed_by_phase: 3
+  required_when: always
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: ver.timestep_convergence_tol
+  symbol: null
+  description: Largest acceptable change in a headline metric on halving the step
+  quantity_kind: fraction
+  needed_by_phase: 8
+  required_when: always
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: ver.nodecount_convergence_tol
+  symbol: null
+  description: Largest acceptable change in a headline metric on doubling node count
+  quantity_kind: fraction
+  needed_by_phase: 4
+  required_when: always
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: ver.calibration_period
+  symbol: null
+  description: 'Date range used for calibration (text: start and end timestamps)'
+  quantity_kind: text
+  needed_by_phase: 3
+  required_when: always
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: ver.validation_period
+  symbol: null
+  description: 'Date range held out for validation (text: start and end timestamps)'
+  quantity_kind: text
+  needed_by_phase: 3
+  required_when: always
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: ver.calibration_parameter_list
+  symbol: null
+  description: Parameter ids allowed to be calibrated (text list; others stay fixed)
+  quantity_kind: text
+  needed_by_phase: 3
+  required_when: always
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null

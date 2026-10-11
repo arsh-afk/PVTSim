@@ -1,0 +1,333 @@
+# AquaSolar Living parameter template.
+# HOW TO FILL: for each entry set `value`, `unit`, `source_type`, `source_ref`, `uncertainty`, `valid_range`,
+# then set `status: confirmed` (only you do this). Leave an entry as `draft` and the simulation will refuse to run.
+# If `required_when` is false for your setup, set `status: not_applicable` and leave value empty.
+# `unit` must be a unit string the agent's unit library parses; the agent lists accepted examples in docs/units_accepted.md.
+# For categorical entries, `value` must be exactly one of `allowed_values`.
+# The agent must not edit any `value`, `unit` or `status` field.
+file: pvt_thermal
+title: Thermal side of the PVT collector
+schema_version: '1.0'
+status_options:
+- draft
+- confirmed
+- not_applicable
+source_type_options:
+- measured
+- datasheet
+- literature
+- standard
+- assumption
+parameters:
+- id: pvt_th.collector_area
+  symbol: A
+  description: Collector area used for the thermal and electrical calculation (state aperture or gross in notes)
+  quantity_kind: area
+  needed_by_phase: 3
+  required_when: always
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: pvt_th.area_basis
+  symbol: null
+  description: Which area the value above refers to
+  quantity_kind: categorical
+  needed_by_phase: 3
+  required_when: always
+  allowed_values:
+  - aperture
+  - gross
+  - absorber
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: pvt_th.collector_type
+  symbol: null
+  description: Collector construction
+  quantity_kind: categorical
+  needed_by_phase: 3
+  required_when: always
+  allowed_values:
+  - glazed
+  - unglazed
+  - other_described_in_notes
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: pvt_th.thermal_model
+  symbol: null
+  description: Collector thermal model
+  quantity_kind: categorical
+  needed_by_phase: 3
+  required_when: always
+  allowed_values:
+  - steady_state_hottel_whillier_form
+  - quasi_dynamic
+  - user_named_model_in_equation_register
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: pvt_th.tau_alpha
+  symbol: tau_alpha
+  description: Effective transmittance-absorptance product
+  quantity_kind: fraction
+  needed_by_phase: 3
+  required_when: always
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: pvt_th.F_R
+  symbol: F_R
+  description: Collector heat-removal factor
+  quantity_kind: fraction
+  needed_by_phase: 3
+  required_when: pvt_th.thermal_model == steady_state_hottel_whillier_form
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: pvt_th.U_L
+  symbol: U_L
+  description: Overall heat-loss coefficient
+  quantity_kind: heat_transfer_coefficient
+  needed_by_phase: 3
+  required_when: always
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: pvt_th.U_L_wind_dependence
+  symbol: null
+  description: Wind dependence of the loss coefficient
+  quantity_kind: categorical
+  needed_by_phase: 3
+  required_when: always
+  allowed_values:
+  - none
+  - user_curve_table
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: pvt_th.R_cell_fluid
+  symbol: R_cf
+  description: Thermal resistance per area between cell and mean fluid
+  quantity_kind: area_thermal_resistance
+  needed_by_phase: 3
+  required_when: always
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: pvt_th.thermal_capacitance
+  symbol: C_c
+  description: Effective thermal capacitance per area
+  quantity_kind: areal_heat_capacity
+  needed_by_phase: 3
+  required_when: pvt_th.thermal_model == quasi_dynamic
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: pvt_th.flow_min
+  symbol: null
+  description: Minimum permitted collector flow
+  quantity_kind: flow_mass
+  needed_by_phase: 5
+  required_when: always
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: pvt_th.flow_max
+  symbol: null
+  description: Maximum permitted collector flow
+  quantity_kind: flow_mass
+  needed_by_phase: 5
+  required_when: always
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: pvt_th.T_fluid_max
+  symbol: null
+  description: Maximum permitted collector fluid temperature (stagnation or protection limit)
+  quantity_kind: temperature
+  needed_by_phase: 5
+  required_when: always
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: pvt_th.pv_only_reference_model
+  symbol: null
+  description: How the PV-only reference cell temperature is computed for the cooling-benefit comparison
+  quantity_kind: categorical
+  needed_by_phase: 3
+  required_when: always
+  allowed_values:
+  - user_named_model_in_equation_register
+  - measured_pv_only_series
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null

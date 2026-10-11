@@ -1,0 +1,257 @@
+# AquaSolar Living parameter template.
+# HOW TO FILL: for each entry set `value`, `unit`, `source_type`, `source_ref`, `uncertainty`, `valid_range`,
+# then set `status: confirmed` (only you do this). Leave an entry as `draft` and the simulation will refuse to run.
+# If `required_when` is false for your setup, set `status: not_applicable` and leave value empty.
+# `unit` must be a unit string the agent's unit library parses; the agent lists accepted examples in docs/units_accepted.md.
+# For categorical entries, `value` must be exactly one of `allowed_values`.
+# The agent must not edit any `value`, `unit` or `status` field.
+file: electrical_system
+title: Electrical configuration and parasitic loads
+schema_version: '1.0'
+status_options:
+- draft
+- confirmed
+- not_applicable
+source_type_options:
+- measured
+- datasheet
+- literature
+- standard
+- assumption
+parameters:
+- id: elec.configuration
+  symbol: null
+  description: System configuration
+  quantity_kind: categorical
+  needed_by_phase: 7
+  required_when: always
+  allowed_values:
+  - grid_connected
+  - grid_connected_with_battery
+  - off_grid_with_battery
+  - off_grid_no_storage
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: elec.export_allowed
+  symbol: null
+  description: Surplus electricity may be exported
+  quantity_kind: boolean
+  needed_by_phase: 7
+  required_when: elec.configuration in grid_connected,grid_connected_with_battery
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: elec.battery_capacity
+  symbol: null
+  description: Usable battery energy capacity
+  quantity_kind: energy
+  needed_by_phase: 7
+  required_when: elec.configuration in grid_connected_with_battery,off_grid_with_battery
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: elec.battery_round_trip_eff
+  symbol: null
+  description: Battery round-trip efficiency
+  quantity_kind: fraction
+  needed_by_phase: 7
+  required_when: elec.configuration in grid_connected_with_battery,off_grid_with_battery
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: elec.battery_min_soc
+  symbol: null
+  description: Minimum permitted state of charge
+  quantity_kind: fraction
+  needed_by_phase: 7
+  required_when: elec.configuration in grid_connected_with_battery,off_grid_with_battery
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: elec.battery_max_power
+  symbol: null
+  description: Maximum battery charge or discharge power
+  quantity_kind: power
+  needed_by_phase: 7
+  required_when: elec.configuration in grid_connected_with_battery,off_grid_with_battery
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: elec.controller_power
+  symbol: null
+  description: Controller electrical power draw
+  quantity_kind: power
+  needed_by_phase: 7
+  required_when: always
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: elec.sensor_power_total
+  symbol: null
+  description: Total sensor electrical power draw
+  quantity_kind: power
+  needed_by_phase: 7
+  required_when: always
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: elec.comms_power
+  symbol: null
+  description: Communications and data-logging power draw
+  quantity_kind: power
+  needed_by_phase: 7
+  required_when: always
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: elec.inverter_standby_power
+  symbol: null
+  description: Inverter standby power draw
+  quantity_kind: power
+  needed_by_phase: 7
+  required_when: always
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: elec.priority_order
+  symbol: null
+  description: Order in which PV output serves loads (text list)
+  quantity_kind: text
+  needed_by_phase: 7
+  required_when: always
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null

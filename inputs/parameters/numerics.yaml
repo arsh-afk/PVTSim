@@ -1,0 +1,464 @@
+# AquaSolar Living parameter template.
+# HOW TO FILL: for each entry set `value`, `unit`, `source_type`, `source_ref`, `uncertainty`, `valid_range`,
+# then set `status: confirmed` (only you do this). Leave an entry as `draft` and the simulation will refuse to run.
+# If `required_when` is false for your setup, set `status: not_applicable` and leave value empty.
+# `unit` must be a unit string the agent's unit library parses; the agent lists accepted examples in docs/units_accepted.md.
+# For categorical entries, `value` must be exactly one of `allowed_values`.
+# The agent must not edit any `value`, `unit` or `status` field.
+file: numerics
+title: Numerical settings and run control
+schema_version: '1.0'
+status_options:
+- draft
+- confirmed
+- not_applicable
+source_type_options:
+- measured
+- datasheet
+- literature
+- standard
+- assumption
+parameters:
+- id: numerics.time_step
+  symbol: dt
+  description: Simulation time step
+  quantity_kind: time
+  needed_by_phase: 0
+  required_when: always
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: numerics.start
+  symbol: null
+  description: Simulation start (timestamp in site time zone)
+  quantity_kind: timestamp
+  needed_by_phase: 1
+  required_when: always
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: numerics.end
+  symbol: null
+  description: Simulation end (timestamp in site time zone)
+  quantity_kind: timestamp
+  needed_by_phase: 1
+  required_when: always
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: numerics.spin_up
+  symbol: null
+  description: Spin-up period discarded from results
+  quantity_kind: time
+  needed_by_phase: 4
+  required_when: always
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: numerics.property_model
+  symbol: null
+  description: Fluid property treatment
+  quantity_kind: categorical
+  needed_by_phase: 4
+  required_when: always
+  allowed_values:
+  - constant
+  - temperature_dependent
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: numerics.loop_solver
+  symbol: null
+  description: Method for the PVT algebraic loop
+  quantity_kind: categorical
+  needed_by_phase: 5
+  required_when: always
+  allowed_values:
+  - fixed_point
+  - newton
+  - bracketing
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: numerics.loop_tolerance
+  symbol: null
+  description: Convergence tolerance of the loop solve (basis in notes)
+  quantity_kind: dimensionless
+  needed_by_phase: 5
+  required_when: always
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: numerics.loop_max_iterations
+  symbol: null
+  description: Maximum iterations of the loop solve
+  quantity_kind: count
+  needed_by_phase: 5
+  required_when: always
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: numerics.tank_scheme
+  symbol: null
+  description: Tank time integration scheme
+  quantity_kind: categorical
+  needed_by_phase: 4
+  required_when: always
+  allowed_values:
+  - explicit
+  - implicit
+  - substepped_explicit
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: numerics.tank_substeps
+  symbol: null
+  description: Substeps per time step
+  quantity_kind: count
+  needed_by_phase: 4
+  required_when: numerics.tank_scheme == substepped_explicit
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: numerics.initial_tank_temperature
+  symbol: null
+  description: Initial tank temperature per node (single value, or reference an initial-profile table in notes)
+  quantity_kind: temperature
+  needed_by_phase: 4
+  required_when: always
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: numerics.initial_storage_state
+  symbol: null
+  description: Initial state of consumables, loading and wear (text pointing to a table, or zero meaning new)
+  quantity_kind: text
+  needed_by_phase: 6
+  required_when: always
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: numerics.master_seed
+  symbol: null
+  description: Master random seed
+  quantity_kind: count
+  needed_by_phase: 0
+  required_when: always
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: numerics.ensemble_size
+  symbol: null
+  description: Monte Carlo ensemble size
+  quantity_kind: count
+  needed_by_phase: 9
+  required_when: always
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: numerics.mc_stopping_rule
+  symbol: null
+  description: Stopping rule for ensemble statistics
+  quantity_kind: categorical
+  needed_by_phase: 9
+  required_when: always
+  allowed_values:
+  - fixed_size
+  - confidence_interval_width
+  - running_mean_stability
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: numerics.mc_stopping_tolerance
+  symbol: null
+  description: Tolerance of the stopping rule
+  quantity_kind: dimensionless
+  needed_by_phase: 9
+  required_when: numerics.mc_stopping_rule != fixed_size
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: numerics.sensitivity_method
+  symbol: null
+  description: Global sensitivity method
+  quantity_kind: categorical
+  needed_by_phase: 9
+  required_when: always
+  allowed_values:
+  - morris_screening
+  - sobol_variance_based
+  - both
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: numerics.output_interval
+  symbol: null
+  description: Interval of logged output
+  quantity_kind: time
+  needed_by_phase: 8
+  required_when: always
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: numerics.gap_policy
+  symbol: null
+  description: Treatment of missing weather and demand data
+  quantity_kind: categorical
+  needed_by_phase: 1
+  required_when: always
+  allowed_values:
+  - flag_and_stop
+  - flag_and_exclude_day
+  - linear_interpolate_up_to_max_gap
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: numerics.gap_max_duration
+  symbol: null
+  description: Maximum gap bridged by interpolation
+  quantity_kind: time
+  needed_by_phase: 1
+  required_when: numerics.gap_policy == linear_interpolate_up_to_max_gap
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null

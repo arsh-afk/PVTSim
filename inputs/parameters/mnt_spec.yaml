@@ -1,0 +1,262 @@
+# AquaSolar Living parameter template.
+# HOW TO FILL: for each entry set `value`, `unit`, `source_type`, `source_ref`, `uncertainty`, `valid_range`,
+# then set `status: confirmed` (only you do this). Leave an entry as `draft` and the simulation will refuse to run.
+# If `required_when` is false for your setup, set `status: not_applicable` and leave value empty.
+# `unit` must be a unit string the agent's unit library parses; the agent lists accepted examples in docs/units_accepted.md.
+# For categorical entries, `value` must be exactly one of `allowed_values`.
+# The agent must not edit any `value`, `unit` or `status` field.
+file: mnt_spec
+title: Minimum Necessary Treatment definition
+schema_version: '1.0'
+status_options:
+- draft
+- confirmed
+- not_applicable
+source_type_options:
+- measured
+- datasheet
+- literature
+- standard
+- assumption
+parameters:
+- id: mnt.pathway_ids
+  symbol: null
+  description: Pathway ids in the set (text list)
+  quantity_kind: text
+  needed_by_phase: 7
+  required_when: always
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: mnt.intensity_order
+  symbol: null
+  description: Pathway ids ordered from lowest to highest intensity (text list)
+  quantity_kind: text
+  needed_by_phase: 7
+  required_when: always
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: mnt.objective_mode
+  symbol: null
+  description: How the objective J ranks feasible pathways
+  quantity_kind: categorical
+  needed_by_phase: 7
+  required_when: always
+  allowed_values:
+  - lowest_intensity_by_order
+  - weighted_sum
+  - lexicographic
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: mnt.weight_energy
+  symbol: null
+  description: Weight on specific energy
+  quantity_kind: dimensionless
+  needed_by_phase: 7
+  required_when: mnt.objective_mode == weighted_sum
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: mnt.weight_reject
+  symbol: null
+  description: Weight on reject fraction
+  quantity_kind: dimensionless
+  needed_by_phase: 7
+  required_when: mnt.objective_mode == weighted_sum
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: mnt.weight_consumable
+  symbol: null
+  description: Weight on consumable use
+  quantity_kind: dimensionless
+  needed_by_phase: 7
+  required_when: mnt.objective_mode == weighted_sum
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: mnt.lexicographic_order
+  symbol: null
+  description: Order of criteria (text list)
+  quantity_kind: text
+  needed_by_phase: 7
+  required_when: mnt.objective_mode == lexicographic
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: mnt.normalization
+  symbol: null
+  description: How terms are normalized in J
+  quantity_kind: categorical
+  needed_by_phase: 7
+  required_when: mnt.objective_mode == weighted_sum
+  allowed_values:
+  - by_pathway_C_value
+  - by_user_reference_table
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: mnt.decision_interval
+  symbol: null
+  description: How often the pathway can be re-selected
+  quantity_kind: time
+  needed_by_phase: 7
+  required_when: always
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: mnt.controller_delay
+  symbol: null
+  description: Delay between a sensor reading and a pathway change
+  quantity_kind: time
+  needed_by_phase: 7
+  required_when: always
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: mnt.infeasible_policy
+  symbol: null
+  description: What to do when no pathway meets the limits
+  quantity_kind: categorical
+  needed_by_phase: 7
+  required_when: always
+  allowed_values:
+  - flag_and_use_highest_intensity
+  - flag_and_stop
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null

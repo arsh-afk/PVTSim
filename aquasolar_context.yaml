@@ -1,0 +1,426 @@
+schema_version: "1.0"
+document_type: agent_context
+generated_on: "2026-10-11"
+status: draft_pending_user_review
+
+# ---------------------------------------------------------------------------
+# PURPOSE
+# Sanitized, machine-readable restatement of the AquaSolar Living white paper.
+# Promotional wording removed. Every statement carries an epistemic tag so the
+# agent can separate what the paper reports, claims, intends, or leaves unstated.
+# This file is CONTEXT, not a parameter source. See agent_directives.
+# ---------------------------------------------------------------------------
+
+vocabulary:
+  statement_types:
+    reported_finding: "Result attributed by the paper to a cited external study"
+    author_assertion: "Statement made by the authors without a supporting citation in the body text"
+    design_intent: "What the project proposes to build or do"
+    planned_measurement: "Quantity the paper says will be measured or computed"
+    requirement: "Condition the paper says the project must meet"
+    exclusion: "Something the paper explicitly says it does not claim"
+    unspecified: "Information the paper does not provide"
+  evidence_status:
+    cited: "Body text attaches a reference number"
+    uncited: "No reference number attached in the body text"
+    not_applicable: "Intent or plan; no evidence needed"
+  simulation_testable:
+    yes: "A simulation with user-supplied inputs can test it"
+    partial: "Only a part of it can be simulated"
+    no: "Cannot be tested by simulation"
+  value_status:
+    paper_stated_unconfirmed: "Number appears in the paper; user has not confirmed it as an input"
+
+project:
+  id: aquasolar_living
+  title: "AquaSolar Living"
+  subtitle: "Smart PVT-Integrated Water Assurance and Domestic Hot-Water Cogeneration for Sustainable Villa Communities"
+  document_kind: "White paper proposal"
+  event: "Khalifa University-UNESCO Global Water Hackathon 2026"
+  team_leader: "Dr. Tirumala Uday Kumar Nutakki"
+  team: "Interdisciplinary undergraduate students, chemical engineering and mechanical engineering"
+  primary_theme: "Energy-Water Nexus and Climate Resilience"
+  supporting_themes:
+    - "Water Quality, Health and Environmental Protection"
+    - "Smart, Digital and AI-Enabled Water Systems"
+    - "Integrated Water Systems"
+  site: null   # paper names no site; UAE context only
+
+problem_statement:
+  id: PS-01
+  type: author_assertion
+  text: >
+    Centrally desalinated municipal water is available, but confidence in it may be lost
+    between the utility supply and the drinking tap (building storage, pumps, internal
+    plumbing), and households then use bottled water. The paper defines the problem as the
+    absence of an integrated, low-energy, transparent final-point assurance system that
+    maintains consumer confidence in already-desalinated water while limiting unnecessary
+    additional treatment.
+  paper_explicitly_does_not_assume: "That UAE municipal water is generally unsafe"
+
+background_claims:
+  - id: BG-01
+    type: author_assertion
+    evidence_status: uncited
+    text: "UAE water security depends extensively on centralized desalination."
+    simulation_testable: no
+  - id: BG-02
+    type: reported_finding
+    evidence_status: cited
+    refs: [1]
+    text: "Survey of UAE residents: majority rated tap water good or excellent, yet a larger share preferred bottled water; taste and contamination concerns (distribution systems, household tanks) were cited factors."
+    reported_values:
+      sample_size: 891
+      rated_tap_good_or_excellent: "more than 68%"
+      preferred_bottled: "approximately 78%"
+    caution: "Reference year per reference list is 2015. Reported values are not simulation parameters."
+    simulation_testable: no
+  - id: BG-03
+    type: reported_finding
+    evidence_status: cited
+    refs: [2]
+    text: "Sharjah study: most physicochemical parameters met national requirements, but several parameters changed significantly between mains supply and building storage; low residual chlorine occurred in a portion of locations, particularly storage tanks."
+    reported_values:
+      locations_sampled: 63
+      residual_chlorine_threshold: "below 0.2 mg/L"
+      share_of_locations_below_threshold: "approximately 30%"
+    caution: "Single emirate. Reported values are not simulation parameters."
+    simulation_testable: partial
+  - id: BG-04
+    type: reported_finding
+    evidence_status: cited
+    refs: [3]
+    text: "2026 systematic review: reported variations in physical, chemical and microbiological parameters in some household and tap-water samples; authors also note methodological limitations and potential sampling bias."
+    paper_caveat: "Findings must not be read as evidence that UAE tap water is generally unsafe."
+    simulation_testable: no
+  - id: BG-05
+    type: reported_finding
+    evidence_status: cited
+    refs: [4]
+    text: "GCC research identifies consumer perception and organoleptic quality (taste, odor, mineral balance, chlorine perception, appearance) as barriers to acceptance of desalinated drinking water."
+    simulation_testable: no
+  - id: BG-06
+    type: reported_finding
+    evidence_status: cited
+    refs: [5]
+    text: "Household point-of-use treatment technologies are commercially mature. A review identifies real-time water-quality sensing and treatment verification as opportunities."
+    simulation_testable: no
+  - id: BG-07
+    type: author_assertion
+    evidence_status: uncited
+    text: "Commercial 'smart' systems often use elapsed time or cumulative flow as proxies for filter condition rather than measuring treatment performance; conventional systems often apply a fixed treatment train regardless of incoming quality."
+    simulation_testable: partial
+  - id: BG-08
+    type: author_assertion
+    evidence_status: uncited
+    note: "Reference 6 (RO household systems review) is in the reference list but is not cited at this point in the body."
+    text: "Depending on incoming water quality, unnecessary RO may generate reject water, raise pumping energy, remove desirable minerals, require remineralization, increase membrane replacement and cleaning, and duplicate central treatment."
+    simulation_testable: yes
+  - id: BG-09
+    type: reported_finding
+    evidence_status: cited
+    refs: [7, 8, 9]
+    text: "A PVT collector generates electricity and removes heat from the PV surface via a circulating fluid; recovering heat can reduce PV operating temperature and supply low-to-moderate-temperature heat. Building-scale research supports combined electricity and domestic hot water use."
+    simulation_testable: yes
+  - id: BG-10
+    type: reported_finding
+    evidence_status: cited
+    refs: [16]
+    text: "Dubai's Al Sa'fat green building system has mandatory sustainability requirements for new buildings; Abu Dhabi's Estidama promotes an integrated approach (no reference number attached for Estidama)."
+    simulation_testable: no
+  - id: BG-11
+    type: exclusion
+    text: "The project is not presented as automatically qualifying a villa for any green-building rating or credit."
+
+# ---------------------------------------------------------------------------
+# SYSTEM DESIGN
+# ---------------------------------------------------------------------------
+system:
+  concept_name: "AquaSolar Living"
+  description: "PVT-powered residential water-assurance and domestic-hot-water cogeneration platform integrating rooftop generation, point-of-use drinking-water treatment and hot-water preheating."
+  existing_infrastructure:
+    status: "Paper states this hardware already exists"
+    pvt_collector:
+      paper_stated_values:
+        collector_area: {value: 6, unit: "m2", status: paper_stated_unconfirmed}
+      unspecified: [collector_type, glazing, working_fluid, module_ratings, orientation, tilt, location, thermal_test_parameters]
+    thermal_storage_tank:
+      paper_stated_values:
+        volume: {value: 150, unit: "L", status: paper_stated_unconfirmed}
+      paper_role: "Experimental thermal buffer, representative hot-water storage volume, basis for charge/discharge characterization and solar contribution; explicitly NOT the full daily hot-water demand of a household"
+      unspecified: [geometry, insulation, loss_coefficient, port_positions, location_indoor_or_outdoor, heat_exchanger_type, backup_heater]
+    circulation_and_thermal_measurement: "Stated as present; no component details given"
+  reference_villa:
+    occupants: {value: "approximately 4-5", status: paper_stated_unconfirmed}
+    drinking_and_cooking_water_target:
+      value: "approximately 20-30"
+      unit: "L/day"
+      status: paper_stated_unconfirmed
+      scope_note: "Only drinking and cooking water pass through the assurance unit; bathing, cleaning, irrigation and toilet water are excluded by design"
+    dhw_design_basis_from_prior_research:
+      value: "approaching 250"
+      unit: "L/day"
+      status: paper_stated_unconfirmed
+      scope_note: "Refers to previous household-scale research (refs 12-14), not to this system's tank"
+    villa_storage_example_from_figure_1:
+      value: "e.g. 1-5"
+      unit: "m3"
+      status: paper_stated_unconfirmed
+  energy_pathway:
+    description: "Solar radiation -> PVT collector -> (a) PV electricity -> pumps, UV, sensors, controller, data acquisition; (b) PVT thermal circuit -> thermal storage tank -> domestic-hot-water preheating"
+    electrical_system_configuration: unspecified   # grid, battery, inverter, export not stated
+  water_pathway:
+    description: "Municipal desalinated water -> villa storage/distribution -> inlet water-quality monitoring -> modular treatment -> final UV disinfection -> outlet quality verification -> dedicated drinking-water tap/storage"
+    treatment_train_stages_in_order:
+      - {id: ST-01, name: inlet_monitoring, optional: false}
+      - {id: ST-02, name: sediment_filter, optional: false}
+      - {id: ST-03, name: activated_carbon, optional: false}
+      - {id: ST-04, name: ultrafiltration, optional: true, note: "Present in Pathway B; absent in Pathway A"}
+      - {id: ST-05, name: nanofiltration_or_low_pressure_RO, optional: true, note: "Used when incoming chemistry or product requirements justify it"}
+      - {id: ST-06, name: conditioning_or_remineralization, optional: true, note: "Where needed, after NF/RO"}
+      - {id: ST-07, name: uv_disinfection, optional: false}
+      - {id: ST-08, name: outlet_monitoring, optional: false}
+    configuration_note: "A bypass/manifold arrangement allows different stage combinations to be tested without rebuilding"
+    downstream_storage: "Paper mentions a 'dedicated drinking-water tap/storage' without describing it"
+  graph:
+    nodes: [sun, pvt_collector, thermal_storage_tank, dhw_preheat, municipal_desalinated_water, villa_storage, water_assurance_unit, monitoring_and_control, drinking_water_tap, hot_water_taps]
+    edges:
+      - {from: sun, to: pvt_collector, carries: solar_irradiance}
+      - {from: pvt_collector, to: thermal_storage_tank, carries: recovered_heat}
+      - {from: pvt_collector, to: water_assurance_unit, carries: pv_electricity}
+      - {from: thermal_storage_tank, to: dhw_preheat, carries: heat}
+      - {from: dhw_preheat, to: hot_water_taps, carries: preheated_water}
+      - {from: municipal_desalinated_water, to: villa_storage, carries: water}
+      - {from: villa_storage, to: water_assurance_unit, carries: water}
+      - {from: water_assurance_unit, to: drinking_water_tap, carries: treated_water}
+      - {from: monitoring_and_control, to: water_assurance_unit, carries: data_and_control}
+      - {from: thermal_storage_tank, to: monitoring_and_control, carries: data}
+      - {from: water_assurance_unit, to: monitoring_and_control, carries: data}
+    depicted_in_figure_1: "Figure 1 is conceptual. No battery, grid connection, inverter or backup heater is depicted."
+
+minimum_necessary_treatment:
+  definition: "Apply only the treatment barriers required by measured incoming water conditions and the desired final drinking-water specification; select the lowest-intensity pathway able to provide the required final quality."
+  type: design_intent
+  pathways:
+    - id: PATH-A
+      name: "Basic assurance"
+      sequence: [sediment_filter, activated_carbon, uv_disinfection]
+      stated_use_case: "High-quality feed; taste/odor improvement and final disinfection assurance"
+    - id: PATH-B
+      name: "Enhanced barrier"
+      sequence: [sediment_filter, activated_carbon, ultrafiltration, uv_disinfection]
+      stated_use_case: "Additional particulate and microbiological barrier"
+    - id: PATH-C
+      name: "Advanced dissolved-solute control"
+      sequence: [pretreatment, nanofiltration_or_low_pressure_RO, conditioning_or_remineralization, uv_disinfection]
+      stated_use_case: "Used only when source-water characteristics justify additional dissolved-solute removal"
+  terminology_note: "Week 3 text calls the same three configurations Mode A, B and C; they are identical to Pathways A, B and C"
+  paper_quantities_to_compare_per_pathway: [product_water_quality, product_flow, feed_water_requirement, reject_water, electrical_energy, hydraulic_pressure, treatment_recovery, consumable_requirement, taste_and_mineral_implications]
+  decision_thresholds: unspecified   # paper gives no trigger conditions
+  intensity_ordering_definition: unspecified
+
+monitoring:
+  paper_stated_parameters_subject_to_sensor_capability: [conductivity_or_TDS, turbidity, pH, temperature, flow, pressure, free_chlorine_where_practical, uv_operating_condition]
+  measurement_points: [before_treatment, after_treatment]
+  paper_limitations_stated:
+    - "Conductivity, turbidity or other inexpensive sensors alone do not demonstrate microbiological safety."
+    - "Online monitoring provides operational assurance; periodic laboratory analysis provides verification."
+  sensor_models: unspecified
+  digital_platform: "Translates measurements into a limited number of resident-facing indicators; keeps detail for engineers and maintenance staff; community-level monitoring may be centralized"
+
+# ---------------------------------------------------------------------------
+# PLANNED MEASUREMENTS AND METRICS NAMED BY THE PAPER
+# ---------------------------------------------------------------------------
+planned_measurements:
+  pvt_and_tank_instrumentation:
+    - global_solar_irradiance
+    - ambient_temperature
+    - pv_or_pvt_surface_temperature
+    - electrical_voltage_and_current
+    - electrical_power
+    - collector_fluid_flow
+    - collector_inlet_and_outlet_temperatures
+    - tank_temperature_profile
+    - useful_thermal_gain
+    - combined_electrical_and_thermal_utilization
+    - parasitic_pumping_electricity
+  energy_metrics_named_in_impacts:
+    - electrical_energy_generation
+    - water_treatment_electricity_consumption
+    - percentage_of_treatment_electricity_met_from_PVT
+    - useful_thermal_energy_recovery
+    - tank_temperature_increase
+    - domestic_hot_water_energy_displaced
+    - PVT_panel_temperature_reduction
+    - combined_PVT_energy_utilization
+  week4_metrics:
+    - treatment_electricity_per_liter
+    - instantaneous_solar_coverage
+    - daily_solar_electrical_fraction
+    - excess_PVT_electrical_energy
+    - auxiliary_electricity_requirement
+    - water_produced_per_unit_solar_electricity
+  week5_metrics:
+    - thermal_energy_collected
+    - tank_temperature_rise
+    - charging_duration
+    - thermal_losses
+    - useful_hot_water_temperature
+    - PVT_cooling_effect
+    - conventional_water_heating_energy_displaced
+  week5_draw_test: "Representative household draw profile simulated by controlled withdrawals with cold-water make-up"
+  economic_metrics:
+    - capital_cost
+    - water_treatment_cost_per_litre
+    - filter_and_membrane_replacement
+    - treatment_electricity
+    - water_rejected_during_treatment
+    - PVT_electrical_value
+    - thermal_energy_value
+    - bottled_water_expenditure_avoided
+    - annual_maintenance
+    - simple_payback
+    - lifecycle_cost
+    - community_level_procurement_effect
+  metric_definitions: unspecified   # none of the above is formally defined in the paper
+
+implementation_plan:
+  duration: "Eight weeks"
+  basis: "Existing PVT system and tank, so no new solar-energy fabrication"
+  weeks:
+    - id: W1
+      focus: "Baseline modelling using TRNSYS and characterization of the existing PVT system"
+      outputs: "Measured baseline of solar irradiance, electrical output, thermal output, tank behavior and parasitic loads; becomes the energy budget for the water-assurance design"
+    - id: W2
+      focus: "Residential water characterization and Water Assurance Pathway assembly"
+      outputs: "Commissioned modular treatment skid; baseline source and post-storage water characterization; if direct sampling is not possible the laboratory reproduces controlled storage-related quality variations"
+    - id: W3
+      focus: "Minimum Necessary Treatment evaluation"
+      outputs: "Decision matrix linking feed-water condition to lowest treatment intensity needed; controlled non-hazardous feed changes introduced"
+    - id: W4
+      focus: "PVT-powered water-treatment integration"
+      outputs: "Simulated or measured solar electrical fraction and treatment energy per litre"
+    - id: W5
+      focus: "150 L thermal storage and DHW validation"
+      outputs: "Simulated or measured thermal gain, tank charging and discharging, projected villa DHW contribution"
+    - id: W6_8
+      focus: "Integrated demonstration, community scale-up and techno-economic assessment"
+      outputs: "Simultaneous drinking water, renewable electricity, stored heat and monitoring data; reference villa package; 10-villa and 100-villa scale-up and a larger developer-scale community; economics, environmental impact, implementation model"
+      scale_up_quantities: [aggregate_drinking_water_production, PVT_area, renewable_generation, thermal_energy_displacement, bottled_water_avoidance, maintenance_requirements, digital_monitoring, lifecycle_cost]
+  notes:
+    - "Weeks 4 and 5 permit 'simulated or measured' outputs"
+    - "Paper states scale-up begins from measured performance of the reference villa package, not a theoretical system"
+
+success_criteria:
+  rule: "Successful only if ALL are demonstrated"
+  items:
+    - {id: SC-i,   text: "Selected treatment configuration consistently produces water meeting the project-defined drinking-water quality targets for the tested parameters", dependency: "Targets are not defined in the paper"}
+    - {id: SC-ii,  text: "At least one lower-intensity mode shows acceptable assurance without unnecessary RO under suitable feed conditions"}
+    - {id: SC-iii, text: "Treatment electrical requirement is quantified and compared against measured production of the existing 6 m2 PVT array"}
+    - {id: SC-iv,  text: "Useful temperature rise and thermal energy storage are demonstrated in the existing 150 L tank"}
+    - {id: SC-v,   text: "Water assurance and thermal production operate concurrently without compromising either subsystem"}
+    - {id: SC-vi,  text: "Key inlet, product-water and energy parameters are captured by a functional digital assurance platform"}
+    - {id: SC-vii, text: "Measured data support a defined reference-villa package and a credible community deployment model"}
+
+# ---------------------------------------------------------------------------
+# CLAIMS REGISTER (impacts and novelty). All are intentions or potentials.
+# ---------------------------------------------------------------------------
+claims_register:
+  - {id: CL-01, type: author_assertion, evidence_status: uncited, simulation_testable: partial, text: "Reduced bottled-water dependence (claimed as potential benefit)", sim_note: "Only avoided expenditure can be computed, and only with user-supplied consumption and price; behavior change cannot be simulated"}
+  - {id: CL-02, type: author_assertion, evidence_status: uncited, simulation_testable: no, text: "Reduced plastic packaging, transport and handling", sim_note: "Needs a system boundary and factors from the user"}
+  - {id: CL-03, type: author_assertion, evidence_status: uncited, simulation_testable: yes, text: "Reduced household treatment energy and reduced RO reject where advanced desalination is unnecessary", sim_note: "Requires baseline scenario: conventional full RO"}
+  - {id: CL-04, type: author_assertion, evidence_status: uncited, simulation_testable: partial, text: "Longer filter and membrane life through appropriate treatment selection", sim_note: "Requires user-supplied consumable-life data"}
+  - {id: CL-05, type: author_assertion, evidence_status: uncited, simulation_testable: no, text: "Preservation of embedded energy of central desalination"}
+  - {id: CL-06, type: author_assertion, evidence_status: cited, refs: [7, 8, 9], simulation_testable: yes, text: "PV panel temperature reduction from heat recovery", sim_note: "Net effect depends on tank operating temperature and control; not stated in the paper"}
+  - {id: CL-07, type: author_assertion, evidence_status: uncited, simulation_testable: no, text: "A household is more likely to reduce bottled water use when the alternative provides accessible treatment, transparent quality information, reliable maintenance and acceptable taste"}
+  - {id: CL-08, type: author_assertion, evidence_status: uncited, simulation_testable: partial, text: "Standardized community procurement can reduce equipment, service and maintenance costs"}
+  - {id: CL-09, type: author_assertion, evidence_status: uncited, simulation_testable: no, text: "Developers could integrate PVT, water assurance, DHW preheating, monitoring and service at design stage"}
+  - {id: CL-10, type: author_assertion, evidence_status: uncited, simulation_testable: partial, text: "Decentralized treatment with centralized monitoring and maintenance"}
+  - id: CL-11
+    type: author_assertion
+    evidence_status: not_applicable
+    simulation_testable: no
+    text: "Novelty lies in integration of mature technologies around the principle of treating only what is necessary, using one solar surface for electrical and thermal services"
+    components_named: [quality_responsive_MNT, PVT_powered_treatment, PV_thermal_energy_recovery, verified_final_point_monitoring, DHW_cogeneration, resident_level_transparency, community_level_maintenance]
+
+prior_work:
+  - {refs: [12], summary: "Solar-combi membrane distillation configuration for simultaneous household production of purified water and domestic hot water", values_in_paper: {pure_water: "approximately 20 L/day", hot_water: "250 L/day"}}
+  - {refs: [13, 14, 15], summary: "Solar integration strategies, thermal storage, techno-economic optimization and a solar thermal polygeneration plant in the UAE"}
+  - difference_stated: "Earlier work produced new distilled water plus hot water from solar thermal energy; AquaSolar Living uses PVT electricity and recovered heat for final-point assurance of water already desalinated centrally"
+
+# ---------------------------------------------------------------------------
+# WHAT THE PAPER DOES NOT SPECIFY (agent must ask, never assume)
+# ---------------------------------------------------------------------------
+unspecified_in_paper:
+  site_and_climate: [location, orientation, tilt, shading, weather_data_source, soiling_and_cleaning]
+  pvt: [collector_type, glazing, working_fluid, module_ratings, temperature_coefficients, thermal_test_parameters, pump_and_flow_control, heat_exchanger, pipe_losses]
+  tank: [geometry, insulation, loss_coefficient, indoor_or_outdoor, backup_heater, stratification_behavior]
+  electrical: [grid_connection, battery, inverter, export_rules, standby_loads]
+  hot_water: [demand_profile, make_up_temperature, minimum_delivery_temperature, backup_strategy, solar_fraction_definition]
+  water_quality: [project_defined_quality_targets, regulation_or_guideline_adopted, municipal_feed_quality_values, seasonal_variation, storage_tank_characteristics, disinfectant_decay_data]
+  treatment: [component_datasheets, pressure_drop, rejection, recovery, power, consumable_life, backwash_use, uv_lamp_and_dose_data, treated_water_storage]
+  control: [mnt_trigger_conditions, intensity_ordering, objective_weights, hysteresis]
+  sensors: [models, accuracy, noise, drift, response_time]
+  economics: [costs, tariffs, bottled_water_price_and_consumption, discount_rate, replacement_intervals, degradation]
+  environment: [system_boundary, comparators, emission_factors, bottle_size]
+  scale_up: [demand_diversity, shared_maintenance_assumptions, procurement_discount_assumptions]
+  metrics: [formal_definitions_for_all_named_metrics]
+
+# ---------------------------------------------------------------------------
+# SANITIZATION NOTES AND KNOWN DEFECTS
+# ---------------------------------------------------------------------------
+sanitization:
+  removed: "Promotional phrasing and self-assessment (for example statements that a feature is a 'major strength' or 'significantly reduces risk'). Retained only as tagged claims where they carry a testable proposition."
+  retained_numbers_policy: "Numbers from the paper are kept only as paper_stated_unconfirmed or reported_values, never as parameters."
+known_defects_in_source:
+  - {id: KD-01, text: "References 6, 10 and 11 appear in the reference list but not in the extracted body text."}
+  - {id: KD-02, text: "Reference 9 has no author names."}
+  - {id: KD-03, text: "Project-defined drinking-water quality targets (SC-i) are never defined."}
+  - {id: KD-04, text: "Collector type, fluid, flow control and heat-exchanger arrangement are not stated, yet the paper claims a PV cooling benefit."}
+  - {id: KD-05, text: "Carbon removes residual disinfectant and UV leaves none; downstream storage of treated water is mentioned but not analyzed."}
+  - {id: KD-06, text: "The terms 'quality-assured' and 'solar electrical fraction' are used without definitions."}
+  - {id: KD-07, text: "Week 1 is titled baseline modelling using TRNSYS but its body text describes measurement only."}
+  - {id: KD-08, text: "No baseline comparator (bottled water, conventional full RO) is defined for the energy, reject or economic claims."}
+  - {id: KD-09, text: "Microbiological safety cannot be shown by the proposed sensors, as the paper itself states."}
+  - {id: KD-10, text: "Scale-up to 10 and 100 villas has no stated treatment of demand diversity or shared resources."}
+
+references:
+  verification_status_note: "None of these entries has been verified by the agent. Treat as unverified until opened."
+  items:
+    - {id: 1,  cited_in_body: true,  agent_verified: false, text: "Maraqa, M. A., & Ghoudi, K. (2015). Survey of public attitude towards bottled and tap water quality in the UAE. Global NEST Journal, 17(3), 607-617."}
+    - {id: 2,  cited_in_body: true,  agent_verified: false, text: "Semerjian, L., Al-Bardan, M., & Kassar, M. G. A. (2021). Assessment of water quality variations from mains to building storage tanks in Sharjah, United Arab Emirates. Environmental Monitoring and Assessment, 193, 629."}
+    - {id: 3,  cited_in_body: true,  agent_verified: false, text: "Al-Bluwi, G. S. M., et al. (2026). Quality of drinking water in the United Arab Emirates: a systematic review. BMC Public Health, 26, 1064."}
+    - {id: 4,  cited_in_body: true,  agent_verified: false, text: "Shomar, B., & Hawari, J. (2017). Desalinated drinking water in the GCC countries - The need to address consumer perceptions. Environmental Research, 158, 203-211."}
+    - {id: 5,  cited_in_body: true,  agent_verified: false, text: "Wu, J., Cao, M., Tong, D., Finkelstein, Z., & Hoek, E. M. V. (2021). A critical review of point-of-use drinking water treatment. npj Clean Water, 4, 40."}
+    - {id: 6,  cited_in_body: false, agent_verified: false, text: "Derakhshani, E., et al. (2025). Sustainable household water treatment systems based on reverse osmosis in ensuring safe drinking water: A systematic review. Physics and Chemistry of the Earth, 141, 104131."}
+    - {id: 7,  cited_in_body: true,  agent_verified: false, text: "Oh, J., Bae, S., Chae, H., Jeong, J.-W., & Nam, Y. (2023). Photovoltaic-thermal advanced technology for real applications: Review and case study. Energy Reports, 10, 1409-1433."}
+    - {id: 8,  cited_in_body: true,  agent_verified: false, text: "Basuhaib, A., et al. (2024). Experimental investigation of the effect of different operating parameters and optimization of a water-based PVT system for domestic applications. Solar Energy, 268, 112278."}
+    - {id: 9,  cited_in_body: true,  agent_verified: false, text: "Renewable energy for domestic hot water production: Advances, challenges, and future directions - A systematic review. (2026). Renewable and Sustainable Energy Reviews, 226, 116282. [no authors given]"}
+    - {id: 10, cited_in_body: false, agent_verified: false, text: "Cai, L., et al. (2026). Smart materials and AI-IoT platforms for drinking-water treatment: Recent progress, operational efficiency, and risk-management perspectives. Journal of Environmental Chemical Engineering, 14, 122087."}
+    - {id: 11, cited_in_body: false, agent_verified: false, text: "Tiwari, A. K., et al. (2023). A comprehensive review of photovoltaic-thermal technology: Performance evaluation and contemporary development. Energy Reports, 10, 2655-2679."}
+    - {id: 12, cited_in_body: true,  agent_verified: false, text: "Nutakki Tirumala Uday Kumar, & Martin, A. R. (2017). Co-production performance evaluation of a novel solar combi system for simultaneous pure water and hot water supply in urban households of UAE. Energies, 10(4), 481."}
+    - {id: 13, cited_in_body: true,  agent_verified: false, text: "Uday Kumar, N. T., Mohan, G., & Martin, A. (2016). Performance analysis of solar cogeneration system with different integration strategies for potable water and domestic hot water production. Applied Energy, 170, 466-475."}
+    - {id: 14, cited_in_body: true,  agent_verified: false, text: "Kumar, N. T. U., & Martin, A. R. (2017). Techno-economic optimization of solar thermal integrated membrane distillation for cogeneration of heat and pure water. Desalination and Water Treatment, 98, 16-30."}
+    - {id: 15, cited_in_body: true,  agent_verified: false, text: "Mohan, G., Kumar, N. T. U., Pokhrel, M. K., & Martin, A. (2016). Experimental investigation of a novel solar thermal polygeneration plant in United Arab Emirates. Renewable Energy, 91, 361-373."}
+    - {id: 16, cited_in_body: true,  agent_verified: false, text: "Dubai Municipality. Al Sa'fat - Dubai Green Building System, 2nd Edition, January 2023."}
+
+# ---------------------------------------------------------------------------
+# DIRECTIVES FOR THE CONSUMING AGENT
+# ---------------------------------------------------------------------------
+agent_directives:
+  - id: AD-01
+    rule: "This file is context only. No value in it may be copied into a parameter registry, code, test or result by the agent. Only the user may transcribe a value and set its status to confirmed."
+  - id: AD-02
+    rule: "Every field marked paper_stated_unconfirmed or reported_values is a candidate for the user to confirm, never a default."
+  - id: AD-03
+    rule: "Every item listed under unspecified_in_paper must be requested from the user. Do not infer, estimate or fill from general knowledge."
+  - id: AD-04
+    rule: "Do not treat claims_register items as established facts. Report their evidence_status and simulation_testable flags when they appear in any output."
+  - id: AD-05
+    rule: "References are unverified. Do not quote, extend or rely on their content without opening the source."
+  - id: AD-06
+    rule: "Out of scope for the simulation: consumer acceptance and behavior, taste, microbiological safety conclusions, green-building rating credit, regulatory compliance conclusions."
+  - id: AD-07
+    rule: "If this file and the user's later statements conflict, the user's statement wins; record the conflict in the assumptions register."
+  - id: AD-08
+    rule: "If a question cannot be answered from this file, the user's registry or the attached documents, answer UNKNOWN and ask."

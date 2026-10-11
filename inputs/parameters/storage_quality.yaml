@@ -1,0 +1,367 @@
+# AquaSolar Living parameter template.
+# HOW TO FILL: for each entry set `value`, `unit`, `source_type`, `source_ref`, `uncertainty`, `valid_range`,
+# then set `status: confirmed` (only you do this). Leave an entry as `draft` and the simulation will refuse to run.
+# If `required_when` is false for your setup, set `status: not_applicable` and leave value empty.
+# `unit` must be a unit string the agent's unit library parses; the agent lists accepted examples in docs/units_accepted.md.
+# For categorical entries, `value` must be exactly one of `allowed_values`.
+# The agent must not edit any `value`, `unit` or `status` field.
+file: storage_quality
+title: Storage-tank water quality and disinfectant decay
+schema_version: '1.0'
+status_options:
+- draft
+- confirmed
+- not_applicable
+source_type_options:
+- measured
+- datasheet
+- literature
+- standard
+- assumption
+parameters:
+- id: sq.enabled
+  symbol: null
+  description: Run the storage-quality module
+  quantity_kind: boolean
+  needed_by_phase: 6
+  required_when: always
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: sq.villa_storage_volume
+  symbol: V_s
+  description: Villa storage tank volume
+  quantity_kind: volume
+  needed_by_phase: 6
+  required_when: sq.enabled == true
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: sq.mixing_model
+  symbol: null
+  description: Storage mixing treatment
+  quantity_kind: categorical
+  needed_by_phase: 6
+  required_when: sq.enabled == true
+  allowed_values:
+  - well_mixed
+  - user_named_model_in_equation_register
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: sq.disinfectant_species_id
+  symbol: null
+  description: Species id (from the species registry) that decays
+  quantity_kind: text
+  needed_by_phase: 6
+  required_when: sq.enabled == true
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: sq.decay_model
+  symbol: null
+  description: Decay model
+  quantity_kind: categorical
+  needed_by_phase: 6
+  required_when: sq.enabled == true
+  allowed_values:
+  - first_order_arrhenius
+  - first_order_constant
+  - user_table
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: sq.k_ref
+  symbol: k_ref
+  description: First-order decay rate at reference temperature
+  quantity_kind: rate_per_time
+  needed_by_phase: 6
+  required_when: sq.decay_model in first_order_arrhenius,first_order_constant
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: sq.T_ref
+  symbol: T_ref
+  description: Reference temperature for the decay rate
+  quantity_kind: temperature
+  needed_by_phase: 6
+  required_when: sq.decay_model == first_order_arrhenius
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: sq.temp_coefficient
+  symbol: null
+  description: Temperature sensitivity of decay (activation energy or equivalent, basis in notes)
+  quantity_kind: activation_energy
+  needed_by_phase: 6
+  required_when: sq.decay_model == first_order_arrhenius
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: sq.wall_decay
+  symbol: null
+  description: Wall decay rate, if modelled
+  quantity_kind: rate_per_time
+  needed_by_phase: 6
+  required_when: sq.wall_decay_enabled == true
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: sq.wall_decay_enabled
+  symbol: null
+  description: Whether wall decay is modelled
+  quantity_kind: boolean
+  needed_by_phase: 6
+  required_when: sq.enabled == true
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: sq.storage_temperature_mode
+  symbol: null
+  description: Source of storage water temperature
+  quantity_kind: categorical
+  needed_by_phase: 6
+  required_when: sq.enabled == true
+  allowed_values:
+  - timeseries
+  - constant_value
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: sq.storage_temperature_constant
+  symbol: null
+  description: Constant storage temperature
+  quantity_kind: temperature
+  needed_by_phase: 6
+  required_when: sq.storage_temperature_mode == constant_value
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: sq.initial_concentration
+  symbol: null
+  description: Initial disinfectant concentration in storage
+  quantity_kind: concentration
+  needed_by_phase: 6
+  required_when: sq.enabled == true
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: sq.treated_storage_enabled
+  symbol: null
+  description: Model storage of treated water downstream of the unit
+  quantity_kind: boolean
+  needed_by_phase: 6
+  required_when: always
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: sq.treated_storage_volume
+  symbol: null
+  description: Treated-water storage volume
+  quantity_kind: volume
+  needed_by_phase: 6
+  required_when: sq.treated_storage_enabled == true
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: sq.treated_decay_note
+  symbol: null
+  description: Which decay settings apply to treated water (text)
+  quantity_kind: text
+  needed_by_phase: 6
+  required_when: sq.treated_storage_enabled == true
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null

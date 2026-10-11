@@ -1,0 +1,565 @@
+# AquaSolar Living parameter template.
+# HOW TO FILL: for each entry set `value`, `unit`, `source_type`, `source_ref`, `uncertainty`, `valid_range`,
+# then set `status: confirmed` (only you do this). Leave an entry as `draft` and the simulation will refuse to run.
+# If `required_when` is false for your setup, set `status: not_applicable` and leave value empty.
+# `unit` must be a unit string the agent's unit library parses; the agent lists accepted examples in docs/units_accepted.md.
+# For categorical entries, `value` must be exactly one of `allowed_values`.
+# The agent must not edit any `value`, `unit` or `status` field.
+file: tank
+title: 150 L thermal storage tank and hot-water draw
+schema_version: '1.0'
+status_options:
+- draft
+- confirmed
+- not_applicable
+source_type_options:
+- measured
+- datasheet
+- literature
+- standard
+- assumption
+parameters:
+- id: tank.volume
+  symbol: V
+  description: Water volume of the tank
+  quantity_kind: volume
+  needed_by_phase: 4
+  required_when: always
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: tank.height
+  symbol: H
+  description: Internal height
+  quantity_kind: length
+  needed_by_phase: 4
+  required_when: always
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: tank.diameter
+  symbol: D
+  description: Internal diameter
+  quantity_kind: length
+  needed_by_phase: 4
+  required_when: always
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: tank.node_count
+  symbol: N
+  description: Number of vertical nodes (one gives the single-node limiting case)
+  quantity_kind: count
+  needed_by_phase: 4
+  required_when: always
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: tank.UA_total
+  symbol: UA
+  description: Total standby loss conductance to ambient
+  quantity_kind: thermal_conductance
+  needed_by_phase: 4
+  required_when: always
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: tank.loss_distribution
+  symbol: null
+  description: How standby loss is distributed over nodes
+  quantity_kind: categorical
+  needed_by_phase: 4
+  required_when: always
+  allowed_values:
+  - by_surface_area
+  - uniform
+  - user_table
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: tank.ambient_mode
+  symbol: null
+  description: Ambient temperature around the tank
+  quantity_kind: categorical
+  needed_by_phase: 4
+  required_when: always
+  allowed_values:
+  - timeseries
+  - constant_value
+  - site_ambient_air
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: tank.ambient_constant
+  symbol: null
+  description: Constant tank ambient temperature
+  quantity_kind: temperature
+  needed_by_phase: 4
+  required_when: tank.ambient_mode == constant_value
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: tank.charge_inlet_node
+  symbol: null
+  description: Node index receiving heated loop fluid
+  quantity_kind: count
+  needed_by_phase: 4
+  required_when: always
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: tank.charge_outlet_node
+  symbol: null
+  description: Node index supplying loop return to collector
+  quantity_kind: count
+  needed_by_phase: 4
+  required_when: always
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: tank.charge_method
+  symbol: null
+  description: How loop heat enters the tank
+  quantity_kind: categorical
+  needed_by_phase: 4
+  required_when: always
+  allowed_values:
+  - direct_fluid_exchange
+  - immersed_coil_effectiveness
+  - external_hx_effectiveness
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: tank.coil_effectiveness
+  symbol: null
+  description: Effectiveness of internal coil or external exchanger
+  quantity_kind: fraction
+  needed_by_phase: 4
+  required_when: tank.charge_method != direct_fluid_exchange
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: tank.draw_outlet_node
+  symbol: null
+  description: Node index of hot-water outlet
+  quantity_kind: count
+  needed_by_phase: 4
+  required_when: always
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: tank.makeup_inlet_node
+  symbol: null
+  description: Node index of cold make-up inlet
+  quantity_kind: count
+  needed_by_phase: 4
+  required_when: always
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: tank.conduction_model
+  symbol: null
+  description: Inter-node conduction treatment
+  quantity_kind: categorical
+  needed_by_phase: 4
+  required_when: tank.node_count != 1
+  allowed_values:
+  - effective_conductivity
+  - none
+  - user_value_in_equation_register
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: tank.effective_conductivity
+  symbol: null
+  description: Effective axial conductivity including destratification effects
+  quantity_kind: thermal_conductivity
+  needed_by_phase: 4
+  required_when: tank.conduction_model == effective_conductivity
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: tank.mixing_model
+  symbol: null
+  description: Buoyancy mixing treatment
+  quantity_kind: categorical
+  needed_by_phase: 4
+  required_when: tank.node_count != 1
+  allowed_values:
+  - instant_inversion_mixing
+  - user_named_model_in_equation_register
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: tank.aux_present
+  symbol: null
+  description: Backup heater present
+  quantity_kind: boolean
+  needed_by_phase: 4
+  required_when: always
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: tank.aux_power
+  symbol: null
+  description: Backup heater electrical power
+  quantity_kind: power
+  needed_by_phase: 4
+  required_when: tank.aux_present == true
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: tank.aux_efficiency
+  symbol: null
+  description: Backup heater conversion efficiency
+  quantity_kind: fraction
+  needed_by_phase: 4
+  required_when: tank.aux_present == true
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: tank.aux_setpoint
+  symbol: null
+  description: Backup heater thermostat set-point
+  quantity_kind: temperature
+  needed_by_phase: 4
+  required_when: tank.aux_present == true
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: tank.aux_node
+  symbol: null
+  description: Node index where backup heat is added
+  quantity_kind: count
+  needed_by_phase: 4
+  required_when: tank.aux_present == true
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: tank.delivery_temp_min
+  symbol: null
+  description: Minimum acceptable hot-water delivery temperature
+  quantity_kind: temperature
+  needed_by_phase: 4
+  required_when: always
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: tank.stored_temp_min_safety
+  symbol: null
+  description: Minimum stored temperature required by your hot-water safety policy, if any
+  quantity_kind: temperature
+  needed_by_phase: 4
+  required_when: tank.safety_policy == true
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: tank.safety_policy
+  symbol: null
+  description: Whether a minimum stored temperature policy applies
+  quantity_kind: boolean
+  needed_by_phase: 4
+  required_when: always
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null

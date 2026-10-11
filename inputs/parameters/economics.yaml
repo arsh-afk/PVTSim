@@ -1,0 +1,659 @@
+# AquaSolar Living parameter template.
+# HOW TO FILL: for each entry set `value`, `unit`, `source_type`, `source_ref`, `uncertainty`, `valid_range`,
+# then set `status: confirmed` (only you do this). Leave an entry as `draft` and the simulation will refuse to run.
+# If `required_when` is false for your setup, set `status: not_applicable` and leave value empty.
+# `unit` must be a unit string the agent's unit library parses; the agent lists accepted examples in docs/units_accepted.md.
+# For categorical entries, `value` must be exactly one of `allowed_values`.
+# The agent must not edit any `value`, `unit` or `status` field.
+file: economics
+title: Costs, prices and financial settings
+schema_version: '1.0'
+status_options:
+- draft
+- confirmed
+- not_applicable
+source_type_options:
+- measured
+- datasheet
+- literature
+- standard
+- assumption
+parameters:
+- id: econ.currency
+  symbol: null
+  description: Currency code
+  quantity_kind: text
+  needed_by_phase: 9
+  required_when: always
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: econ.horizon
+  symbol: null
+  description: Analysis horizon
+  quantity_kind: time
+  needed_by_phase: 9
+  required_when: always
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: econ.discount_rate
+  symbol: r
+  description: Discount rate per year
+  quantity_kind: rate_per_time
+  needed_by_phase: 9
+  required_when: always
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: econ.escalation_electricity
+  symbol: null
+  description: Electricity price escalation per year
+  quantity_kind: rate_per_time
+  needed_by_phase: 9
+  required_when: always
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: econ.escalation_water
+  symbol: null
+  description: Water and bottled-water price escalation per year
+  quantity_kind: rate_per_time
+  needed_by_phase: 9
+  required_when: always
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: econ.escalation_other
+  symbol: null
+  description: Escalation for other costs per year
+  quantity_kind: rate_per_time
+  needed_by_phase: 9
+  required_when: always
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: econ.capex_pvt
+  symbol: null
+  description: Capital cost of the PVT system as used for this villa
+  quantity_kind: currency
+  needed_by_phase: 9
+  required_when: always
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: econ.capex_tank
+  symbol: null
+  description: Capital cost of the tank and loop
+  quantity_kind: currency
+  needed_by_phase: 9
+  required_when: always
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: econ.capex_treatment
+  symbol: null
+  description: Capital cost of the treatment unit per pathway (see table pathway_costs)
+  quantity_kind: currency
+  needed_by_phase: 9
+  required_when: always
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: econ.capex_monitoring
+  symbol: null
+  description: Capital cost of sensors, controller and data platform
+  quantity_kind: currency
+  needed_by_phase: 9
+  required_when: always
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: econ.installation
+  symbol: null
+  description: Installation cost
+  quantity_kind: currency
+  needed_by_phase: 9
+  required_when: always
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: econ.annual_maintenance
+  symbol: null
+  description: Annual maintenance cost
+  quantity_kind: currency_per_time
+  needed_by_phase: 9
+  required_when: always
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: econ.monitoring_service_cost
+  symbol: null
+  description: Annual cost of the monitoring service
+  quantity_kind: currency_per_time
+  needed_by_phase: 9
+  required_when: always
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: econ.pvt_degradation
+  symbol: null
+  description: Annual electrical degradation rate
+  quantity_kind: rate_per_time
+  needed_by_phase: 9
+  required_when: always
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: econ.pvt_lifetime
+  symbol: null
+  description: Service life of the PVT system
+  quantity_kind: time
+  needed_by_phase: 9
+  required_when: always
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: econ.tank_lifetime
+  symbol: null
+  description: Service life of the tank
+  quantity_kind: time
+  needed_by_phase: 9
+  required_when: always
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: econ.residual_value
+  symbol: null
+  description: Residual value at the end of the horizon
+  quantity_kind: currency
+  needed_by_phase: 9
+  required_when: always
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: econ.electricity_value_basis
+  symbol: null
+  description: How PV electricity is valued
+  quantity_kind: categorical
+  needed_by_phase: 9
+  required_when: always
+  allowed_values:
+  - avoided_import_tariff
+  - export_tariff_for_surplus
+  - user_table
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: econ.displaced_heat_source
+  symbol: null
+  description: What the stored heat displaces
+  quantity_kind: categorical
+  needed_by_phase: 9
+  required_when: always
+  allowed_values:
+  - electric_resistance
+  - gas
+  - other_described_in_notes
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: econ.displaced_heater_efficiency
+  symbol: null
+  description: Efficiency of the displaced water heater
+  quantity_kind: fraction
+  needed_by_phase: 9
+  required_when: always
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: econ.displaced_fuel_price
+  symbol: null
+  description: Price of the displaced energy per energy unit
+  quantity_kind: currency_per_energy
+  needed_by_phase: 9
+  required_when: always
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: econ.bottled_price
+  symbol: null
+  description: Price of bottled drinking water per volume
+  quantity_kind: currency_per_volume
+  needed_by_phase: 9
+  required_when: always
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: econ.bottled_replaced_fraction
+  symbol: null
+  description: Fraction of the drinking-water demand that bottled water currently supplies
+  quantity_kind: fraction
+  needed_by_phase: 9
+  required_when: always
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: econ.municipal_water_price
+  symbol: null
+  description: Municipal water price per volume
+  quantity_kind: currency_per_volume
+  needed_by_phase: 9
+  required_when: always
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: econ.reject_disposal_price
+  symbol: null
+  description: Cost per volume of reject water, if any
+  quantity_kind: currency_per_volume
+  needed_by_phase: 9
+  required_when: always
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: econ.baseline_ro_capex
+  symbol: null
+  description: Capital cost of the conventional full-RO comparator
+  quantity_kind: currency
+  needed_by_phase: 9
+  required_when: always
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: econ.baseline_ro_power
+  symbol: null
+  description: Electrical power or energy per volume of the comparator (basis in notes)
+  quantity_kind: text
+  needed_by_phase: 9
+  required_when: always
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: econ.baseline_ro_recovery
+  symbol: null
+  description: Water recovery of the comparator
+  quantity_kind: fraction
+  needed_by_phase: 9
+  required_when: always
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: econ.baseline_ro_consumable_cost
+  symbol: null
+  description: Annual consumable cost of the comparator
+  quantity_kind: currency_per_time
+  needed_by_phase: 9
+  required_when: always
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: econ.baseline_ro_lifetime
+  symbol: null
+  description: Service life of the comparator
+  quantity_kind: time
+  needed_by_phase: 9
+  required_when: always
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null

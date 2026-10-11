@@ -1,0 +1,302 @@
+# AquaSolar Living parameter template.
+# HOW TO FILL: for each entry set `value`, `unit`, `source_type`, `source_ref`, `uncertainty`, `valid_range`,
+# then set `status: confirmed` (only you do this). Leave an entry as `draft` and the simulation will refuse to run.
+# If `required_when` is false for your setup, set `status: not_applicable` and leave value empty.
+# `unit` must be a unit string the agent's unit library parses; the agent lists accepted examples in docs/units_accepted.md.
+# For categorical entries, `value` must be exactly one of `allowed_values`.
+# The agent must not edit any `value`, `unit` or `status` field.
+file: site
+title: Location, orientation, soiling
+schema_version: '1.0'
+status_options:
+- draft
+- confirmed
+- not_applicable
+source_type_options:
+- measured
+- datasheet
+- literature
+- standard
+- assumption
+parameters:
+- id: site.latitude
+  symbol: lat
+  description: Site latitude, decimal degrees, north positive
+  quantity_kind: angle
+  needed_by_phase: 3
+  required_when: always
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: site.longitude
+  symbol: lon
+  description: Site longitude, decimal degrees, east positive
+  quantity_kind: angle
+  needed_by_phase: 3
+  required_when: always
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: site.elevation
+  symbol: z
+  description: Site elevation above sea level
+  quantity_kind: length
+  needed_by_phase: 3
+  required_when: always
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: site.timezone
+  symbol: null
+  description: IANA time zone name of the site
+  quantity_kind: text
+  needed_by_phase: 1
+  required_when: always
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: site.collector_tilt
+  symbol: tilt
+  description: Collector tilt from horizontal
+  quantity_kind: angle
+  needed_by_phase: 3
+  required_when: always
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: site.collector_azimuth
+  symbol: az
+  description: Collector azimuth, convention stated in notes
+  quantity_kind: angle
+  needed_by_phase: 3
+  required_when: always
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: site.azimuth_convention
+  symbol: null
+  description: Azimuth convention used for the value above
+  quantity_kind: categorical
+  needed_by_phase: 3
+  required_when: always
+  allowed_values:
+  - south_zero_east_negative
+  - north_zero_clockwise
+  - other_described_in_notes
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: site.ground_albedo
+  symbol: rho_g
+  description: Ground reflectance for transposition
+  quantity_kind: fraction
+  needed_by_phase: 3
+  required_when: always
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: site.shading_loss_factor
+  symbol: phi_shade
+  description: Fractional irradiance loss from fixed shading
+  quantity_kind: fraction
+  needed_by_phase: 3
+  required_when: always
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: soiling.mode
+  symbol: null
+  description: How soiling is supplied
+  quantity_kind: categorical
+  needed_by_phase: 3
+  required_when: always
+  allowed_values:
+  - none
+  - timeseries
+  - linear_rate_with_cleaning
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: soiling.loss_rate
+  symbol: null
+  description: Fractional loss accumulated per unit time between cleanings
+  quantity_kind: rate_per_time
+  needed_by_phase: 3
+  required_when: soiling.mode == linear_rate_with_cleaning
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: soiling.max_loss
+  symbol: null
+  description: Upper bound on fractional soiling loss
+  quantity_kind: fraction
+  needed_by_phase: 3
+  required_when: soiling.mode == linear_rate_with_cleaning
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null
+- id: soiling.clean_recovery
+  symbol: null
+  description: Fraction of accumulated soiling removed by a cleaning or rain event
+  quantity_kind: fraction
+  needed_by_phase: 3
+  required_when: soiling.mode == linear_rate_with_cleaning
+  value: null
+  unit: null
+  source_type: null
+  source_ref: null
+  uncertainty:
+    kind: null
+    value: null
+    distribution: null
+  valid_range:
+    min: null
+    max: null
+  status: draft
+  entered_by: null
+  entered_on: null
+  notes: null

@@ -1,0 +1,1 @@
+sensor_id,measured_species_id,range_low,range_high,unit,noise_kind,noise_value,bias,drift_rate,dropout_probability,response_time,location,source_ref

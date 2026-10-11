@@ -1,0 +1,91 @@
+# Meta file for the data file with the same name. Fill every null field. The agent reads this before the CSV.
+# Units go here per column, not in the CSV body (except where a unit column exists in the CSV).
+file: weather.csv
+description: Site weather at the simulation interval or finer
+needed_by_phase: 1
+encoding: UTF-8
+delimiter: comma
+decimal_separator: period
+header_row: true
+data_origin: null
+data_origin_options:
+- measured_onsite
+- measured_other_site
+- typical_year
+- datasheet
+- lab_report
+- other_described_in_notes
+provenance_ref: null
+notes: null
+timezone_note: Timestamps carry an explicit offset; also state the site time zone name here
+site_timezone: null
+timestamp_convention: null
+timestamp_convention_options:
+- interval_start
+- interval_end
+- instantaneous
+interval: null
+interval_note: Time between rows, with unit; state if irregular
+qc_flag_codes: null
+qc_flag_note: List each code and what it means; the agent never reinterprets a code
+columns:
+- name: timestamp
+  description: Time, ISO 8601 with explicit UTC offset
+  required: true
+  unit: null
+  quantity_kind: null
+  sensor_or_source: null
+- name: ghi
+  description: Global horizontal irradiance
+  required: true
+  unit: null
+  quantity_kind: null
+  sensor_or_source: null
+- name: dni
+  description: Direct normal irradiance
+  required: false
+  unit: null
+  quantity_kind: null
+  sensor_or_source: null
+- name: dhi
+  description: Diffuse horizontal irradiance
+  required: false
+  unit: null
+  quantity_kind: null
+  sensor_or_source: null
+- name: poa_irradiance
+  description: Measured plane-of-array irradiance, if you have it
+  required: false
+  unit: null
+  quantity_kind: null
+  sensor_or_source: null
+- name: t_ambient
+  description: Ambient air temperature
+  required: true
+  unit: null
+  quantity_kind: null
+  sensor_or_source: null
+- name: wind_speed
+  description: Wind speed at the height stated in the meta file
+  required: true
+  unit: null
+  quantity_kind: null
+  sensor_or_source: null
+- name: relative_humidity
+  description: Needed only if an approved model uses it
+  required: false
+  unit: null
+  quantity_kind: null
+  sensor_or_source: null
+- name: cloud_cover
+  description: Needed only if an approved model uses it
+  required: false
+  unit: null
+  quantity_kind: null
+  sensor_or_source: null
+- name: qc_flag
+  description: Quality code from your own scheme, defined in the meta file
+  required: false
+  unit: null
+  quantity_kind: null
+  sensor_or_source: null
