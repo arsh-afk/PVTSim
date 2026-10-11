@@ -98,3 +98,29 @@ def write_quality_report(
 
     report_path.write_text("\n".join(lines), encoding="utf-8")
     return report_path
+
+
+def generate_all_quality_reports(
+    all_data: Dict[str, Dict[str, Any]],
+    output_dir: Path,
+) -> Dict[str, Path]:
+    """Generate quality reports for all loaded time series and tables.
+
+    Args:
+        all_data: Dict of {name: {"meta": meta, "data": DataFrame}}
+        output_dir: Directory to write reports
+
+    Returns:
+        Dict mapping name to report path
+    """
+    output_dir.mkdir(parents=True, exist_ok=True)
+    reports = {}
+
+    for name, data_dict in all_data.items():
+        df = data_dict.get("data")
+        meta = data_dict.get("meta", {})
+        if df is not None:
+            report_path = write_quality_report(name, df, meta, output_dir)
+            reports[name] = report_path
+
+    return reports
