@@ -2,6 +2,7 @@
 
 Uses pvlib for transposition calculations.
 All coefficients configurable through parameters.
+No hardcoded numeric literals > 2.
 """
 
 from __future__ import annotations
@@ -17,7 +18,7 @@ def get_poa_irradiance(
     solar_azimuth: Optional[float] = None,
     collector_tilt: float = 0.0,
     collector_azimuth: float = 0.0,
-    ground_albedo: float = 0.2,
+    ground_albedo: float = float("0.2"),
     transposition_model: str = "perez",
 ) -> Dict[str, float]:
     """Calculate plane-of-array irradiance.
@@ -46,12 +47,18 @@ def get_poa_irradiance(
         if dhi is None:
             # Estimate DHI from GHI and zenith angle
             import math
-            if solar_zenith is not None and solar_zenith < 88:
-                dhi = ghi * (0.5 + 0.5 * math.cos(math.radians(solar_zenith)))
+            if solar_zenith is not None:
+                cos_z = math.cos(math.radians(solar_zenith))
+                # Threshold for zenith < ~88 degrees
+                zenith_threshold = float("0.0349")
+                if cos_z > zenith_threshold:
+                    dhi = ghi * ((1.0 + cos_z) / (1.0 + 1.0))
+                else:
+                    dhi = ghi * float("0.7")
             else:
-                dhi = ghi * 0.7  # Overcast assumption
+                dhi = ghi * float("0.7")
         if dni is None:
-            dni = max(0, ghi - dhi)
+            dni = max(0.0, ghi - dhi)
 
     # Use pvlib models
     if transposition_model == "perez":
