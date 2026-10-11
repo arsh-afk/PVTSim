@@ -7,9 +7,9 @@ from pydantic import BaseModel, Field, field_validator
 
 
 class UncertaintySpec(BaseModel):
-    kind: str = "none"  # absolute, relative, none
+    kind: Optional[str] = None  # absolute, relative, none
     value: Optional[float] = None
-    distribution: str = "none"  # normal, uniform, triangular, lognormal, none
+    distribution: Optional[str] = None  # normal, uniform, triangular, lognormal, none
 
 
 class ValidRange(BaseModel):
@@ -21,13 +21,13 @@ class ParameterEntry(BaseModel):
     """Single parameter entry from a YAML parameter file."""
 
     id: str
-    value: Any
-    unit: str
-    source_type: str  # measured, datasheet, literature, standard, assumption
-    source_ref: str
-    uncertainty: UncertaintySpec = Field(default_factory=UncertaintySpec)
+    value: Any = None
+    unit: Optional[str] = None
+    source_type: Optional[str] = None  # measured, datasheet, literature, standard, assumption
+    source_ref: Optional[str] = None
+    uncertainty: Optional[UncertaintySpec] = None
     valid_range: Optional[ValidRange] = None
-    status: str = "draft"  # draft or confirmed
+    status: str = "draft"  # draft or confirmed or not_applicable
     entered_by: Optional[str] = None
     entered_on: Optional[str] = None
 
@@ -42,7 +42,9 @@ class ParameterEntry(BaseModel):
 
     @field_validator("source_type")
     @classmethod
-    def source_type_must_be_valid(cls, v: str) -> str:
+    def source_type_must_be_valid(cls, v: Optional[str]) -> Optional[str]:
+        if v is None:
+            return None
         allowed = {"measured", "datasheet", "literature", "standard", "assumption"}
         if v not in allowed:
             raise ValueError(f"source_type must be one of {allowed}, got '{v}'")

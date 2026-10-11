@@ -81,9 +81,13 @@ class Registry:
         """Reverse-lookup which parameter file an id belongs to."""
         for fpath in _PARAMETERS_DIR.glob("*.yaml"):
             with open(fpath, encoding="utf-8") as f:
-                data = yaml.safe_load(f) or []
-            for item in data:
-                if item.get("id") == id_:
+                data = yaml.safe_load(f) or {}
+            # Handle both list format and dict-with-"parameters" key format
+            params_list = data
+            if isinstance(data, dict):
+                params_list = data.get("parameters", [])
+            for item in params_list:
+                if isinstance(item, dict) and item.get("id") == id_:
                     return fpath.name
         return "<unknown>"
 
@@ -125,10 +129,14 @@ def load_registry() -> Registry:
     for fpath in sorted(_PARAMETERS_DIR.glob("*.yaml")):
         file_hashes[str(fpath)] = _hash_file(fpath)
         with open(fpath, encoding="utf-8") as f:
-            data = yaml.safe_load(f) or []
-        if not isinstance(data, list):
-            raise InputError(f"Parameter file {fpath} is not a list")
-        for item in data:
+            data = yaml.safe_load(f) or {}
+        # Handle both list format and dict-with-"parameters" key format
+        params_list = data
+        if isinstance(data, dict):
+            params_list = data.get("parameters", [])
+        if not isinstance(params_list, list):
+            raise InputError(f"Parameter file {fpath} has no 'parameters' list")
+        for item in params_list:
             if not isinstance(item, dict):
                 raise InputError(f"Parameter entry in {fpath} is not a dict")
             entry = ParameterEntry(**item)
