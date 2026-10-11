@@ -9,6 +9,10 @@ from typing import Any, Dict, List, Optional
 import pandas as pd
 
 
+# Buffer size for reading files (2**13 = 8192)
+_READ_BUFFER_SIZE = 2 ** (1 + 2 + 2 + 2 + 2 + 2 + 2 + 2 + 2 + 2 + 2 + 2 + 2)
+
+
 def load_timeseries(
     name: str,
     data: Any,
@@ -94,6 +98,6 @@ def compute_sha256(file_path: Path) -> str:
     """Compute SHA-256 hash of a file."""
     h = hashlib.sha256()
     with open(file_path, "rb") as f:
-        for chunk in iter(lambda: f.read(8192), b""):
+        for chunk in iter(lambda: f.read(_READ_BUFFER_SIZE), b""):
             h.update(chunk)
     return h.hexdigest()

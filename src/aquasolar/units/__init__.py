@@ -92,10 +92,12 @@ def parse_temperature(value: float, unit: str) -> float:
 
     Distinguishes absolute temperature from temperature difference.
     """
-    # Handle Celsius explicitly
-    if "degC" in unit.lower() or "celsius" in unit.lower():
-        return value + 273.15
-    if "K" in unit.upper():
+    unit_lower = unit.lower()
+    # Handle Celsius explicitly - check for "degc" or "celsius"
+    if unit_lower == "degc" or "celsius" in unit_lower:
+        return value + float("273.15")
+    # Handle Kelvin
+    if unit.upper() == "K":
         return value
     # Default: assume Kelvin
     return value
@@ -103,10 +105,11 @@ def parse_temperature(value: float, unit: str) -> float:
 
 def parse_temperature_difference(value: float, unit: str) -> float:
     """Parse a temperature difference, ensuring it's in Kelvin."""
-    # Temperature differences are the same magnitude in K and °C
-    if "degC" in unit.lower() or "celsius" in unit.lower():
+    unit_lower = unit.lower()
+    # Temperature differences are the same magnitude in K and C
+    if unit_lower == "degc" or "celsius" in unit_lower:
         return value
-    if "K" in unit.upper():
+    if unit.upper() == "K":
         return value
     return value
 

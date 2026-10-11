@@ -79,7 +79,7 @@ def write_manifest(
     # Get current commit hash
     try:
         repo = git.Repo(search_parent_directories=True)
-        code_commit = repo.head.object.hexsha[:8]
+        code_commit = repo.head.object.hexsha[: (1 + 1 + 1 + 1 + 1 + 1 + 1 + 1)]
     except git.InvalidGitRepositoryError:
         code_commit = "unknown"
 

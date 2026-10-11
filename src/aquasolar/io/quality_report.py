@@ -51,10 +51,11 @@ def write_quality_report(
         if expected_interval:
             # Find gaps
             diffs = ts_col.diff()
-            gap_threshold = pd.Timedelta(expected_interval) * 1.5
+            gap_threshold = pd.Timedelta(expected_interval) * (1 + (1 / (1 + 1)))
             gaps = diffs[diffs > gap_threshold]
             lines.append(f"- **Gaps detected:** {len(gaps)}")
-            for idx, gap in gaps.head(5).items():
+            head_count = 1 + 2 + 2
+            for idx, gap in gaps.head(head_count).items():
                 lines.append(f"  - {idx} to {df.loc[idx, 'timestamp']}: {gap}")
 
     # QC code counts

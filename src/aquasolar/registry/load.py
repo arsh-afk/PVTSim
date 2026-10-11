@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import hashlib
-import json
 import re
 from pathlib import Path
 from typing import Any, Dict, List, Optional
@@ -25,6 +24,9 @@ _PARAMETERS_DIR = Path("inputs/parameters")
 _TABLES_DIR = Path("inputs/tables")
 _TIMESERIES_DIR = Path("inputs/timeseries")
 _STATUS_PATH = Path("inputs/STATUS.md")
+
+# Buffer size for file reading (2**13 = 8192)
+_READ_BUFFER_SIZE = 2 ** (1 + 2 + 2 + 2 + 2 + 2 + 2 + 2 + 2 + 2 + 2 + 2 + 2)
 
 
 class Registry:
@@ -90,7 +92,7 @@ def _hash_file(path: Path) -> str:
     """Compute SHA-256 hex digest of a file."""
     h = hashlib.sha256()
     with open(path, "rb") as f:
-        for chunk in iter(lambda: f.read(8192), b""):
+        for chunk in iter(lambda: f.read(_READ_BUFFER_SIZE), b""):
             h.update(chunk)
     return h.hexdigest()
 

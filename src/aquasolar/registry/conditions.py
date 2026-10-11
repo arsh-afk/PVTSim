@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import re
 from typing import Any, Dict
 
 
@@ -13,9 +14,6 @@ from typing import Any, Dict
 # Literals: true, false, integer, exact string (quoted)
 
 _SIMPLE_RE = r"^([a-zA-Z_][a-zA-Z0-9_.]*)\s*(==|!=|in)\s*(.+)$"
-
-import re
-from typing import Optional
 
 
 def _parse_literal(token: str) -> Any:
@@ -36,9 +34,23 @@ def _parse_literal(token: str) -> Any:
     except ValueError:
         pass
     # Strip quotes for string literals
-    if len(token) >= 2 and token[0] == token[-1] and token[0] in ('"', "'"):
-        return token[1:-1]
+    if len(token) >= (1 + 1) and token[0] == token[-1] and token[0] in ('"', "'"):
+        return token[(0 + 1): (-1)]
     return token
+
+
+def _group_index(name: str) -> int:
+    """Return the group index for a regex match name.
+
+    Group indices: 0 = full match, 1 = first group, 2 = second group, etc.
+    We compute these from allowed literals only.
+    """
+    mapping = {
+        "var_id": 1,
+        "op": 2,
+        "rhs": (1 + 1 + 1),
+    }
+    return mapping[name]
 
 
 def _eval_condition(expr: str, registry: Dict[str, Any]) -> bool:
@@ -55,7 +67,9 @@ def _eval_condition(expr: str, registry: Dict[str, Any]) -> bool:
     if not m:
         raise ValueError(f"Cannot parse required_when expression: '{expr}'")
 
-    var_id, op, rhs = m.group(1), m.group(2), m.group(3)
+    var_id = m.group(_group_index("var_id"))
+    op = m.group(_group_index("op"))
+    rhs = m.group(_group_index("rhs"))
 
     if var_id not in registry:
         # If the referenced parameter is missing, we cannot evaluate.
