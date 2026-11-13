@@ -25,107 +25,113 @@ parameters:
   quantity_kind: volume
   needed_by_phase: 4
   required_when: always
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: 150.0
+  unit: L
+  source_type: literature
+  source_ref: ../../AquaSolar_TRNSYS_Master_Direction.md#3.2
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: Value transcribed from the cited AquaSolar design basis. Check 
+    interpretation and model-equation compatibility.
 - id: tank.height
   symbol: H
   description: Internal height
   quantity_kind: length
   needed_by_phase: 4
   required_when: always
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: 2.267
+  unit: m
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#tank.height
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
 - id: tank.diameter
   symbol: D
   description: Internal diameter
   quantity_kind: length
   needed_by_phase: 4
   required_when: always
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: 1.725
+  unit: m
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#tank.diameter
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
 - id: tank.node_count
   symbol: N
-  description: Number of vertical nodes (one gives the single-node limiting case)
+  description: Number of vertical nodes (one gives the single-node limiting 
+    case)
   quantity_kind: count
   needed_by_phase: 4
   required_when: always
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: 6
+  unit:
+  source_type: literature
+  source_ref: ../../AquaSolar_TRNSYS_Master_Direction.md#3.2
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: Value transcribed from the cited AquaSolar design basis. Check 
+    interpretation and model-equation compatibility.
 - id: tank.UA_total
   symbol: UA
   description: Total standby loss conductance to ambient
   quantity_kind: thermal_conductance
   needed_by_phase: 4
   required_when: always
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: 4.292
+  unit: W/K
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#tank.UA_total
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
 - id: tank.loss_distribution
-  symbol: null
+  symbol:
   description: How standby loss is distributed over nodes
   quantity_kind: categorical
   needed_by_phase: 4
@@ -134,23 +140,24 @@ parameters:
   - by_surface_area
   - uniform
   - user_table
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: by_surface_area
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#tank.loss_distribution
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
 - id: tank.ambient_mode
-  symbol: null
+  symbol:
   description: Ambient temperature around the tank
   quantity_kind: categorical
   needed_by_phase: 4
@@ -159,86 +166,90 @@ parameters:
   - timeseries
   - constant_value
   - site_ambient_air
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: timeseries
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#tank.ambient_mode
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
 - id: tank.ambient_constant
-  symbol: null
+  symbol:
   description: Constant tank ambient temperature
   quantity_kind: temperature
   needed_by_phase: 4
   required_when: tank.ambient_mode == constant_value
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: 314.778
+  unit: K
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#tank.ambient_constant
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
 - id: tank.charge_inlet_node
-  symbol: null
+  symbol:
   description: Node index receiving heated loop fluid
   quantity_kind: count
   needed_by_phase: 4
   required_when: always
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: 4
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#tank.charge_inlet_node
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
 - id: tank.charge_outlet_node
-  symbol: null
+  symbol:
   description: Node index supplying loop return to collector
   quantity_kind: count
   needed_by_phase: 4
   required_when: always
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: 8
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#tank.charge_outlet_node
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
 - id: tank.charge_method
-  symbol: null
+  symbol:
   description: How loop heat enters the tank
   quantity_kind: categorical
   needed_by_phase: 4
@@ -247,86 +258,90 @@ parameters:
   - direct_fluid_exchange
   - immersed_coil_effectiveness
   - external_hx_effectiveness
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: direct_fluid_exchange
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#tank.charge_method
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
 - id: tank.coil_effectiveness
-  symbol: null
+  symbol:
   description: Effectiveness of internal coil or external exchanger
   quantity_kind: fraction
   needed_by_phase: 4
   required_when: tank.charge_method != direct_fluid_exchange
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: 0.3878
+  unit: '1'
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#tank.coil_effectiveness
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
 - id: tank.draw_outlet_node
-  symbol: null
+  symbol:
   description: Node index of hot-water outlet
   quantity_kind: count
   needed_by_phase: 4
   required_when: always
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: 1
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#tank.draw_outlet_node
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
 - id: tank.makeup_inlet_node
-  symbol: null
+  symbol:
   description: Node index of cold make-up inlet
   quantity_kind: count
   needed_by_phase: 4
   required_when: always
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: 7
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#tank.makeup_inlet_node
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
 - id: tank.conduction_model
-  symbol: null
+  symbol:
   description: Inter-node conduction treatment
   quantity_kind: categorical
   needed_by_phase: 4
@@ -335,44 +350,46 @@ parameters:
   - effective_conductivity
   - none
   - user_value_in_equation_register
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: none
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#tank.conduction_model
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
 - id: tank.effective_conductivity
-  symbol: null
+  symbol:
   description: Effective axial conductivity including destratification effects
   quantity_kind: thermal_conductivity
   needed_by_phase: 4
   required_when: tank.conduction_model == effective_conductivity
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: 0.9
+  unit: W/(m*K)
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#tank.effective_conductivity
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
 - id: tank.mixing_model
-  symbol: null
+  symbol:
   description: Buoyancy mixing treatment
   quantity_kind: categorical
   needed_by_phase: 4
@@ -380,186 +397,196 @@ parameters:
   allowed_values:
   - instant_inversion_mixing
   - user_named_model_in_equation_register
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: instant_inversion_mixing
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#tank.mixing_model
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
 - id: tank.aux_present
-  symbol: null
+  symbol:
   description: Backup heater present
   quantity_kind: boolean
   needed_by_phase: 4
   required_when: always
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: true
+  unit:
+  source_type: literature
+  source_ref: ../../AquaSolar_TRNSYS_Master_Direction.md#3.2
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: Value transcribed from the cited AquaSolar design basis. Check 
+    interpretation and model-equation compatibility.
 - id: tank.aux_power
-  symbol: null
+  symbol:
   description: Backup heater electrical power
   quantity_kind: power
   needed_by_phase: 4
   required_when: tank.aux_present == true
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: 1200.0
+  unit: W
+  source_type: literature
+  source_ref: ../../AquaSolar_TRNSYS_Master_Direction.md#3.2
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: Value transcribed from the cited AquaSolar design basis. Check 
+    interpretation and model-equation compatibility.
 - id: tank.aux_efficiency
-  symbol: null
+  symbol:
   description: Backup heater conversion efficiency
   quantity_kind: fraction
   needed_by_phase: 4
   required_when: tank.aux_present == true
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: 0.95
+  unit: '1'
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#tank.aux_efficiency
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
 - id: tank.aux_setpoint
-  symbol: null
+  symbol:
   description: Backup heater thermostat set-point
   quantity_kind: temperature
   needed_by_phase: 4
   required_when: tank.aux_present == true
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: 326.15
+  unit: K
+  source_type: literature
+  source_ref: ../../AquaSolar_TRNSYS_Master_Direction.md#3.2
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: Value transcribed from the cited AquaSolar design basis. Check 
+    interpretation and model-equation compatibility.
 - id: tank.aux_node
-  symbol: null
+  symbol:
   description: Node index where backup heat is added
   quantity_kind: count
   needed_by_phase: 4
   required_when: tank.aux_present == true
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: 2
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#tank.aux_node
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
 - id: tank.delivery_temp_min
-  symbol: null
+  symbol:
   description: Minimum acceptable hot-water delivery temperature
   quantity_kind: temperature
   needed_by_phase: 4
   required_when: always
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: 318.15
+  unit: K
+  source_type: literature
+  source_ref: ../../AquaSolar_TRNSYS_Master_Direction.md#3.2
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: Value transcribed from the cited AquaSolar design basis. Check 
+    interpretation and model-equation compatibility.
 - id: tank.stored_temp_min_safety
-  symbol: null
-  description: Minimum stored temperature required by your hot-water safety policy, if any
+  symbol:
+  description: Minimum stored temperature required by your hot-water safety 
+    policy, if any
   quantity_kind: temperature
   needed_by_phase: 4
   required_when: tank.safety_policy == true
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: 313.808
+  unit: K
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#tank.stored_temp_min_safety
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
 - id: tank.safety_policy
-  symbol: null
+  symbol:
   description: Whether a minimum stored temperature policy applies
   quantity_kind: boolean
   needed_by_phase: 4
   required_when: always
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: false
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#tank.safety_policy
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.

@@ -20,7 +20,7 @@ source_type_options:
 - assumption
 parameters:
 - id: elec.configuration
-  symbol: null
+  symbol:
   description: System configuration
   quantity_kind: categorical
   needed_by_phase: 7
@@ -30,228 +30,244 @@ parameters:
   - grid_connected_with_battery
   - off_grid_with_battery
   - off_grid_no_storage
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: grid_connected_with_battery
+  unit:
+  source_type: literature
+  source_ref: ../../AquaSolar_TRNSYS_Master_Direction.md#3.2
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: Value transcribed from the cited AquaSolar design basis. Check 
+    interpretation and model-equation compatibility.
 - id: elec.export_allowed
-  symbol: null
+  symbol:
   description: Surplus electricity may be exported
   quantity_kind: boolean
   needed_by_phase: 7
-  required_when: elec.configuration in grid_connected,grid_connected_with_battery
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  required_when: elec.configuration in 
+    grid_connected,grid_connected_with_battery
+  value: true
+  unit:
+  source_type: literature
+  source_ref: ../../AquaSolar_TRNSYS_Master_Direction.md#3.2
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: Value transcribed from the cited AquaSolar design basis. Check 
+    interpretation and model-equation compatibility.
 - id: elec.battery_capacity
-  symbol: null
+  symbol:
   description: Usable battery energy capacity
   quantity_kind: energy
   needed_by_phase: 7
-  required_when: elec.configuration in grid_connected_with_battery,off_grid_with_battery
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  required_when: elec.configuration in 
+    grid_connected_with_battery,off_grid_with_battery
+  value: 9000000.0
+  unit: J
+  source_type: literature
+  source_ref: ../../AquaSolar_TRNSYS_Master_Direction.md#3.2
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: Value transcribed from the cited AquaSolar design basis. Check 
+    interpretation and model-equation compatibility.
 - id: elec.battery_round_trip_eff
-  symbol: null
+  symbol:
   description: Battery round-trip efficiency
   quantity_kind: fraction
   needed_by_phase: 7
-  required_when: elec.configuration in grid_connected_with_battery,off_grid_with_battery
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  required_when: elec.configuration in 
+    grid_connected_with_battery,off_grid_with_battery
+  value: 0.92
+  unit: '1'
+  source_type: literature
+  source_ref: ../../AquaSolar_TRNSYS_Master_Direction.md#3.2
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: Value transcribed from the cited AquaSolar design basis. Check 
+    interpretation and model-equation compatibility.
 - id: elec.battery_min_soc
-  symbol: null
+  symbol:
   description: Minimum permitted state of charge
   quantity_kind: fraction
   needed_by_phase: 7
-  required_when: elec.configuration in grid_connected_with_battery,off_grid_with_battery
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  required_when: elec.configuration in 
+    grid_connected_with_battery,off_grid_with_battery
+  value: 0.1
+  unit: '1'
+  source_type: literature
+  source_ref: ../../AquaSolar_TRNSYS_Master_Direction.md#3.2
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: Value transcribed from the cited AquaSolar design basis. Check 
+    interpretation and model-equation compatibility.
 - id: elec.battery_max_power
-  symbol: null
+  symbol:
   description: Maximum battery charge or discharge power
   quantity_kind: power
   needed_by_phase: 7
-  required_when: elec.configuration in grid_connected_with_battery,off_grid_with_battery
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  required_when: elec.configuration in 
+    grid_connected_with_battery,off_grid_with_battery
+  value: 214.844
+  unit: W
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#elec.battery_max_power
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
 - id: elec.controller_power
-  symbol: null
+  symbol:
   description: Controller electrical power draw
   quantity_kind: power
   needed_by_phase: 7
   required_when: always
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: 150.953
+  unit: W
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#elec.controller_power
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
 - id: elec.sensor_power_total
-  symbol: null
+  symbol:
   description: Total sensor electrical power draw
   quantity_kind: power
   needed_by_phase: 7
   required_when: always
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: 220.645
+  unit: W
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#elec.sensor_power_total
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
 - id: elec.comms_power
-  symbol: null
+  symbol:
   description: Communications and data-logging power draw
   quantity_kind: power
   needed_by_phase: 7
   required_when: always
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: 119.067
+  unit: W
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#elec.comms_power
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
 - id: elec.inverter_standby_power
-  symbol: null
+  symbol:
   description: Inverter standby power draw
   quantity_kind: power
   needed_by_phase: 7
   required_when: always
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: 106.101
+  unit: W
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#elec.inverter_standby_power
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
 - id: elec.priority_order
-  symbol: null
+  symbol:
   description: Order in which PV output serves loads (text list)
   quantity_kind: text
   needed_by_phase: 7
   required_when: always
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: critical controls, pumps, water treatment, battery, export
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#elec.priority_order
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.

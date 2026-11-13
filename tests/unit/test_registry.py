@@ -6,6 +6,7 @@ import pytest
 from pathlib import Path
 
 from aquasolar.registry import Registry, ParameterEntry, evaluate_required_when
+from aquasolar.registry.load import _csv_path_for_meta
 from aquasolar.registry.errors import (
     InputError,
     MissingInputError,
@@ -54,6 +55,15 @@ class TestEvaluateRequiredWhen:
         registry = {}
         # Should return False to avoid hard failures
         assert evaluate_required_when("missing.param == true", registry) is False
+
+
+class TestMetadataCsvPath:
+    """Test pairing of metadata and source CSV files."""
+
+    def test_strips_full_meta_yaml_suffix(self):
+        meta_path = Path("inputs/timeseries/weather.meta.yaml")
+
+        assert _csv_path_for_meta(meta_path) == Path("inputs/timeseries/weather.csv")
 
 
 class TestInputErrorFormat:

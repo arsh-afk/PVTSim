@@ -13,7 +13,6 @@ from .conditions import evaluate_required_when
 from .errors import (
     DraftInputError,
     InputError,
-    InvalidInputError,
     MissingInputError,
 )
 from .schema import ParameterEntry
@@ -179,7 +178,7 @@ def load_registry() -> Registry:
 
     # Load table files
     for meta_fpath in sorted(_TABLES_DIR.glob("*.meta.yaml")):
-        csv_fpath = meta_fpath.with_suffix(".csv")
+        csv_fpath = _csv_path_for_meta(meta_fpath)
         file_hashes[str(meta_fpath)] = _hash_file(meta_fpath)
         file_hashes[str(csv_fpath)] = _hash_file(csv_fpath)
 
@@ -190,7 +189,7 @@ def load_registry() -> Registry:
 
     # Load time-series files
     for meta_fpath in sorted(_TIMESERIES_DIR.glob("*.meta.yaml")):
-        csv_fpath = meta_fpath.with_suffix(".csv")
+        csv_fpath = _csv_path_for_meta(meta_fpath)
         file_hashes[str(meta_fpath)] = _hash_file(meta_fpath)
         file_hashes[str(csv_fpath)] = _hash_file(csv_fpath)
 
@@ -200,6 +199,15 @@ def load_registry() -> Registry:
         timeseries[name] = {"meta": meta, "data": _read_csv(csv_fpath, name)}
 
     return Registry(params, tables, timeseries, file_hashes)
+
+
+def _csv_path_for_meta(meta_path: Path) -> Path:
+    """Return the paired CSV path for a ``<name>.meta.yaml`` file."""
+    if not meta_path.name.endswith(".meta.yaml"):
+        raise ValueError(f"Expected a .meta.yaml path, got {meta_path}")
+    return meta_path.with_name(
+        f"{meta_path.name.removesuffix('.meta.yaml')}.csv"
+    )
 
 
 def _guess_file(id_: str, input_index: dict) -> str:

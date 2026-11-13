@@ -20,149 +20,155 @@ source_type_options:
 - assumption
 parameters:
 - id: env.system_boundary
-  symbol: null
+  symbol:
   description: Written system boundary for environmental indicators (text)
   quantity_kind: text
   needed_by_phase: 9
   required_when: always
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: villa PVT collector and listed auxiliaries; demo boundary
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#env.system_boundary
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
 - id: env.bottle_volume
-  symbol: null
+  symbol:
   description: Volume of one bottled-water unit
   quantity_kind: volume
   needed_by_phase: 9
   required_when: always
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: 1.0
+  unit: L
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#env.bottle_volume
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: Demo assumption for a one-litre bottled-water unit; replace with the comparison basis.
 - id: env.bottle_mass
-  symbol: null
+  symbol:
   description: Mass of packaging per bottled unit
   quantity_kind: mass
   needed_by_phase: 9
   required_when: always
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: 0.982
+  unit: kg
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#env.bottle_mass
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
 - id: env.grid_emission_factor
-  symbol: null
+  symbol:
   description: Emission factor of grid electricity
   quantity_kind: emission_per_energy
   needed_by_phase: 9
   required_when: always
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: 746.396
+  unit: g_CO2eq/kWh
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#env.grid_emission_factor
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
 - id: env.fuel_emission_factor
-  symbol: null
+  symbol:
   description: Emission factor of the displaced heating fuel
   quantity_kind: emission_per_energy
   needed_by_phase: 9
   required_when: always
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: 771.233
+  unit: g_CO2eq/kWh
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#env.fuel_emission_factor
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
 - id: env.transport_emission_per_volume
-  symbol: null
+  symbol:
   description: Transport emissions per volume of bottled water, if included
   quantity_kind: emission_per_volume
   needed_by_phase: 9
   required_when: env.include_transport == true
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: 0.002
+  unit: kg_CO2eq/m3
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#env.transport_emission_per_volume
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
 - id: env.include_transport
-  symbol: null
+  symbol:
   description: Include transport emissions
   quantity_kind: boolean
   needed_by_phase: 9
   required_when: always
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: true
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#env.include_transport
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.

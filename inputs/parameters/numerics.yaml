@@ -25,86 +25,90 @@ parameters:
   quantity_kind: time
   needed_by_phase: 0
   required_when: always
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: 600.0
+  unit: s
+  source_type: literature
+  source_ref: ../../AquaSolar_TRNSYS_Master_Direction.md#3.2
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: Value transcribed from the cited AquaSolar design basis. Check 
+    interpretation and model-equation compatibility.
 - id: numerics.start
-  symbol: null
+  symbol:
   description: Simulation start (timestamp in site time zone)
   quantity_kind: timestamp
   needed_by_phase: 1
   required_when: always
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: '2025-01-01T04:00:00+04:00'
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#numerics.start
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
 - id: numerics.end
-  symbol: null
+  symbol:
   description: Simulation end (timestamp in site time zone)
   quantity_kind: timestamp
   needed_by_phase: 1
   required_when: always
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: '2026-01-01T04:00:00+04:00'
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#numerics.end
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
 - id: numerics.spin_up
-  symbol: null
+  symbol:
   description: Spin-up period discarded from results
   quantity_kind: time
   needed_by_phase: 4
   required_when: always
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: 55425.49
+  unit: s
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#numerics.spin_up
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
 - id: numerics.property_model
-  symbol: null
+  symbol:
   description: Fluid property treatment
   quantity_kind: categorical
   needed_by_phase: 4
@@ -112,23 +116,24 @@ parameters:
   allowed_values:
   - constant
   - temperature_dependent
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: constant
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#numerics.property_model
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
 - id: numerics.loop_solver
-  symbol: null
+  symbol:
   description: Method for the PVT algebraic loop
   quantity_kind: categorical
   needed_by_phase: 5
@@ -137,65 +142,68 @@ parameters:
   - fixed_point
   - newton
   - bracketing
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: bracketing
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#numerics.loop_solver
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
 - id: numerics.loop_tolerance
-  symbol: null
+  symbol:
   description: Convergence tolerance of the loop solve (basis in notes)
   quantity_kind: dimensionless
   needed_by_phase: 5
   required_when: always
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: 0.0763
+  unit: '1'
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#numerics.loop_tolerance
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
 - id: numerics.loop_max_iterations
-  symbol: null
+  symbol:
   description: Maximum iterations of the loop solve
   quantity_kind: count
   needed_by_phase: 5
   required_when: always
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: 3
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#numerics.loop_max_iterations
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
 - id: numerics.tank_scheme
-  symbol: null
+  symbol:
   description: Tank time integration scheme
   quantity_kind: categorical
   needed_by_phase: 4
@@ -204,128 +212,136 @@ parameters:
   - explicit
   - implicit
   - substepped_explicit
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: substepped_explicit
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#numerics.tank_scheme
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
 - id: numerics.tank_substeps
-  symbol: null
+  symbol:
   description: Substeps per time step
   quantity_kind: count
   needed_by_phase: 4
   required_when: numerics.tank_scheme == substepped_explicit
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: 6
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#numerics.tank_substeps
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
 - id: numerics.initial_tank_temperature
-  symbol: null
-  description: Initial tank temperature per node (single value, or reference an initial-profile table in notes)
+  symbol:
+  description: Initial tank temperature per node (single value, or reference an 
+    initial-profile table in notes)
   quantity_kind: temperature
   needed_by_phase: 4
   required_when: always
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: 293.15
+  unit: K
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#numerics.initial_tank_temperature
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
 - id: numerics.initial_storage_state
-  symbol: null
-  description: Initial state of consumables, loading and wear (text pointing to a table, or zero meaning new)
+  symbol:
+  description: Initial state of consumables, loading and wear (text pointing to 
+    a table, or zero meaning new)
   quantity_kind: text
   needed_by_phase: 6
   required_when: always
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: new consumables; zero loading
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#numerics.initial_storage_state
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
 - id: numerics.master_seed
-  symbol: null
+  symbol:
   description: Master random seed
   quantity_kind: count
   needed_by_phase: 0
   required_when: always
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: 20261029
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#numerics.master_seed
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
 - id: numerics.ensemble_size
-  symbol: null
+  symbol:
   description: Monte Carlo ensemble size
   quantity_kind: count
   needed_by_phase: 9
   required_when: always
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: 1
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#numerics.ensemble_size
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
 - id: numerics.mc_stopping_rule
-  symbol: null
+  symbol:
   description: Stopping rule for ensemble statistics
   quantity_kind: categorical
   needed_by_phase: 9
@@ -334,44 +350,46 @@ parameters:
   - fixed_size
   - confidence_interval_width
   - running_mean_stability
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: fixed_size
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#numerics.mc_stopping_rule
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
 - id: numerics.mc_stopping_tolerance
-  symbol: null
+  symbol:
   description: Tolerance of the stopping rule
   quantity_kind: dimensionless
   needed_by_phase: 9
   required_when: numerics.mc_stopping_rule != fixed_size
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: 0.0731
+  unit: '1'
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#numerics.mc_stopping_tolerance
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
 - id: numerics.sensitivity_method
-  symbol: null
+  symbol:
   description: Global sensitivity method
   quantity_kind: categorical
   needed_by_phase: 9
@@ -380,44 +398,46 @@ parameters:
   - morris_screening
   - sobol_variance_based
   - both
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: morris_screening
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#numerics.sensitivity_method
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
 - id: numerics.output_interval
-  symbol: null
+  symbol:
   description: Interval of logged output
   quantity_kind: time
   needed_by_phase: 8
   required_when: always
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: 3600.0
+  unit: s
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#numerics.output_interval
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
 - id: numerics.gap_policy
-  symbol: null
+  symbol:
   description: Treatment of missing weather and demand data
   quantity_kind: categorical
   needed_by_phase: 1
@@ -426,39 +446,41 @@ parameters:
   - flag_and_stop
   - flag_and_exclude_day
   - linear_interpolate_up_to_max_gap
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: flag_and_stop
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#numerics.gap_policy
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
 - id: numerics.gap_max_duration
-  symbol: null
+  symbol:
   description: Maximum gap bridged by interpolation
   quantity_kind: time
   needed_by_phase: 1
   required_when: numerics.gap_policy == linear_interpolate_up_to_max_gap
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: 66738.229
+  unit: s
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#numerics.gap_max_duration
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.

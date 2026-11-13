@@ -20,49 +20,51 @@ source_type_options:
 - assumption
 parameters:
 - id: sq.enabled
-  symbol: null
+  symbol:
   description: Run the storage-quality module
   quantity_kind: boolean
   needed_by_phase: 6
   required_when: always
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: false
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#sq.enabled
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
 - id: sq.villa_storage_volume
   symbol: V_s
   description: Villa storage tank volume
   quantity_kind: volume
   needed_by_phase: 6
   required_when: sq.enabled == true
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: 5.264
+  unit: L
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#sq.villa_storage_volume
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
 - id: sq.mixing_model
-  symbol: null
+  symbol:
   description: Storage mixing treatment
   quantity_kind: categorical
   needed_by_phase: 6
@@ -70,44 +72,46 @@ parameters:
   allowed_values:
   - well_mixed
   - user_named_model_in_equation_register
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: user_named_model_in_equation_register
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#sq.mixing_model
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
 - id: sq.disinfectant_species_id
-  symbol: null
+  symbol:
   description: Species id (from the species registry) that decays
   quantity_kind: text
   needed_by_phase: 6
   required_when: sq.enabled == true
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: free_chlorine
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#sq.disinfectant_species_id
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
 - id: sq.decay_model
-  symbol: null
+  symbol:
   description: Decay model
   quantity_kind: categorical
   needed_by_phase: 6
@@ -116,128 +120,135 @@ parameters:
   - first_order_arrhenius
   - first_order_constant
   - user_table
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: first_order_arrhenius
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#sq.decay_model
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
 - id: sq.k_ref
   symbol: k_ref
   description: First-order decay rate at reference temperature
   quantity_kind: rate_per_time
   needed_by_phase: 6
   required_when: sq.decay_model in first_order_arrhenius,first_order_constant
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: 0.0852
+  unit: 1/year
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#sq.k_ref
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
 - id: sq.T_ref
   symbol: T_ref
   description: Reference temperature for the decay rate
   quantity_kind: temperature
   needed_by_phase: 6
   required_when: sq.decay_model == first_order_arrhenius
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: 303.658
+  unit: K
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#sq.T_ref
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
 - id: sq.temp_coefficient
-  symbol: null
-  description: Temperature sensitivity of decay (activation energy or equivalent, basis in notes)
+  symbol:
+  description: Temperature sensitivity of decay (activation energy or 
+    equivalent, basis in notes)
   quantity_kind: activation_energy
   needed_by_phase: 6
   required_when: sq.decay_model == first_order_arrhenius
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: 38613.588
+  unit: J/(mol*K)
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#sq.temp_coefficient
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
 - id: sq.wall_decay
-  symbol: null
+  symbol:
   description: Wall decay rate, if modelled
   quantity_kind: rate_per_time
   needed_by_phase: 6
   required_when: sq.wall_decay_enabled == true
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: 0.0159
+  unit: 1/year
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#sq.wall_decay
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
 - id: sq.wall_decay_enabled
-  symbol: null
+  symbol:
   description: Whether wall decay is modelled
   quantity_kind: boolean
   needed_by_phase: 6
   required_when: sq.enabled == true
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: true
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#sq.wall_decay_enabled
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
 - id: sq.storage_temperature_mode
-  symbol: null
+  symbol:
   description: Source of storage water temperature
   quantity_kind: categorical
   needed_by_phase: 6
@@ -245,123 +256,129 @@ parameters:
   allowed_values:
   - timeseries
   - constant_value
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: constant_value
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#sq.storage_temperature_mode
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
 - id: sq.storage_temperature_constant
-  symbol: null
+  symbol:
   description: Constant storage temperature
   quantity_kind: temperature
   needed_by_phase: 6
   required_when: sq.storage_temperature_mode == constant_value
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: 294.082
+  unit: K
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#sq.storage_temperature_constant
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
 - id: sq.initial_concentration
-  symbol: null
+  symbol:
   description: Initial disinfectant concentration in storage
   quantity_kind: concentration
   needed_by_phase: 6
   required_when: sq.enabled == true
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: 1.624
+  unit: mg/L
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#sq.initial_concentration
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
 - id: sq.treated_storage_enabled
-  symbol: null
+  symbol:
   description: Model storage of treated water downstream of the unit
   quantity_kind: boolean
   needed_by_phase: 6
   required_when: always
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: true
+  unit:
+  source_type: literature
+  source_ref: ../../AquaSolar_TRNSYS_Master_Direction.md#3.2
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: Value transcribed from the cited AquaSolar design basis. Check 
+    interpretation and model-equation compatibility.
 - id: sq.treated_storage_volume
-  symbol: null
+  symbol:
   description: Treated-water storage volume
   quantity_kind: volume
   needed_by_phase: 6
   required_when: sq.treated_storage_enabled == true
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: 30.0
+  unit: L
+  source_type: literature
+  source_ref: ../../AquaSolar_TRNSYS_Master_Direction.md#3.2
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: Value transcribed from the cited AquaSolar design basis. Check 
+    interpretation and model-equation compatibility.
 - id: sq.treated_decay_note
-  symbol: null
+  symbol:
   description: Which decay settings apply to treated water (text)
   quantity_kind: text
   needed_by_phase: 6
   required_when: sq.treated_storage_enabled == true
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: uses the storage decay assumptions in this demo preset
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#sq.treated_decay_note
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.

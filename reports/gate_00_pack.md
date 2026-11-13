@@ -9,7 +9,7 @@ Run ID: gate-00
 
 Phase 0 established the project structure, foundational modules, and validation infrastructure for the AquaSolar Living simulator. The following was implemented:
 
-- **Repository layout** per Section 4 of AGENT_INSTRUCTIONS.md
+- **Repository layout** established for the initial project structure
 - **Git initialization** with staging of all project files
 - **Core modules**: registry, units, io, integration
 - **CLI skeleton** with check-inputs command
@@ -26,7 +26,7 @@ No parameters were loaded at this phase (all inputs are still blank templates). 
 
 ## 3. Equation Register Changes
 
-Equation register created with all candidate equations from Section 6 of AGENT_INSTRUCTIONS.md, all marked as `proposed`.
+Equation register created with candidate equations recorded in `docs/equation_register.md`, all marked as `proposed`.
 
 ---
 

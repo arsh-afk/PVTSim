@@ -19,8 +19,11 @@ dependencies = [
     "pydantic>=2.0",
     "scipy>=1.9.2",
     "matplotlib>=3.5",
+    "fastapi>=0.110",
+    "uvicorn>=0.27",
     "pytest>=7.0",
     "hypothesis>=6.0",
+    "ruamel.yaml>=0.18",
 ]
 
 [project.optional-dependencies]
@@ -39,6 +42,9 @@ aquasolar = "aquasolar.cli:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]
+
+[tool.setuptools.package-data]
+aquasolar = ["static/*"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

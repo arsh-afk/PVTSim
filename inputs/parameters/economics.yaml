@@ -20,364 +20,382 @@ source_type_options:
 - assumption
 parameters:
 - id: econ.currency
-  symbol: null
+  symbol:
   description: Currency code
   quantity_kind: text
   needed_by_phase: 9
   required_when: always
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: AED
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#econ.currency
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
 - id: econ.horizon
-  symbol: null
+  symbol:
   description: Analysis horizon
   quantity_kind: time
   needed_by_phase: 9
   required_when: always
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: 20.0
+  unit: year
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#econ.horizon
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
 - id: econ.discount_rate
   symbol: r
   description: Discount rate per year
   quantity_kind: rate_per_time
   needed_by_phase: 9
   required_when: always
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: 0.0279
+  unit: 1/year
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#econ.discount_rate
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
 - id: econ.escalation_electricity
-  symbol: null
+  symbol:
   description: Electricity price escalation per year
   quantity_kind: rate_per_time
   needed_by_phase: 9
   required_when: always
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: 0.0269
+  unit: 1/year
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#econ.escalation_electricity
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
 - id: econ.escalation_water
-  symbol: null
+  symbol:
   description: Water and bottled-water price escalation per year
   quantity_kind: rate_per_time
   needed_by_phase: 9
   required_when: always
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: 0.0429
+  unit: 1/year
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#econ.escalation_water
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
 - id: econ.escalation_other
-  symbol: null
+  symbol:
   description: Escalation for other costs per year
   quantity_kind: rate_per_time
   needed_by_phase: 9
   required_when: always
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: 0.0875
+  unit: 1/year
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#econ.escalation_other
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
 - id: econ.capex_pvt
-  symbol: null
+  symbol:
   description: Capital cost of the PVT system as used for this villa
   quantity_kind: currency
   needed_by_phase: 9
   required_when: always
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: 1232.64
+  unit: AED
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#econ.capex_pvt
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
 - id: econ.capex_tank
-  symbol: null
+  symbol:
   description: Capital cost of the tank and loop
   quantity_kind: currency
   needed_by_phase: 9
   required_when: always
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: 2553.78
+  unit: AED
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#econ.capex_tank
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
 - id: econ.capex_treatment
-  symbol: null
-  description: Capital cost of the treatment unit per pathway (see table pathway_costs)
+  symbol:
+  description: Capital cost of the treatment unit per pathway (see table 
+    pathway_costs)
   quantity_kind: currency
   needed_by_phase: 9
   required_when: always
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: 1350.45
+  unit: AED
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#econ.capex_treatment
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
 - id: econ.capex_monitoring
-  symbol: null
+  symbol:
   description: Capital cost of sensors, controller and data platform
   quantity_kind: currency
   needed_by_phase: 9
   required_when: always
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: 4607.54
+  unit: AED
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#econ.capex_monitoring
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
 - id: econ.installation
-  symbol: null
+  symbol:
   description: Installation cost
   quantity_kind: currency
   needed_by_phase: 9
   required_when: always
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: 2967.31
+  unit: AED
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#econ.installation
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
 - id: econ.annual_maintenance
-  symbol: null
+  symbol:
   description: Annual maintenance cost
   quantity_kind: currency_per_time
   needed_by_phase: 9
   required_when: always
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: 90.57
+  unit: AED/month
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#econ.annual_maintenance
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
 - id: econ.monitoring_service_cost
-  symbol: null
+  symbol:
   description: Annual cost of the monitoring service
   quantity_kind: currency_per_time
   needed_by_phase: 9
   required_when: always
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: 14.931
+  unit: AED/month
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#econ.monitoring_service_cost
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
 - id: econ.pvt_degradation
-  symbol: null
+  symbol:
   description: Annual electrical degradation rate
   quantity_kind: rate_per_time
   needed_by_phase: 9
   required_when: always
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: 0.0252
+  unit: 1/year
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#econ.pvt_degradation
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
 - id: econ.pvt_lifetime
-  symbol: null
+  symbol:
   description: Service life of the PVT system
   quantity_kind: time
   needed_by_phase: 9
   required_when: always
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: 25.0
+  unit: year
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#econ.pvt_lifetime
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
 - id: econ.tank_lifetime
-  symbol: null
+  symbol:
   description: Service life of the tank
   quantity_kind: time
   needed_by_phase: 9
   required_when: always
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: 15.0
+  unit: year
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#econ.tank_lifetime
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
 - id: econ.residual_value
-  symbol: null
+  symbol:
   description: Residual value at the end of the horizon
   quantity_kind: currency
   needed_by_phase: 9
   required_when: always
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: 2254.64
+  unit: AED
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#econ.residual_value
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
 - id: econ.electricity_value_basis
-  symbol: null
+  symbol:
   description: How PV electricity is valued
   quantity_kind: categorical
   needed_by_phase: 9
@@ -386,23 +404,24 @@ parameters:
   - avoided_import_tariff
   - export_tariff_for_surplus
   - user_table
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: avoided_import_tariff
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#econ.electricity_value_basis
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
 - id: econ.displaced_heat_source
-  symbol: null
+  symbol:
   description: What the stored heat displaces
   quantity_kind: categorical
   needed_by_phase: 9
@@ -411,249 +430,263 @@ parameters:
   - electric_resistance
   - gas
   - other_described_in_notes
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: electric_resistance
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#econ.displaced_heat_source
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
 - id: econ.displaced_heater_efficiency
-  symbol: null
+  symbol:
   description: Efficiency of the displaced water heater
   quantity_kind: fraction
   needed_by_phase: 9
   required_when: always
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: 0.5604
+  unit: '1'
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#econ.displaced_heater_efficiency
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
 - id: econ.displaced_fuel_price
-  symbol: null
+  symbol:
   description: Price of the displaced energy per energy unit
   quantity_kind: currency_per_energy
   needed_by_phase: 9
   required_when: always
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: 0.105
+  unit: AED/kWh
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#econ.displaced_fuel_price
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
 - id: econ.bottled_price
-  symbol: null
+  symbol:
   description: Price of bottled drinking water per volume
   quantity_kind: currency_per_volume
   needed_by_phase: 9
   required_when: always
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: 0.006
+  unit: AED/L
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#econ.bottled_price
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
 - id: econ.bottled_replaced_fraction
-  symbol: null
-  description: Fraction of the drinking-water demand that bottled water currently supplies
+  symbol:
+  description: Fraction of the drinking-water demand that bottled water 
+    currently supplies
   quantity_kind: fraction
   needed_by_phase: 9
   required_when: always
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: 0.3708
+  unit: '1'
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#econ.bottled_replaced_fraction
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
 - id: econ.municipal_water_price
-  symbol: null
+  symbol:
   description: Municipal water price per volume
   quantity_kind: currency_per_volume
   needed_by_phase: 9
   required_when: always
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: 0.011
+  unit: AED/L
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#econ.municipal_water_price
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
 - id: econ.reject_disposal_price
-  symbol: null
+  symbol:
   description: Cost per volume of reject water, if any
   quantity_kind: currency_per_volume
   needed_by_phase: 9
   required_when: always
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: 0.046
+  unit: AED/L
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#econ.reject_disposal_price
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
 - id: econ.baseline_ro_capex
-  symbol: null
+  symbol:
   description: Capital cost of the conventional full-RO comparator
   quantity_kind: currency
   needed_by_phase: 9
   required_when: always
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: 1530.1
+  unit: AED
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#econ.baseline_ro_capex
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
 - id: econ.baseline_ro_power
-  symbol: null
-  description: Electrical power or energy per volume of the comparator (basis in notes)
+  symbol:
+  description: Electrical power or energy per volume of the comparator (basis in
+    notes)
   quantity_kind: text
   needed_by_phase: 9
   required_when: always
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: 100 W demo comparator; verify rated basis
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#econ.baseline_ro_power
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
 - id: econ.baseline_ro_recovery
-  symbol: null
+  symbol:
   description: Water recovery of the comparator
   quantity_kind: fraction
   needed_by_phase: 9
   required_when: always
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: 0.9403
+  unit: '1'
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#econ.baseline_ro_recovery
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
 - id: econ.baseline_ro_consumable_cost
-  symbol: null
+  symbol:
   description: Annual consumable cost of the comparator
   quantity_kind: currency_per_time
   needed_by_phase: 9
   required_when: always
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: 17.877
+  unit: AED/month
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#econ.baseline_ro_consumable_cost
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
 - id: econ.baseline_ro_lifetime
-  symbol: null
+  symbol:
   description: Service life of the comparator
   quantity_kind: time
   needed_by_phase: 9
   required_when: always
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: 5.0
+  unit: year
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#econ.baseline_ro_lifetime
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.

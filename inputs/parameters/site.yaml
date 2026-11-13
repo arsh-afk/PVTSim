@@ -25,128 +25,133 @@ parameters:
   quantity_kind: angle
   needed_by_phase: 3
   required_when: always
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: 25.79
+  unit: deg
+  source_type: literature
+  source_ref: ../../AquaSolar_TRNSYS_Master_Direction.md#3.2
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: Value transcribed from the cited AquaSolar design basis. Check 
+    interpretation and model-equation compatibility.
 - id: site.longitude
   symbol: lon
   description: Site longitude, decimal degrees, east positive
   quantity_kind: angle
   needed_by_phase: 3
   required_when: always
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: 55.94
+  unit: deg
+  source_type: literature
+  source_ref: ../../AquaSolar_TRNSYS_Master_Direction.md#3.2
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: Value transcribed from the cited AquaSolar design basis. Check 
+    interpretation and model-equation compatibility.
 - id: site.elevation
   symbol: z
   description: Site elevation above sea level
   quantity_kind: length
   needed_by_phase: 3
   required_when: always
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: 31.1
+  unit: m
+  source_type: literature
+  source_ref: ../../ARE_RK_Khaimah.Intl.AP.411840_TMYx.epw#LOCATION
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: Elevation copied from the EPW LOCATION header; confirm it represents the modeled site.
 - id: site.timezone
-  symbol: null
+  symbol:
   description: IANA time zone name of the site
   quantity_kind: text
   needed_by_phase: 1
   required_when: always
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: Asia/Dubai
+  unit:
+  source_type: literature
+  source_ref: ../../AquaSolar_TRNSYS_Master_Direction.md#3.2
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: Value transcribed from the cited AquaSolar design basis. Check 
+    interpretation and model-equation compatibility.
 - id: site.collector_tilt
   symbol: tilt
   description: Collector tilt from horizontal
   quantity_kind: angle
   needed_by_phase: 3
   required_when: always
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: 25.0
+  unit: deg
+  source_type: literature
+  source_ref: ../../AquaSolar_TRNSYS_Master_Direction.md#3.2
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: Value transcribed from the cited AquaSolar design basis. Check 
+    interpretation and model-equation compatibility.
 - id: site.collector_azimuth
   symbol: az
   description: Collector azimuth, convention stated in notes
   quantity_kind: angle
   needed_by_phase: 3
   required_when: always
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: 0.0
+  unit: deg
+  source_type: literature
+  source_ref: ../../AquaSolar_TRNSYS_Master_Direction.md#3.2
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: Value transcribed from the cited AquaSolar design basis. Check 
+    interpretation and model-equation compatibility.
 - id: site.azimuth_convention
-  symbol: null
+  symbol:
   description: Azimuth convention used for the value above
   quantity_kind: categorical
   needed_by_phase: 3
@@ -155,65 +160,68 @@ parameters:
   - south_zero_east_negative
   - north_zero_clockwise
   - other_described_in_notes
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: south_zero_east_negative
+  unit:
+  source_type: literature
+  source_ref: ../../AquaSolar_TRNSYS_Master_Direction.md#3.2
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: Value transcribed from the cited AquaSolar design basis. Check 
+    interpretation and model-equation compatibility.
 - id: site.ground_albedo
   symbol: rho_g
   description: Ground reflectance for transposition
   quantity_kind: fraction
   needed_by_phase: 3
   required_when: always
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: 0.2
+  unit: '1'
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#site.ground_albedo
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
 - id: site.shading_loss_factor
   symbol: phi_shade
   description: Fractional irradiance loss from fixed shading
   quantity_kind: fraction
   needed_by_phase: 3
   required_when: always
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: 0.0
+  unit: '1'
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#site.shading_loss_factor
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
 - id: soiling.mode
-  symbol: null
+  symbol:
   description: How soiling is supplied
   quantity_kind: categorical
   needed_by_phase: 3
@@ -222,81 +230,86 @@ parameters:
   - none
   - timeseries
   - linear_rate_with_cleaning
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: none
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#soiling.mode
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
 - id: soiling.loss_rate
-  symbol: null
+  symbol:
   description: Fractional loss accumulated per unit time between cleanings
   quantity_kind: rate_per_time
   needed_by_phase: 3
   required_when: soiling.mode == linear_rate_with_cleaning
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: 0.0706
+  unit: 1/year
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#soiling.loss_rate
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
 - id: soiling.max_loss
-  symbol: null
+  symbol:
   description: Upper bound on fractional soiling loss
   quantity_kind: fraction
   needed_by_phase: 3
   required_when: soiling.mode == linear_rate_with_cleaning
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: 0.4914
+  unit: '1'
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#soiling.max_loss
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
 - id: soiling.clean_recovery
-  symbol: null
-  description: Fraction of accumulated soiling removed by a cleaning or rain event
+  symbol:
+  description: Fraction of accumulated soiling removed by a cleaning or rain 
+    event
   quantity_kind: fraction
   needed_by_phase: 3
   required_when: soiling.mode == linear_rate_with_cleaning
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: 0.3599
+  unit: '1'
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#soiling.clean_recovery
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.

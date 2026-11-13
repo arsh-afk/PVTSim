@@ -20,191 +20,203 @@ source_type_options:
 - assumption
 parameters:
 - id: ver.energy_balance_tol_abs
-  symbol: null
+  symbol:
   description: Absolute energy balance residual tolerance per step
   quantity_kind: energy
   needed_by_phase: 3
   required_when: always
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: 3184.578
+  unit: J
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#ver.energy_balance_tol_abs
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
 - id: ver.energy_balance_tol_rel
-  symbol: null
+  symbol:
   description: Relative energy balance residual tolerance (basis in notes)
   quantity_kind: fraction
   needed_by_phase: 3
   required_when: always
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: 0.8834
+  unit: '1'
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#ver.energy_balance_tol_rel
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
 - id: ver.mass_balance_tol_rel
-  symbol: null
+  symbol:
   description: Relative mass and solute balance tolerance
   quantity_kind: fraction
   needed_by_phase: 6
   required_when: always
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: 0.8539
+  unit: '1'
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#ver.mass_balance_tol_rel
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
 - id: ver.analytical_test_tol_rel
-  symbol: null
+  symbol:
   description: Relative tolerance for analytical benchmark tests
   quantity_kind: fraction
   needed_by_phase: 3
   required_when: always
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: 0.6427
+  unit: '1'
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#ver.analytical_test_tol_rel
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
 - id: ver.timestep_convergence_tol
-  symbol: null
-  description: Largest acceptable change in a headline metric on halving the step
+  symbol:
+  description: Largest acceptable change in a headline metric on halving the 
+    step
   quantity_kind: fraction
   needed_by_phase: 8
   required_when: always
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: 0.5069
+  unit: '1'
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#ver.timestep_convergence_tol
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
 - id: ver.nodecount_convergence_tol
-  symbol: null
-  description: Largest acceptable change in a headline metric on doubling node count
+  symbol:
+  description: Largest acceptable change in a headline metric on doubling node 
+    count
   quantity_kind: fraction
   needed_by_phase: 4
   required_when: always
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: 0.1661
+  unit: '1'
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#ver.nodecount_convergence_tol
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
 - id: ver.calibration_period
-  symbol: null
+  symbol:
   description: 'Date range used for calibration (text: start and end timestamps)'
   quantity_kind: text
   needed_by_phase: 3
   required_when: always
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: not calibrated; exploratory demonstration only
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#ver.calibration_period
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
 - id: ver.validation_period
-  symbol: null
+  symbol:
   description: 'Date range held out for validation (text: start and end timestamps)'
   quantity_kind: text
   needed_by_phase: 3
   required_when: always
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: not validated; exploratory demonstration only
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#ver.validation_period
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
 - id: ver.calibration_parameter_list
-  symbol: null
-  description: Parameter ids allowed to be calibrated (text list; others stay fixed)
+  symbol:
+  description: Parameter ids allowed to be calibrated (text list; others stay 
+    fixed)
   quantity_kind: text
   needed_by_phase: 3
   required_when: always
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: none; do not calibrate demo defaults
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#ver.calibration_parameter_list
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.

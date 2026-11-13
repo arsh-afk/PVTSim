@@ -3,9 +3,9 @@
 This register tracks all assumptions made during the simulation development.
 Each entry includes an ID, the assumption statement, why it's needed, who approved it, and the date.
 
-| ID | Statement | Why Needed | Approved By | Date |
-|---|---|---|---|---|
-| | | | | |
+| ID  | Statement | Why Needed | Approved By | Date |
+| --- | --------- | ---------- | ----------- | ---- |
+|     |           |            |             |      |
 
 ---
 

@@ -1,0 +1,582 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>AquaSolar Simulation Architecture</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+  <style>
+    :root {
+      --bg:          #f5f7fa;
+      --surface:     #ffffff;
+      --fg:          #1a1a2e;
+      --fg-muted:    #555577;
+      --border:      #dde3ee;
+      --accent:      #3b6fd4;
+      --accent-soft: #e8eeff;
+      --radius:      .6rem;
+      --shadow:      0 2px 8px rgba(0,0,0,.07);
+      color-scheme:  light;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) {
+        --bg:          #0f1117;
+        --surface:     #1a1d27;
+        --fg:          #e8eaf6;
+        --fg-muted:    #8892b0;
+        --border:      #2a2f44;
+        --accent:      #5b8dee;
+        --accent-soft: #1a2040;
+        --shadow:      0 2px 8px rgba(0,0,0,.3);
+        color-scheme:  dark;
+      }
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    body {
+      background: var(--bg);
+      color: var(--fg);
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      line-height: 1.6;
+      margin: 0;
+      padding: 1.5rem 1rem 3rem;
+    }
+    h1  { font-size: 1.75rem; font-weight: 700; margin: 0 0 .5rem; }
+    h2  { font-size: 1.1rem;  font-weight: 600; margin: 1.5rem 0 .5rem; }
+    p   { margin: .25rem 0 .75rem; color: var(--fg-muted); font-size: .875rem; }
+    a   { color: var(--accent); }
+    .container { max-width: 1100px; margin: 0 auto; }
+
+    /* Header card */
+    .header-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem 1.5rem 1rem;
+      margin-bottom: 1.25rem;
+      box-shadow: var(--shadow);
+    }
+
+    /* Legend */
+    .legend { display: flex; flex-wrap: wrap; gap: .4rem .75rem; margin: .75rem 0 0; }
+    .legend-item { display: flex; align-items: center; gap: .35rem; font-size: .75rem; color: var(--fg-muted); }
+    .legend-dot  { width: .55rem; height: .55rem; border-radius: 50%; flex-shrink: 0; }
+
+    /* Module colours */
+    .mod-pvt             { --mc: #e53e3e; }
+    .mod-weather         { --mc: #c17d11; }
+    .mod-electrical      { --mc: #3182ce; }
+    .mod-solar_loop      { --mc: #718096; }
+    .mod-tank            { --mc: #38a169; }
+    .mod-water_treatment { --mc: #9f6acc; }
+    .mod-economics       { --mc: #d97706; }
+    .mod-uncertainty     { --mc: #4299e1; }
+    .mod-io              { --mc: #dd6b20; }
+    .mod-registry        { --mc: #7952b3; }
+    .mod-integration     { --mc: #319795; }
+    .mod-entry           { --mc: #588156; }
+    .mod-tests           { --mc: #b7791f; }
+    .mod-docs            { --mc: #5a7fa8; }
+    .legend-dot { background: var(--mc, #888); }
+
+    /* Tree */
+    .tree-root { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; }
+    details { border-bottom: 1px solid var(--border); }
+    details:last-child { border-bottom: none; }
+    details[open] > summary { background: var(--accent-soft); }
+    summary {
+      list-style: none;
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+      padding: .6rem 1rem;
+      cursor: pointer;
+      font-weight: 500;
+      font-size: .875rem;
+      user-select: none;
+      transition: background .15s;
+    }
+    summary::-webkit-details-marker { display: none; }
+    summary:hover { background: var(--accent-soft); }
+    summary::before { content: "▶"; font-size: .6rem; color: var(--fg-muted); transition: transform .2s; flex-shrink: 0; }
+    details[open] > summary::before { transform: rotate(90deg); }
+    summary .node-name { color: var(--mc, var(--fg)); font-weight: 600; }
+    summary .node-meta { color: var(--fg-muted); font-weight: 400; font-size: .8rem; }
+
+    .tree-level-1 > summary { font-size: .9rem; padding: .75rem 1rem; }
+    .tree-level-2 { margin-left: 1.5rem; border-left: 2px solid var(--border); }
+    .tree-level-2 > summary { padding-left: 1rem; }
+
+    /* Leaf list */
+    .leaf-list { margin: 0; padding: 0; list-style: none; margin-left: 3rem; border-left: 2px solid var(--border); }
+    .leaf-list li { display: flex; align-items: center; gap: .5rem; padding: .35rem 1rem; font-size: .8rem; border-bottom: 1px solid var(--border); color: var(--fg-muted); }
+    .leaf-list li:last-child { border-bottom: none; }
+    .leaf-list li::before { content: "–"; color: var(--border); flex-shrink: 0; }
+    .leaf-name { color: var(--fg); font-weight: 500; font-family: 'Courier New', monospace; font-size: .78rem; }
+    .leaf-note { color: var(--fg-muted); font-size: .75rem; }
+    code { background: rgba(0,0,0,.06); padding: .05rem .25rem; border-radius: .2rem; font-size: .75rem; font-family: 'Courier New', monospace; }
+    .footer-note { margin-top: 1rem; font-size: .8rem; color: var(--fg-muted); padding: .75rem 1rem; border-top: 1px solid var(--border); }
+    @media (max-width: 600px) { body { padding: .75rem .5rem 2rem; } h1 { font-size: 1.35rem; } }
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <div class="header-card">
+    <h1>AquaSolar Project &#8212; Architecture Tree</h1>
+    <p>Interactive breakdown of the entire AquaSolar codebase. Click any module or file to expand / collapse.</p>
+    <div class="legend">
+      <div class="legend-item mod-pvt">            <span class="legend-dot"></span> PVT Solver</div>
+      <div class="legend-item mod-weather">        <span class="legend-dot"></span> Weather &amp; Irradiance</div>
+      <div class="legend-item mod-electrical">     <span class="legend-dot"></span> Electrical Balance</div>
+      <div class="legend-item mod-solar_loop">     <span class="legend-dot"></span> Solar Loop &amp; Pump</div>
+      <div class="legend-item mod-tank">           <span class="legend-dot"></span> Tank Storage</div>
+      <div class="legend-item mod-water_treatment"><span class="legend-dot"></span> Water Treatment</div>
+      <div class="legend-item mod-economics">      <span class="legend-dot"></span> Economics</div>
+      <div class="legend-item mod-uncertainty">    <span class="legend-dot"></span> Uncertainty</div>
+      <div class="legend-item mod-io">             <span class="legend-dot"></span> IO Helpers</div>
+      <div class="legend-item mod-registry">       <span class="legend-dot"></span> Registry</div>
+      <div class="legend-item mod-integration">    <span class="legend-dot"></span> Integration</div>
+      <div class="legend-item mod-entry">          <span class="legend-dot"></span> Entry Points</div>
+      <div class="legend-item mod-tests">          <span class="legend-dot"></span> Tests</div>
+      <div class="legend-item mod-docs">           <span class="legend-dot"></span> Docs / Inputs</div>
+    </div>
+  </div>
+
+  <div class="tree-root">
+
+    <!-- PVT Solver -->
+    <details class="tree-level-1 mod-pvt" open>
+      <summary><span class="node-name">PVT Solver</span><span class="node-meta">&nbsp;&#8212; 5 files</span></summary>
+      <details class="tree-level-2 mod-pvt">
+        <summary><span class="node-name">collector.py</span></summary>
+        <ul class="leaf-list"><li><span class="leaf-name">PVTCollector</span><span class="leaf-note">dataclass</span></li></ul>
+      </details>
+      <details class="tree-level-2 mod-pvt">
+        <summary><span class="node-name">electrical.py</span><span class="node-meta">&nbsp;76 lines</span></summary>
+        <ul class="leaf-list">
+          <li><span class="leaf-name">electrical_output()</span><span class="leaf-note">EQ-PVT-01</span></li>
+          <li><span class="leaf-name">electrical_output_series()</span></li>
+        </ul>
+      </details>
+      <details class="tree-level-2 mod-pvt">
+        <summary><span class="node-name">thermal.py</span><span class="node-meta">&nbsp;88 lines</span></summary>
+        <ul class="leaf-list">
+          <li><span class="leaf-name">useful_heat()</span><span class="leaf-note">EQ-PVT-02</span></li>
+          <li><span class="leaf-name">useful_heat_no_flow()</span><span class="leaf-note">stagnation</span></li>
+        </ul>
+      </details>
+      <details class="tree-level-2 mod-pvt">
+        <summary><span class="node-name">pv_only.py</span><span class="node-meta">&nbsp;70 lines</span></summary>
+        <ul class="leaf-list"><li><span class="leaf-name">pv_only_reference()</span></li></ul>
+      </details>
+      <details class="tree-level-2 mod-pvt">
+        <summary><span class="node-name">coupled.py</span><span class="node-meta">&nbsp;177 lines</span></summary>
+        <ul class="leaf-list">
+          <li><span class="leaf-name">coupled_solve()</span><span class="leaf-note">Brent solver</span></li>
+          <li><span class="leaf-name">OutsideValidityRange</span></li>
+          <li><span class="leaf-name">PVTCoupledResult</span><span class="leaf-note">dataclass</span></li>
+        </ul>
+      </details>
+    </details>
+
+    <!-- Weather & Irradiance -->
+    <details class="tree-level-1 mod-weather">
+      <summary><span class="node-name">Weather &amp; Irradiance</span><span class="node-meta">&nbsp;&#8212; 4 files</span></summary>
+      <details class="tree-level-2 mod-weather">
+        <summary><span class="node-name">iam.py</span><span class="node-meta">&nbsp;99 lines</span></summary>
+        <ul class="leaf-list">
+          <li><span class="leaf-name">iam_klucher()</span></li>
+          <li><span class="leaf-name">iam_preiss()</span></li>
+          <li><span class="leaf-name">calculate_iam()</span></li>
+        </ul>
+      </details>
+      <details class="tree-level-2 mod-weather">
+        <summary><span class="node-name">soiling.py</span><span class="node-meta">&nbsp;55 lines</span></summary>
+        <ul class="leaf-list">
+          <li><span class="leaf-name">soiling_factor()</span></li>
+          <li><span class="leaf-name">soiling_factor_series()</span></li>
+        </ul>
+      </details>
+      <details class="tree-level-2 mod-weather">
+        <summary><span class="node-name">solar_geometry.py</span><span class="node-meta">&nbsp;100 lines</span></summary>
+        <ul class="leaf-list">
+          <li><span class="leaf-name">solar_position()</span></li>
+          <li><span class="leaf-name">calculate_incident_angle()</span></li>
+        </ul>
+      </details>
+      <details class="tree-level-2 mod-weather">
+        <summary><span class="node-name">transposition.py</span><span class="node-meta">&nbsp;79 lines</span></summary>
+        <ul class="leaf-list"><li><span class="leaf-name">get_poa_irradiance()</span></li></ul>
+      </details>
+    </details>
+
+    <!-- Electrical Balance -->
+    <details class="tree-level-1 mod-electrical">
+      <summary><span class="node-name">Electrical Balance</span><span class="node-meta">&nbsp;&#8212; 1 file</span></summary>
+      <details class="tree-level-2 mod-electrical">
+        <summary><span class="node-name">balance.py</span><span class="node-meta">&nbsp;188 lines</span></summary>
+        <ul class="leaf-list">
+          <li><span class="leaf-name">electrical_balance()</span></li>
+          <li><span class="leaf-name">electrical_balance_series()</span></li>
+          <li><span class="leaf-name">battery_dispatch()</span></li>
+        </ul>
+      </details>
+    </details>
+
+    <!-- Solar Loop & Pump -->
+    <details class="tree-level-1 mod-solar_loop">
+      <summary><span class="node-name">Solar Loop &amp; Pump</span><span class="node-meta">&nbsp;&#8212; 3 files</span></summary>
+      <details class="tree-level-2 mod-solar_loop">
+        <summary><span class="node-name">controller.py</span><span class="node-meta">&nbsp;119 lines</span></summary>
+        <ul class="leaf-list">
+          <li><span class="leaf-name">differential_controller()</span></li>
+          <li><span class="leaf-name">solar_controller()</span></li>
+          <li><span class="leaf-name">controller_series()</span></li>
+        </ul>
+      </details>
+      <details class="tree-level-2 mod-solar_loop">
+        <summary><span class="node-name">pipes.py</span><span class="node-meta">&nbsp;185 lines</span></summary>
+        <ul class="leaf-list">
+          <li><span class="leaf-name">pipe_heat_loss()</span><span class="leaf-note">NTU</span></li>
+          <li><span class="leaf-name">pipe_pressure_drop()</span><span class="leaf-note">Darcy-Weisbach</span></li>
+          <li><span class="leaf-name">collector_loop_thermal()</span></li>
+        </ul>
+      </details>
+      <details class="tree-level-2 mod-solar_loop">
+        <summary><span class="node-name">pump.py</span><span class="node-meta">&nbsp;145 lines</span></summary>
+        <ul class="leaf-list">
+          <li><span class="leaf-name">pump_flow_rate()</span></li>
+          <li><span class="leaf-name">pump_power()</span></li>
+          <li><span class="leaf-name">pump_ledger()</span></li>
+        </ul>
+      </details>
+    </details>
+
+    <!-- Stratified Tank Storage -->
+    <details class="tree-level-1 mod-tank">
+      <summary><span class="node-name">Stratified Tank Storage</span><span class="node-meta">&nbsp;&#8212; 5 files</span></summary>
+      <details class="tree-level-2 mod-tank">
+        <summary><span class="node-name">grid.py</span><span class="node-meta">&nbsp;107 lines</span></summary>
+        <ul class="leaf-list">
+          <li><span class="leaf-name">TankGrid</span><span class="leaf-note">class</span></li>
+          <li><span class="leaf-name">create_tank_grid()</span></li>
+        </ul>
+      </details>
+      <details class="tree-level-2 mod-tank">
+        <summary><span class="node-name">mixing.py</span><span class="node-meta">&nbsp;165 lines</span></summary>
+        <ul class="leaf-list">
+          <li><span class="leaf-name">ideal_mixing()</span></li>
+          <li><span class="leaf-name">stratified_mixing()</span></li>
+          <li><span class="leaf-name">apply_mixing_model()</span></li>
+        </ul>
+      </details>
+      <details class="tree-level-2 mod-tank">
+        <summary><span class="node-name">auxiliary_heating.py</span><span class="node-meta">&nbsp;82 lines</span></summary>
+        <ul class="leaf-list"><li><span class="leaf-name">aux_heating()</span></li></ul>
+      </details>
+      <details class="tree-level-2 mod-tank">
+        <summary><span class="node-name">draw.py</span><span class="node-meta">&nbsp;183 lines</span></summary>
+        <ul class="leaf-list"><li><span class="leaf-name">draw_from_tank()</span></li></ul>
+      </details>
+      <details class="tree-level-2 mod-tank">
+        <summary><span class="node-name">step.py</span><span class="node-meta">&nbsp;185 lines</span></summary>
+        <ul class="leaf-list"><li><span class="leaf-name">tank_step()</span></li></ul>
+      </details>
+    </details>
+
+    <!-- Water Treatment -->
+    <details class="tree-level-1 mod-water_treatment">
+      <summary><span class="node-name">Water Treatment</span><span class="node-meta">&nbsp;&#8212; 2 files</span></summary>
+      <details class="tree-level-2 mod-water_treatment">
+        <summary><span class="node-name">stages.py</span><span class="node-meta">&nbsp;247 lines</span></summary>
+        <ul class="leaf-list">
+          <li><span class="leaf-name">sediment_filter()</span></li>
+          <li><span class="leaf-name">carbon_filter()</span></li>
+          <li><span class="leaf-name">uv_disinfection()</span></li>
+          <li><span class="leaf-name">ultrafiltration()</span></li>
+          <li><span class="leaf-name">nanofiltration()</span></li>
+          <li><span class="leaf-name">remineralization()</span></li>
+        </ul>
+      </details>
+      <details class="tree-level-2 mod-water_treatment">
+        <summary><span class="node-name">train.py</span><span class="node-meta">&nbsp;156 lines</span></summary>
+        <ul class="leaf-list">
+          <li><span class="leaf-name">pathway_a()</span><span class="leaf-note">sediment &#8594; carbon &#8594; UV</span></li>
+          <li><span class="leaf-name">pathway_b()</span><span class="leaf-note">&#8230; &#8594; ultrafiltration &#8594; UV</span></li>
+          <li><span class="leaf-name">pathway_c()</span><span class="leaf-note">NF &#8594; remineralization &#8594; UV</span></li>
+          <li><span class="leaf-name">run_treatment_train()</span></li>
+          <li><span class="leaf-name">treatment_train_series()</span></li>
+        </ul>
+      </details>
+    </details>
+
+    <!-- Economics & LCOE -->
+    <details class="tree-level-1 mod-economics">
+      <summary><span class="node-name">Economics &amp; LCOE</span><span class="node-meta">&nbsp;&#8212; 1 file</span></summary>
+      <details class="tree-level-2 mod-economics">
+        <summary><span class="node-name">lcoe.py</span><span class="node-meta">&nbsp;229 lines</span></summary>
+        <ul class="leaf-list">
+          <li><span class="leaf-name">levelized_cost()</span><span class="leaf-note">CRF formula</span></li>
+          <li><span class="leaf-name">simple_payback()</span></li>
+          <li><span class="leaf-name">discounted_payback()</span></li>
+          <li><span class="leaf-name">npv()</span></li>
+          <li><span class="leaf-name">lifecycle_cost()</span></li>
+          <li><span class="leaf-name">bottled_water_comparison()</span></li>
+        </ul>
+      </details>
+    </details>
+
+    <!-- Uncertainty -->
+    <details class="tree-level-1 mod-uncertainty">
+      <summary><span class="node-name">Uncertainty Quantification</span><span class="node-meta">&nbsp;&#8212; 2 files</span></summary>
+      <details class="tree-level-2 mod-uncertainty">
+        <summary><span class="node-name">monte_carlo.py</span></summary>
+        <ul class="leaf-list">
+          <li><span class="leaf-name">monte_carlo_run()</span></li>
+          <li><span class="leaf-name">latin_hypercube_sample()</span></li>
+          <li><span class="leaf-name">_compute_statistics()</span></li>
+        </ul>
+      </details>
+      <details class="tree-level-2 mod-uncertainty">
+        <summary><span class="node-name">sobol.py</span></summary>
+        <ul class="leaf-list">
+          <li><span class="leaf-name">compute_sobol_indices()</span></li>
+          <li><span class="leaf-name">morris_screening()</span></li>
+          <li><span class="leaf-name">fast_sobol()</span></li>
+        </ul>
+      </details>
+    </details>
+
+    <!-- IO Helpers -->
+    <details class="tree-level-1 mod-io">
+      <summary><span class="node-name">IO Helpers</span><span class="node-meta">&nbsp;&#8212; 6 files</span></summary>
+      <details class="tree-level-2 mod-io">
+        <summary><span class="node-name">tables.py</span></summary>
+        <ul class="leaf-list"><li><span class="leaf-name">load_table()</span></li></ul>
+      </details>
+      <details class="tree-level-2 mod-io">
+        <summary><span class="node-name">timeseries.py</span></summary>
+        <ul class="leaf-list">
+          <li><span class="leaf-name">load_timeseries()</span></li>
+          <li><span class="leaf-name">validate_timeseries()</span></li>
+          <li><span class="leaf-name">_find_gaps()</span></li>
+        </ul>
+      </details>
+      <details class="tree-level-2 mod-io">
+        <summary><span class="node-name">species.py</span></summary>
+        <ul class="leaf-list"><li><span class="leaf-name">validate_species_registry()</span></li></ul>
+      </details>
+      <details class="tree-level-2 mod-io">
+        <summary><span class="node-name">quality_report.py</span></summary>
+        <ul class="leaf-list">
+          <li><span class="leaf-name">write_quality_report()</span></li>
+          <li><span class="leaf-name">generate_all_quality_reports()</span></li>
+        </ul>
+      </details>
+    </details>
+
+    <!-- Registry & Validation -->
+    <details class="tree-level-1 mod-registry">
+      <summary><span class="node-name">Registry &amp; Validation</span><span class="node-meta">&nbsp;&#8212; 6 files</span></summary>
+      <details class="tree-level-2 mod-registry">
+        <summary><span class="node-name">schema.py</span></summary>
+        <ul class="leaf-list">
+          <li><span class="leaf-name">Registry</span><span class="leaf-note">class</span></li>
+          <li><span class="leaf-name">ParameterEntry</span></li>
+          <li><span class="leaf-name">UncertaintySpec</span></li>
+          <li><span class="leaf-name">ValidRange</span></li>
+        </ul>
+      </details>
+      <details class="tree-level-2 mod-registry">
+        <summary><span class="node-name">load.py</span></summary>
+        <ul class="leaf-list"><li><span class="leaf-name">load_registry()</span></li></ul>
+      </details>
+      <details class="tree-level-2 mod-registry">
+        <summary><span class="node-name">conditions.py</span></summary>
+        <ul class="leaf-list"><li><span class="leaf-name">evaluate_required_when()</span></li></ul>
+      </details>
+      <details class="tree-level-2 mod-registry">
+        <summary><span class="node-name">errors.py</span></summary>
+        <ul class="leaf-list">
+          <li><span class="leaf-name">InputError</span></li>
+          <li><span class="leaf-name">MissingInputError</span></li>
+          <li><span class="leaf-name">DraftInputError</span></li>
+        </ul>
+      </details>
+      <details class="tree-level-2 mod-registry">
+        <summary><span class="node-name">__init__.py</span></summary>
+        <ul class="leaf-list"><li><span class="leaf-name">__init__.py exports</span></li></ul>
+      </details>
+    </details>
+
+    <!-- Integration & Manifest -->
+    <details class="tree-level-1 mod-integration">
+      <summary><span class="node-name">Integration &amp; Manifest</span><span class="node-meta">&nbsp;&#8212; 3 files</span></summary>
+      <details class="tree-level-2 mod-integration">
+        <summary><span class="node-name">manifest.py</span></summary>
+        <ul class="leaf-list">
+          <li><span class="leaf-name">Manifest</span><span class="leaf-note">class</span></li>
+          <li><span class="leaf-name">write_manifest()</span></li>
+        </ul>
+      </details>
+      <details class="tree-level-2 mod-integration">
+        <summary><span class="node-name">integrator.py</span></summary>
+        <ul class="leaf-list">
+          <li><span class="leaf-name">AquaSolarSimulator</span></li>
+          <li><span class="leaf-name">initialize()</span></li>
+          <li><span class="leaf-name">simulate_step()</span></li>
+        </ul>
+      </details>
+      <details class="tree-level-2 mod-integration">
+        <summary><span class="node-name">cli.py</span></summary>
+        <ul class="leaf-list">
+          <li><span class="leaf-name">cmd_check_inputs()</span></li>
+          <li><span class="leaf-name">main()</span></li>
+        </ul>
+      </details>
+    </details>
+
+    <!-- Entry Points & CLI -->
+    <details class="tree-level-1 mod-entry">
+      <summary><span class="node-name">Entry Points &amp; CLI</span><span class="node-meta">&nbsp;&#8212; 5 files</span></summary>
+      <details class="tree-level-2 mod-entry">
+        <summary><span class="node-name">simulate.py</span></summary>
+        <ul class="leaf-list"><li><span class="leaf-name">run_simulation()</span></li></ul>
+      </details>
+      <details class="tree-level-2 mod-entry">
+        <summary><span class="node-name">integrator.py</span></summary>
+        <ul class="leaf-list"><li><span class="leaf-name">AquaSolarSimulator</span><span class="leaf-note">class</span></li></ul>
+      </details>
+      <details class="tree-level-2 mod-entry">
+        <summary><span class="node-name">cli.py</span></summary>
+        <ul class="leaf-list">
+          <li><span class="leaf-name">check-inputs</span><span class="leaf-note">command</span></li>
+          <li><span class="leaf-name">run scenario</span><span class="leaf-note">command</span></li>
+        </ul>
+      </details>
+      <details class="tree-level-2 mod-entry">
+        <summary><span class="node-name">__init__.py</span><span class="node-meta">&nbsp;unit handling</span></summary>
+        <ul class="leaf-list">
+          <li><span class="leaf-name">get_unit_registry()</span></li>
+          <li><span class="leaf-name">convert_to_si()</span></li>
+          <li><span class="leaf-name">parse_temperature()</span></li>
+        </ul>
+      </details>
+      <details class="tree-level-2 mod-entry">
+        <summary><span class="node-name">__main__.py</span></summary>
+        <ul class="leaf-list"><li><span class="leaf-name">python -m aquasolar</span><span class="leaf-note">entry point</span></li></ul>
+      </details>
+    </details>
+
+    <!-- Unit Tests -->
+    <details class="tree-level-1 mod-tests">
+      <summary><span class="node-name">Unit Tests</span><span class="node-meta">&nbsp;&#8212; 82 tests across 12 files</span></summary>
+      <details class="tree-level-2 mod-tests">
+        <summary><span class="node-name">test_economics.py</span></summary>
+        <ul class="leaf-list">
+          <li><span class="leaf-name">TestLevelizedCost</span></li>
+          <li><span class="leaf-name">TestPayback</span></li>
+          <li><span class="leaf-name">TestNPV</span></li>
+        </ul>
+      </details>
+      <details class="tree-level-2 mod-tests">
+        <summary><span class="node-name">test_pvt.py</span></summary>
+        <ul class="leaf-list">
+          <li><span class="leaf-name">TestElectricalOutput</span></li>
+          <li><span class="leaf-name">TestThermalOutput</span></li>
+          <li><span class="leaf-name">TestPVOnlyReference</span></li>
+          <li><span class="leaf-name">TestCollectorSolve</span></li>
+        </ul>
+      </details>
+      <details class="tree-level-2 mod-tests">
+        <summary><span class="node-name">test_electrical.py</span></summary>
+        <ul class="leaf-list">
+          <li><span class="leaf-name">TestElectricalBalance</span></li>
+          <li><span class="leaf-name">TestBatteryDispatch</span></li>
+        </ul>
+      </details>
+      <details class="tree-level-2 mod-tests">
+        <summary><span class="node-name">test_tank.py</span></summary>
+        <ul class="leaf-list">
+          <li><span class="leaf-name">TestTankGrid</span></li>
+          <li><span class="leaf-name">TestTankMixing</span></li>
+          <li><span class="leaf-name">TestTankDraw</span></li>
+          <li><span class="leaf-name">TestAuxHeater</span></li>
+        </ul>
+      </details>
+      <details class="tree-level-2 mod-tests">
+        <summary><span class="node-name">test_reporting.py</span></summary>
+        <ul class="leaf-list">
+          <li><span class="leaf-name">TestComputeMetrics</span></li>
+          <li><span class="leaf-name">TestGenerateReport</span></li>
+          <li><span class="leaf-name">TestDashboard</span></li>
+        </ul>
+      </details>
+      <details class="tree-level-2 mod-tests">
+        <summary><span class="node-name">test_water_treatment.py</span></summary>
+        <ul class="leaf-list">
+          <li><span class="leaf-name">TestSedimentFilter</span></li>
+          <li><span class="leaf-name">TestCarbonFilter</span></li>
+          <li><span class="leaf-name">TestUVDisinfection</span></li>
+          <li><span class="leaf-name">TestPathways</span></li>
+        </ul>
+      </details>
+      <details class="tree-level-2 mod-tests">
+        <summary><span class="node-name">test_uncertainty.py</span></summary>
+        <ul class="leaf-list">
+          <li><span class="leaf-name">TestMonteCarlo</span></li>
+          <li><span class="leaf-name">TestSobol</span></li>
+          <li><span class="leaf-name">TestMorris</span></li>
+        </ul>
+      </details>
+      <details class="tree-level-2 mod-tests">
+        <summary><span class="node-name">test_units.py</span></summary>
+        <ul class="leaf-list"><li><span class="leaf-name">TestUnits</span></li></ul>
+      </details>
+      <details class="tree-level-2 mod-tests">
+        <summary><span class="node-name">test_conditions.py</span></summary>
+        <ul class="leaf-list"><li><span class="leaf-name">TestConditions</span></li></ul>
+      </details>
+      <details class="tree-level-2 mod-tests">
+        <summary><span class="node-name">test_literal_scan.py</span></summary>
+        <ul class="leaf-list"><li><span class="leaf-name">Literal scan tests</span></li></ul>
+      </details>
+    </details>
+
+    <!-- Documentation & Input Files -->
+    <details class="tree-level-1 mod-docs">
+      <summary><span class="node-name">Documentation &amp; Input Files</span><span class="node-meta">&nbsp;&#8212; ~40 files</span></summary>
+      <details class="tree-level-2 mod-docs">
+        <summary><span class="node-name">docs/</span><span class="node-meta">&nbsp;6 files</span></summary>
+        <ul class="leaf-list">
+          <li><span class="leaf-name">equation_register.md</span></li>
+          <li><span class="leaf-name">assumptions_register.md</span></li>
+          <li><span class="leaf-name">library_decisions.md</span></li>
+          <li><span class="leaf-name">limitations_register.md</span></li>
+          <li><span class="leaf-name">metric_definitions.md</span></li>
+          <li><span class="leaf-name">project_context.md</span></li>
+        </ul>
+      </details>
+      <details class="tree-level-2 mod-docs">
+        <summary><span class="node-name">inputs/</span><span class="node-meta">&nbsp;~30 files</span></summary>
+        <ul class="leaf-list">
+          <li><span class="leaf-name">input_index.yaml</span></li>
+          <li><span class="leaf-name">parameters/*.yaml</span></li>
+          <li><span class="leaf-name">tables/*.csv</span></li>
+          <li><span class="leaf-name">timeseries/*.csv</span></li>
+        </ul>
+      </details>
+    </details>
+
+    <p class="footer-note">
+      <strong>Legend:</strong> Color indicates module. Leaf nodes show primary functions or classes.
+      Equation references (e.g., <code>EQ-PVT-01</code>) correspond to <em>equation_register.md</em>.
+    </p>
+
+  </div>
+</div>
+</body>
+</html>

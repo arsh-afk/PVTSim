@@ -1,0 +1,273 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light">
+    <title>AquaSolar | Input Workbench</title>
+    <link rel="stylesheet" href="/static/app.css">
+  </head>
+  <body class="app-body">
+    <div class="app-shell">
+      <aside class="sidebar" aria-label="Project navigation">
+        <a class="brand" href="/" aria-label="AquaSolar workbench home">
+          <span class="brand-mark" aria-hidden="true">A</span>
+          <span><strong>AquaSolar</strong><small>Simulation workbench</small></span>
+        </a>
+        <div class="project-chip"><span class="status-dot"></span> Local project</div>
+        <nav class="primary-nav">
+          <button class="nav-link is-active" data-view="overview"><span>01</span> Overview</button>
+          <button class="nav-link" data-view="parameters"><span>02</span> Parameters <b id="nav-parameter-count">—</b></button>
+          <button class="nav-link" data-view="data"><span>03</span> Data files <b id="nav-data-count">—</b></button>
+          <button class="nav-link" data-view="validation"><span>04</span> Validation <b id="nav-error-count">—</b></button>
+          <button class="nav-link" data-view="model"><span>05</span> Model</button>
+          <button class="nav-link" data-view="runs"><span>06</span> Runs &amp; plots</button>
+        </nav>
+        <div class="sidebar-footer">
+          <span class="eyebrow">MODEL SCOPE</span>
+          <p>Exploratory PVT-only estimate. Tank, DHW, electrical bus, and treatment are not simulated.</p>
+        </div>
+      </aside>
+
+      <main class="workspace">
+        <header class="topbar">
+          <div class="crumbs"><span>PROJECT</span><span class="crumb-separator">/</span><strong id="view-crumb">Overview</strong></div>
+          <div class="temp-unit-toggle" role="group" aria-label="Temperature unit selection">
+            <span class="temp-unit-label">Temp:</span>
+            <button type="button" class="temp-unit-btn is-active" data-temp-unit="C" title="Display temperature in Celsius (°C)" aria-pressed="true">°C</button>
+            <button type="button" class="temp-unit-btn" data-temp-unit="K" title="Display temperature in Kelvin (K)" aria-pressed="false">K</button>
+          </div>
+          <div class="search-shell">
+            <label class="global-search">
+              <span aria-hidden="true">⌕</span>
+              <input id="global-search" type="search" placeholder="Search inputs, files, outputs…" autocomplete="off" aria-label="Search all project items" aria-expanded="false">
+              <kbd>Ctrl K</kbd>
+            </label>
+            <div id="global-results" class="global-results" role="listbox" hidden></div>
+          </div>
+          <button class="button button-quiet" id="validate-now" type="button">Validate project</button>
+        </header>
+
+        <section class="view is-visible" id="view-overview" aria-labelledby="overview-title">
+          <div class="page-heading">
+            <div>
+              <p class="eyebrow">PROJECT READINESS</p>
+              <h1 id="overview-title">Input workbench</h1>
+              <p class="lede">Find, review, and validate simulation inputs before starting a PVT scenario.</p>
+            </div>
+            <div class="validation-stamp" id="readiness-stamp"><span class="status-dot"></span><span>Checking inputs…</span></div>
+          </div>
+          <div class="readiness-grid">
+            <article class="readiness-card">
+              <span class="eyebrow">BLOCKING ISSUES</span>
+              <strong id="summary-errors">—</strong>
+              <p>Must be resolved before a run.</p>
+              <button class="text-button" data-go="validation">Review findings <span aria-hidden="true">→</span></button>
+            </article>
+            <article class="readiness-card">
+              <span class="eyebrow">WARNINGS</span>
+              <strong id="summary-warnings">—</strong>
+              <p>Review metadata and input quality.</p>
+              <button class="text-button" data-go="validation">Inspect warnings <span aria-hidden="true">→</span></button>
+            </article>
+            <article class="readiness-card">
+              <span class="eyebrow">REGISTERED INPUTS</span>
+              <strong id="summary-inputs">—</strong>
+              <p>Parameters, tables, and time series.</p>
+              <button class="text-button" data-go="parameters">Browse parameters <span aria-hidden="true">→</span></button>
+            </article>
+          </div>
+          <div class="content-grid overview-content">
+            <article class="panel">
+              <div class="panel-heading"><div><p class="eyebrow">NEXT ACTION</p><h2 id="next-action-title">Loading readiness</h2></div></div>
+              <p id="next-action-copy" class="muted">The project validator checks parameter requirements and registered data files.</p>
+              <button class="button button-primary" data-go="validation" type="button">Open validation report</button>
+            </article>
+            <article class="panel scope-panel">
+              <p class="eyebrow">IMPORTANT LIMIT</p>
+              <h2>Temperature limit needs evidence</h2>
+              <p>The PVT runner requires a verified collector-fluid maximum. The supplied cogeneration papers do not establish this PVT collector limit; do not infer it from DHW or tank temperatures.</p>
+              <a href="/api/reference" target="_blank" rel="noreferrer">Open corrected source comparison <span aria-hidden="true">↗</span></a>
+            </article>
+          </div>
+        </section>
+
+        <section class="view" id="view-parameters" aria-labelledby="parameters-title">
+          <div class="page-heading compact-heading">
+            <div><p class="eyebrow">REGISTERED INPUTS</p><h1 id="parameters-title">Parameters</h1><p class="lede">Search by ID, description, group, source, or requirement. Changes stay staged until you preview and apply them.</p></div>
+            <span class="count-pill" id="parameter-count">— parameters</span>
+          </div>
+          <div class="browser-layout">
+            <div class="browser-list panel">
+              <div class="list-tools">
+                <label class="field-search"><span aria-hidden="true">⌕</span><input id="parameter-search" type="search" placeholder="Search parameters…" aria-label="Search parameters"></label>
+                <select id="parameter-status-filter" aria-label="Filter parameters by status">
+                  <option value="">All statuses</option><option value="confirmed">Confirmed</option><option value="draft">Draft</option><option value="not_applicable">Not applicable</option>
+                </select>
+                <select id="parameter-group-filter" aria-label="Filter parameters by group"><option value="">All groups</option></select>
+              </div>
+              <div id="parameter-list" class="record-list" role="list"></div>
+            </div>
+            <article class="detail-panel panel" id="parameter-detail">
+              <div class="empty-state"><span class="empty-mark">P</span><h2>Select a parameter</h2><p>Its definition, requirement, provenance, and editable fields will appear here.</p></div>
+            </article>
+          </div>
+        </section>
+
+        <section class="view" id="view-data" aria-labelledby="data-title">
+          <div class="page-heading compact-heading">
+            <div><p class="eyebrow">INPUT DATA</p><h1 id="data-title">Tables &amp; time series</h1><p class="lede">Inspect metadata, search columns, validate data quality, and stage a replacement file for review.</p></div>
+            <span class="count-pill" id="data-count">— files</span>
+          </div>
+          <div class="browser-layout data-layout">
+            <div class="browser-list panel">
+              <div class="list-tools">
+                <label class="field-search"><span aria-hidden="true">⌕</span><input id="data-search" type="search" placeholder="Search files or columns…" aria-label="Search data files"></label>
+                <select id="data-kind-filter" aria-label="Filter data file type"><option value="">Tables and time series</option><option value="tables">Tables</option><option value="timeseries">Time series</option></select>
+              </div>
+              <div id="data-list" class="record-list" role="list"></div>
+            </div>
+            <article class="detail-panel panel" id="data-detail">
+              <div class="empty-state"><span class="empty-mark">D</span><h2>Select a data file</h2><p>Review its columns, metadata, sample rows, and current validation findings.</p></div>
+            </article>
+          </div>
+        </section>
+
+        <section class="view" id="view-validation" aria-labelledby="validation-title">
+          <div class="page-heading compact-heading">
+            <div><p class="eyebrow">PREFLIGHT REPORT</p><h1 id="validation-title">Validation</h1><p class="lede">Each finding points to its file and field. Fix the source input, then validate again.</p></div>
+            <button class="button button-primary" id="refresh-validation" type="button">Run validation</button>
+          </div>
+          <div class="validation-summary" id="validation-summary"></div>
+          <div class="list-tools validation-tools">
+            <label class="field-search"><span aria-hidden="true">⌕</span><input id="finding-search" type="search" placeholder="Search findings…" aria-label="Search validation findings"></label>
+            <select id="severity-filter" aria-label="Filter findings by severity"><option value="">All severities</option><option value="error">Blocking errors</option><option value="warning">Warnings</option></select>
+            <select id="finding-category-filter" aria-label="Filter findings by category"><option value="">All categories</option></select>
+          </div>
+          <div id="finding-list" class="finding-list"></div>
+        </section>
+
+        <section class="view" id="view-model" aria-labelledby="model-title">
+          <div class="page-heading compact-heading">
+            <div><p class="eyebrow">EXECUTED MODEL</p><h1 id="model-title">Calculation flow</h1><p class="lede">Trace the current PVT-only runner from its inputs through the implemented equations to saved outputs.</p></div>
+            <span class="scope-badge">PVT ONLY · EXPLORATORY</span>
+          </div>
+          <div class="model-tabs" role="tablist" aria-label="Model sections">
+            <button class="model-tab is-active" id="model-tab-flow" type="button" role="tab" aria-selected="true" aria-controls="model-panel-flow" data-model-tab="flow">Calculation flow</button>
+            <button class="model-tab" id="model-tab-modules" type="button" role="tab" aria-selected="false" aria-controls="model-panel-modules" data-model-tab="modules">Modules &amp; requirements</button>
+          </div>
+          <section class="model-panel" id="model-panel-flow" role="tabpanel" aria-labelledby="model-tab-flow">
+            <div class="model-note" id="model-load-status" role="status">Loading calculation trace…</div>
+            <div class="trace-run-bar">
+              <label class="form-field"><span>Saved run snapshot</span><select id="trace-run-select"><option value="">No saved runs</option></select></label>
+              <p class="muted">Snapshots show the inputs and summary outputs recorded by that run. Existing runs without a snapshot are identified as unavailable.</p>
+            </div>
+            <div class="trace-graph" id="trace-graph" aria-label="Interactive input, calculation, and output graph"></div>
+            <article class="trace-detail panel" id="trace-detail" aria-live="polite">
+              <div class="empty-state"><span class="empty-mark">ƒ</span><h2>Select a graph node</h2><p>Inspect its values, equation, units, dependencies, and implementation source.</p></div>
+            </article>
+            <section class="analysis-section trace-snapshot" aria-labelledby="trace-snapshot-title">
+              <div class="analysis-section-heading"><div><p class="eyebrow">RECORDED RUN</p><h2 id="trace-snapshot-title">Inputs and outputs</h2></div></div>
+              <div id="trace-run-snapshot" class="analysis-table-wrap"><p class="muted">Select a saved run to inspect its summary and input snapshot.</p></div>
+            </section>
+          </section>
+          <section class="model-panel" id="model-panel-modules" role="tabpanel" aria-labelledby="model-tab-modules" hidden>
+            <div class="module-intro panel">
+              <div><p class="eyebrow">PERSISTENT WORKBENCH SETTINGS</p><h2>Module status and preparation</h2><p>Operational status is maintained by the project. Enablement only controls which module inputs appear in the workbench. Enabled modules that are not integrated show preparation requirements and do not execute or block the current PVT-only run.</p></div>
+            </div>
+            <div id="module-list" class="module-list" aria-live="polite"><p class="muted">Loading module registry…</p></div>
+          </section>
+        </section>
+
+        <section class="view" id="view-runs" aria-labelledby="runs-title">
+          <div class="page-heading compact-heading">
+            <div><p class="eyebrow">EXPLORATORY CALCULATION</p><h1 id="runs-title">Runs &amp; plots</h1><p class="lede">Compare hourly weather drivers and PVT-only outputs across saved scenarios.</p></div>
+            <span class="scope-badge">PVT ONLY · NOT DESIGN-VALIDATED</span>
+          </div>
+          <div class="content-grid run-grid">
+            <article class="panel run-form-panel">
+              <p class="eyebrow">NEW SCENARIO</p>
+              <h2>Run preflight</h2>
+              <label class="form-field"><span>Scenario ID</span><input id="scenario-id" type="text" placeholder="e.g. summer-case-01" maxlength="80"></label>
+              <label class="form-field"><span>Hourly weather file</span><select id="weather-select"></select></label>
+              <div class="weather-quality" id="weather-quality">Checking compatible weather files…</div>
+              <div class="run-blocker" id="run-blocker"></div>
+              <button class="button button-primary button-wide" id="start-run" type="button" disabled>Start PVT run</button>
+              <div id="run-job-status" class="run-job-status" aria-live="polite"></div>
+              <details class="weather-upload-details">
+                <summary>Add a weather dataset</summary>
+                <p class="muted">Add a unique hourly CSV with its matching metadata sidecar. The pair is validated in preview and saved only after confirmation.</p>
+                <label class="form-field"><span>Weather CSV</span><input id="weather-csv-upload" type="file" accept=".csv,text/csv"></label>
+                <label class="form-field"><span>Matching .meta.yaml</span><input id="weather-meta-upload" type="file" accept=".yaml,.yml,text/yaml"></label>
+                <div id="weather-upload-status" class="weather-upload-status" role="status" aria-live="polite">Choose both files with the same base filename.</div>
+              </details>
+            </article>
+            <article class="panel results-panel">
+              <div class="panel-heading"><div><p class="eyebrow">SAVED RESULTS</p><h2>Scenario explorer</h2></div><button class="button button-quiet" id="refresh-runs" type="button">Refresh</button></div>
+              <div class="result-controls">
+                <fieldset class="selection-field">
+                  <legend>Scenarios to compare</legend>
+                  <div id="run-picker" class="selection-list"><p class="muted">Loading saved scenarios…</p></div>
+                </fieldset>
+                <fieldset class="selection-field">
+                  <legend>Variables to chart</legend>
+                  <div id="variable-picker" class="selection-list"><p class="muted">Choose one or more variables.</p></div>
+                </fieldset>
+              </div>
+              <div class="analysis-toolbar">
+                <span id="time-range-copy" class="time-range-copy">Full time range</span>
+                <div class="analysis-actions">
+                  <div class="temp-unit-toggle" role="group" aria-label="Chart temperature unit">
+                    <span class="temp-unit-label">Temp:</span>
+                    <button type="button" class="temp-unit-btn is-active" data-temp-unit="C" title="Display charts in Celsius (°C)" aria-pressed="true">°C</button>
+                    <button type="button" class="temp-unit-btn" data-temp-unit="K" title="Display charts in Kelvin (K)" aria-pressed="false">K</button>
+                  </div>
+                  <label class="range-control"><span>From</span><input id="range-start" type="datetime-local" step="3600" aria-label="Zoom range start"></label>
+                  <label class="range-control"><span>To</span><input id="range-end" type="datetime-local" step="3600" aria-label="Zoom range end"></label>
+                  <button class="button button-quiet" id="apply-range" type="button" disabled>Apply range</button>
+                  <button class="button button-quiet" id="zoom-out" type="button" disabled>Zoom out</button>
+                  <button class="button button-quiet" id="reset-zoom" type="button" disabled>Reset range</button>
+                  <button class="button button-quiet" id="export-table" type="button" disabled>Export table CSV</button>
+                </div>
+              </div>
+              <div id="cursor-readout" class="cursor-readout" aria-live="polite">Hover over a chart to inspect values across runs. Drag within a chart to zoom all panels to that time range.</div>
+              <div id="analysis-charts" class="analysis-charts"></div>
+              <p class="chart-empty" id="chart-empty">Choose one or more valid saved runs to compare.</p>
+              <section class="analysis-section" aria-labelledby="statistics-title">
+                <div class="analysis-section-heading"><div><p class="eyebrow">SELECTED TIME WINDOW</p><h3 id="statistics-title">Window statistics</h3></div><span class="muted">Per run and variable</span></div>
+                <div id="analysis-statistics" class="analysis-table-wrap"><p class="muted">Select runs and variables to calculate statistics.</p></div>
+              </section>
+              <section class="analysis-section" aria-labelledby="hourly-table-title">
+                <div class="analysis-section-heading"><div><p class="eyebrow">HOURLY RECORDS</p><h3 id="hourly-table-title">Aligned comparison table</h3></div>
+                  <label class="page-size-control">Rows per page<select id="table-page-size"><option>50</option><option selected>100</option><option>250</option></select></label>
+                </div>
+                <div id="analysis-table" class="analysis-table-wrap"><p class="muted">Select runs and variables to inspect hourly records.</p></div>
+                <div class="table-pagination"><span id="table-page-status">No rows</span><div><button class="button button-quiet" id="table-prev" type="button" disabled>Previous</button><button class="button button-quiet" id="table-next" type="button" disabled>Next</button></div></div>
+              </section>
+              <details class="analysis-section snapshot-section">
+                <summary>Static input parameters used by selected runs</summary>
+                <div id="parameter-snapshot" class="analysis-table-wrap"><p class="muted">Select saved runs to inspect their recorded inputs.</p></div>
+              </details>
+              <div class="result-quality" id="result-quality" aria-live="polite"></div>
+            </article>
+          </div>
+        </section>
+
+        <footer class="workspace-footer">
+          <span>AquaSolar · local input validation</span>
+          <span id="save-state" role="status">No staged changes</span>
+          <button class="button button-primary" id="apply-staged" type="button" disabled>Preview &amp; apply changes</button>
+        </footer>
+      </main>
+    </div>
+    <dialog id="confirm-dialog" class="confirm-dialog">
+      <form method="dialog">
+        <p class="eyebrow">EXPLICIT SAVE</p>
+        <h2>Apply staged project inputs?</h2>
+        <p id="confirm-copy">A validation preview will be shown before anything is written.</p>
+        <div class="dialog-actions"><button class="button button-quiet" value="cancel">Keep editing</button><button class="button button-primary" id="confirm-apply" value="confirm">Preview changes</button></div>
+      </form>
+    </dialog>
+    <script src="/static/app.js" defer></script>
+  </body>
+</html>

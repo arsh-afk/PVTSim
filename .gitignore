@@ -102,7 +102,7 @@ dmypy.json
 # macOS
 .DS_Store
 
-# Simulation outputs (not generated yet)
+# Generated simulation outputs
 runs/
 outputs/
 

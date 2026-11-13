@@ -21,64 +21,70 @@ source_type_options:
 parameters:
 - id: const.rho_water_ref
   symbol: rho_w
-  description: Reference density of liquid water, used only if property_model is constant
+  description: Reference density of liquid water, used only if property_model is
+    constant
   quantity_kind: density
   needed_by_phase: 4
   required_when: numerics.property_model == constant
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: 997.0
+  unit: kg/m3
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#const.rho_water_ref
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
 - id: const.cp_water_ref
   symbol: cp_w
-  description: Reference specific heat of liquid water, used only if property_model is constant
+  description: Reference specific heat of liquid water, used only if 
+    property_model is constant
   quantity_kind: specific_heat
   needed_by_phase: 4
   required_when: numerics.property_model == constant
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: 4180.0
+  unit: J/(kg*K)
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#const.cp_water_ref
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
 - id: const.property_source
-  symbol: null
-  description: Name of property source used when property_model is temperature_dependent
+  symbol:
+  description: Name of property source used when property_model is 
+    temperature_dependent
   quantity_kind: text
   needed_by_phase: 4
   required_when: numerics.property_model == temperature_dependent
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: constant liquid-water properties
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#const.property_source
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.

@@ -260,6 +260,12 @@ parameters:
   required_when: always
   allowed: null
 - file: pvt_thermal
+  id: pvt_th.demo_inlet_temperature
+  kind: temperature
+  phase: 3
+  required_when: always
+  allowed: null
+- file: pvt_thermal
   id: pvt_th.pv_only_reference_model
   kind: categorical
   phase: 3

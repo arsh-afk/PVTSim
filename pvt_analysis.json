@@ -1,0 +1,254 @@
+{
+  "module": "pvt",
+  "files": [
+    {
+      "filename": "collector.py",
+      "lines": 70,
+      "classes": [
+        {
+          "name": "PVTCoupledResult",
+          "fields": [
+            "T_f_out: float - Collector outlet fluid temperature (K)",
+            "T_cell: float - PV cell temperature (K)",
+            "P_el: float - Electrical power output (W)",
+            "Q_u: float - Useful thermal energy (W)",
+            "converged: bool - Whether the solver converged",
+            "iterations: int - Number of iterations performed",
+            "T_f_in: float - Collector inlet fluid temperature (K)",
+            "m_dot: float - Mass flow rate (kg/s)",
+            "registry: Dict[str, Any] - Parameter registry"
+          ],
+          "methods": [],
+          "purpose": "Container for coupled PVT solution results, holding all output variables from the PVT collector solve along with convergence information and metadata."
+        }
+      ],
+      "functions": [
+        {
+          "name": "pvt_solve",
+          "params": [
+            "T_in: float - Collector inlet temperature (K)",
+            "m_dot: float - Mass flow rate (kg/s)",
+            "G_eff: float - Effective POA irradiance (W/m²)",
+            "T_amb: float - Ambient temperature (K)",
+            "wind_speed: float - Wind speed (m/s)",
+            "registry: Dict[str, Any] - Parameter registry with all PVT parameters",
+            "use_coupled: bool - Whether to solve coupled system or sequential (default True)"
+          ],
+          "returns": "PVTCoupledResult with all outputs including T_f_out, T_cell, P_el, Q_u, convergence status, and iteration count",
+          "purpose": "Solve the PVT collector for given operating conditions. Uses coupled solver when flow is present; sequential mode when no flow. Returns PVTCoupledResult with electrical and thermal outputs, cell temperature, and fluid temperatures."
+        },
+        {
+          "name": "pvt_series_solve",
+          "params": [
+            "T_in_series: list - Sequence of inlet temperatures (K)",
+            "m_dot_series: list - Sequence of mass flow rates (kg/s)",
+            "G_eff_series: list - Sequence of effective irradiance values (W/m²)",
+            "T_amb_series: list - Sequence of ambient temperatures (K)",
+            "wind_speed_series: list - Sequence of wind speeds (m/s)",
+            "registry: Dict[str, Any] - Parameter registry",
+            "use_coupled: bool - Whether to use coupled solver for each step (default True)"
+          ],
+          "returns": "List[PVTCoupledResult] - List of results for each time step in the series",
+          "purpose": "Solve PVT collector for a time series of operating conditions by iterating pvt_solve over all input parameters."
+        }
+      ],
+      "dependencies": [
+        ".electrical - electrical_output function",
+        ".thermal - useful_heat and useful_heat_no_flow functions",
+        ".coupled - coupled_solve function",
+        ".pv_only - pv_only_reference function"
+      ],
+      "key_equations": [
+        "EQ-PVT-01: P_el = eta_ref * [1 - beta * (T_c - T_ref)] * phi_soil * G_eff * A (from electrical_output)",
+        "EQ-PVT-02: Q_u = A * F_R * [S - U_L * (T_f_in - T_amb)] where S = tau_alpha * G_eff - P_el / A (from useful_heat)",
+        "Cell temperature coupling: T_c = T_m + R_cell_fluid * q_cf where q_cf = Q_u / A",
+        "Energy balance: T_out = T_in + Q_u / (m_dot * cp_f)"
+      ]
+    },
+    {
+      "filename": "coupled.py",
+      "lines": 177,
+      "classes": [
+        {
+          "name": "OutsideValidityRange",
+          "fields": [
+            "equation_id: str - Equation identifier",
+            "variable: str - Variable name that is out of range",
+            "value: float - The out-of-range value",
+            "range_spec: str - Description of valid range"
+          ],
+          "methods": [
+            "__init__(equation_id, variable, value, range_spec) - Initialize with equation ID, variable name, value, and range specification"
+          ],
+          "purpose": "Exception raised when PVT input parameters or computed values leave the valid physical range, providing detailed error information about which equation and variable triggered the condition."
+        }
+      ],
+      "functions": [
+        {
+          "name": "coupled_solve",
+          "params": [
+            "T_in: float - Collector inlet fluid temperature (K)",
+            "m_dot: float - Mass flow rate (kg/s)",
+            "G_eff: float - Effective plane-of-array irradiance (W/m²)",
+            "T_amb: float - Ambient temperature (K)",
+            "wind_speed: float - Wind speed (m/s)",
+            "registry: Dict[str, Any] - Registry with all PVT parameters",
+            "solver: str - Solver type: 'fixed_point', 'newton', or 'bracketing' (default 'bracketing')",
+            "tolerance: float - Convergence tolerance (default 1e-6)",
+            "max_iterations: int - Maximum iterations (default complex expression)"
+          ],
+          "returns": "Tuple[float, float, float, float, bool, int] - (T_f_out, T_c, P_el, Q_u, converged, iterations)",
+          "purpose": "Solve the coupled PVT algebraic loop for T_f_out, T_cell, P_el, and Q_u simultaneously. Uses bisection/bracketing solver for robustness. The loop iterates to find consistent fluid mean temperature T_m and cell temperature T_c that satisfy both electrical and thermal energy balance equations (EQ-PVT-01 through EQ-PVT-04)."
+        },
+        {
+          "name": "_fixed_point_solve",
+          "params": [
+            "func: callable - Function to iterate",
+            "x0: float - Initial guess",
+            "x_max: float - Upper bound",
+            "tol: float - Tolerance",
+            "max_iter: int - Maximum iterations"
+          ],
+          "returns": "Tuple[float, bool, int] - (converged_value, converged, iteration_count)",
+          "purpose": "Fixed-point iteration solver that repeatedly applies func to x until |x_new - x| < tol or max_iter is reached."
+        },
+        {
+          "name": "_bracket_solve",
+          "params": [
+            "func: callable - Residual function with sign change over bracket",
+            "a: float - Lower bound",
+            "b: float - Upper bound (may be adjusted)",
+            "tol: float - Tolerance",
+            "max_iter: int - Maximum iterations"
+          ],
+          "returns": "Tuple[float, bool, int] - (root, converged, iteration_count)",
+          "purpose": "Bisection/bracketing solver that repeatedly halves the interval [a, b] until |f(c)| < tol or (b-a)/2 < tol, with preliminary bracket adjustment if f(a) and f(b) have same sign."
+        }
+      ],
+      "dependencies": [],
+      "key_equations": [
+        "EQ-PVT-01: P_el = eta_ref * [1 - beta * (T_c - T_ref)] * phi_soil * G_eff * A",
+        "EQ-PVT-02: S = tau_alpha * G_eff - P_el / A; Q_u = A * F_R * [S - U_L * (T_m - T_amb)]",
+        "EQ-PVT-03: T_c = T_m + R_cell_fluid * q_cf where q_cf = Q_u / A",
+        "EQ-PVT-04: T_out = T_in + Q_u / (m_dot * cp_f) (energy balance on fluid)",
+        "Residual: T_out - T_in - Q_u / (m_dot * cp_f) = 0 (driver of the algebraic loop)"
+      ]
+    },
+    {
+      "filename": "electrical.py",
+      "lines": 76,
+      "classes": [],
+      "functions": [
+        {
+          "name": "electrical_output",
+          "params": [
+            "T_cell: float - Cell temperature (K)",
+            "G_eff: float - Effective plane-of-array irradiance (W/m²)",
+            "eta_ref: float - Reference electrical efficiency",
+            "T_ref: float - Reference cell temperature (K)",
+            "beta: float - Temperature coefficient of efficiency (1/K)",
+            "phi_soil: float - Soiling factor",
+            "A: float - Collector area (m²)",
+            "f_irr: float - Irradiance correction factor (default 1.0)",
+            "f_mpp: float - MPP tracking factor (default 1.0)"
+          ],
+          "returns": "Tuple[float, Dict[str, Any]] - (P_el in W, ledger dict)",
+          "purpose": "Calculate PVT electrical output using EQ-PVT-01. Computes cell-temperature-adjusted efficiency eta = eta_ref * [1 - beta * (T_cell - T_ref)], then P_el = eta * phi_soil * G_eff * A * f_irr * f_mpp. Handles efficiency clamping to non-negative values."
+        },
+        {
+          "name": "electrical_output_series",
+          "params": [
+            "T_cell_series: list - Sequence of cell temperatures (K)",
+            "G_eff_series: list - Sequence of effective irradiance values (W/m²)",
+            "eta_ref: float - Reference electrical efficiency",
+            "T_ref: float - Reference cell temperature (K)",
+            "beta: float - Temperature coefficient (1/K)",
+            "phi_soil_series: list - Sequence of soiling factors",
+            "A: float - Collector area (m²)"
+          ],
+          "returns": "list - List of P_el values (W) for each time step",
+          "purpose": "Calculate electrical output for a series of time steps by iterating electrical_output over corresponding inputs from each series list."
+        }
+      ],
+      "dependencies": [],
+      "key_equations": [
+        "EQ-PVT-01: P_el = eta_ref * [1 - beta * (T_cell - T_ref)] * phi_soil * G_eff * A * f_irr * f_mpp"
+      ]
+    },
+    {
+      "filename": "pv_only.py",
+      "lines": 70,
+      "classes": [],
+      "functions": [
+        {
+          "name": "pv_only_reference",
+          "params": [
+            "G_eff: float - Effective plane-of-array irradiance (W/m²)",
+            "T_amb: float - Ambient temperature (K)",
+            "wind_speed: float - Wind speed (m/s)",
+            "eta_ref: float - Reference electrical efficiency",
+            "T_ref: float - Reference cell temperature (K)",
+            "beta: float - Temperature coefficient",
+            "phi_soil: float - Soiling factor",
+            "A: float - Collector area (m²)",
+            "pv_only_model: str - Model type: 'simple' or 'faiman' (default 'simple')",
+            "**params: Additional model parameters"
+          ],
+          "returns": "Tuple[float, float, Dict[str, Any]] - (T_cell, P_el, ledger)",
+          "purpose": "Calculate PV-only reference output with same weather but no heat extraction. Estimates cell temperature without cooling from fluid flow, then computes electrical output using electrical_output. Two cell temperature models: 'simple' (linear) and 'faiman' (wind-influenced)."
+        }
+      ],
+      "dependencies": [
+        ".electrical - electrical_output function"
+      ],
+      "key_equations": [
+        "Simple model: T_cell = T_amb + G_eff * (1 - eta_ref) / U_L_pv_only where U_L_pv_only defaults to 10.0 W/(m²·K)",
+        "Faiman model: T_cell = T_amb + G_eff / (alpha + beta_wind * wind_speed) with alpha=25.0, beta_wind=1.0 defaults",
+        "P_el computed via electrical_output with the computed T_cell"
+      ]
+    },
+    {
+      "filename": "thermal.py",
+      "lines": 88,
+      "classes": [],
+      "functions": [
+        {
+          "name": "useful_heat",
+          "params": [
+            "T_f_in: float - Fluid inlet temperature (K)",
+            "m_dot: float - Mass flow rate (kg/s)",
+            "G_eff: float - Effective plane-of-array irradiance (W/m²)",
+            "P_el: float - Electrical power (W)",
+            "T_amb: float - Ambient temperature (K)",
+            "wind_speed: float - Wind speed (m/s)",
+            "A: float - Collector area (m²)",
+            "tau_alpha: float - Transmittance-absorptance product",
+            "F_R: float - Heat-removal factor",
+            "U_L: float - Overall heat-loss coefficient (W/(m²·K))",
+            "U_L_wind_dep: Optional[Dict[str, float]] - Optional wind dependence params with 'wind_coeff' key"
+          ],
+          "returns": "Tuple[float, Dict[str, Any]] - (Q_u in W, ledger dict)",
+          "purpose": "Calculate useful thermal energy from PVT collector using EQ-PVT-02. Computes S = tau_alpha * G_eff - P_el / A, applies wind-dependent U_L if specified, then Q_u = A * F_R * [S - U_L_effective * (T_f_in - T_amb)]. Includes ledger recording of solar in, useful heat out, and generated heat."
+        },
+        {
+          "name": "useful_heat_no_flow",
+          "params": [
+            "G_eff: float - Effective irradiance (W/m²)",
+            "T_amb: float - Ambient temperature (K)",
+            "A: float - Collector area (m²)",
+            "tau_alpha: float - Transmittance-absorptance product",
+            "U_L: float - Heat-loss coefficient (W/(m²·K))"
+          ],
+          "returns": "Tuple[float, Dict[str, Any]] - (0.0 W, ledger dict)",
+          "purpose": "Calculate useful heat when flow is zero (stagnation condition). Returns zero thermal output but provides a ledger structure for temperature calculation purposes."
+        }
+      ],
+      "dependencies": [],
+      "key_equations": [
+        "EQ-PVT-02: Q_u = A * F_R * [S - U_L * (T_f_in - T_amb)] where S = tau_alpha * G_eff - P_el / A",
+        "Wind-dependent U_L: U_L_effective = U_L * (1 + wind_coeff * wind_speed) when wind_speed > 0 and U_L_wind_dep provided"
+      ]
+    }
+  ],
+  "summary": "The PVT module provides a complete photovoltaic-thermal (PVT) collector simulation with coupled electrical and thermal outputs. The five files work together as follows:\n\n1. **electrical.py** computes PV electrical power (EQ-PVT-01) given cell temperature, irradiance, and temperature coefficients.\n2. **thermal.py** computes useful heat extraction (EQ-PVT-02) given fluid conditions and collector parameters.\n3. **coupled.py** solves the algebraic loop self-consistently for T_f_out, T_c, P_el, and Q_u simultaneously, using bisection solver with equations EQ-PVT-01 through EQ-PVT-04.\n4. **collector.py** provides the high-level pvt_solve() and pvt_series_solve() interfaces, orchestrating the coupled solve and wrapping results in PVTCoupledResult.\n5. **pv_only.py** provides a PV-only reference case (no heat extraction) for comparison, using simple or Faiman cell temperature models.\n\nThe module flow: pvt_solve → coupled_solve (if m_dot > 0) → compute_P_el_Q_u → residual → bracket solve → final P_el/Q_u computation. Weather inputs (G_eff, T_amb, wind_speed) flow through all modules, while physical parameters (eta_ref, T_ref, beta, phi_soil, A, tau_alpha, F_R, U_L, R_cell_fluid, cp_f) are stored in the registry dict passed between modules."
+}

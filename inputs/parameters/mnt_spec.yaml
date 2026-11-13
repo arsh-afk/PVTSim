@@ -20,49 +20,51 @@ source_type_options:
 - assumption
 parameters:
 - id: mnt.pathway_ids
-  symbol: null
+  symbol:
   description: Pathway ids in the set (text list)
   quantity_kind: text
   needed_by_phase: 7
   required_when: always
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: A,B,C
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#mnt.pathway_ids
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
 - id: mnt.intensity_order
-  symbol: null
+  symbol:
   description: Pathway ids ordered from lowest to highest intensity (text list)
   quantity_kind: text
   needed_by_phase: 7
   required_when: always
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: A,B,C
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#mnt.intensity_order
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
 - id: mnt.objective_mode
-  symbol: null
+  symbol:
   description: How the objective J ranks feasible pathways
   quantity_kind: categorical
   needed_by_phase: 7
@@ -71,107 +73,112 @@ parameters:
   - lowest_intensity_by_order
   - weighted_sum
   - lexicographic
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: lexicographic
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#mnt.objective_mode
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
 - id: mnt.weight_energy
-  symbol: null
+  symbol:
   description: Weight on specific energy
   quantity_kind: dimensionless
   needed_by_phase: 7
   required_when: mnt.objective_mode == weighted_sum
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: 0.0672
+  unit: '1'
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#mnt.weight_energy
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
 - id: mnt.weight_reject
-  symbol: null
+  symbol:
   description: Weight on reject fraction
   quantity_kind: dimensionless
   needed_by_phase: 7
   required_when: mnt.objective_mode == weighted_sum
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: 0.0668
+  unit: '1'
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#mnt.weight_reject
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
 - id: mnt.weight_consumable
-  symbol: null
+  symbol:
   description: Weight on consumable use
   quantity_kind: dimensionless
   needed_by_phase: 7
   required_when: mnt.objective_mode == weighted_sum
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: 0.0853
+  unit: '1'
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#mnt.weight_consumable
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
 - id: mnt.lexicographic_order
-  symbol: null
+  symbol:
   description: Order of criteria (text list)
   quantity_kind: text
   needed_by_phase: 7
   required_when: mnt.objective_mode == lexicographic
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: quality, energy, cost
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#mnt.lexicographic_order
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
 - id: mnt.normalization
-  symbol: null
+  symbol:
   description: How terms are normalized in J
   quantity_kind: categorical
   needed_by_phase: 7
@@ -179,65 +186,68 @@ parameters:
   allowed_values:
   - by_pathway_C_value
   - by_user_reference_table
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: by_user_reference_table
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#mnt.normalization
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
 - id: mnt.decision_interval
-  symbol: null
+  symbol:
   description: How often the pathway can be re-selected
   quantity_kind: time
   needed_by_phase: 7
   required_when: always
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: 40397.138
+  unit: s
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#mnt.decision_interval
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
 - id: mnt.controller_delay
-  symbol: null
+  symbol:
   description: Delay between a sensor reading and a pathway change
   quantity_kind: time
   needed_by_phase: 7
   required_when: always
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: 10992.677
+  unit: s
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#mnt.controller_delay
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
 - id: mnt.infeasible_policy
-  symbol: null
+  symbol:
   description: What to do when no pathway meets the limits
   quantity_kind: categorical
   needed_by_phase: 7
@@ -245,18 +255,19 @@ parameters:
   allowed_values:
   - flag_and_use_highest_intensity
   - flag_and_stop
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: flag_and_stop
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#mnt.infeasible_policy
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.

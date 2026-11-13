@@ -20,70 +20,73 @@ source_type_options:
 - assumption
 parameters:
 - id: loop.fluid_type
-  symbol: null
+  symbol:
   description: Working fluid of the collector loop
   quantity_kind: text
   needed_by_phase: 5
   required_when: always
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: water
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#loop.fluid_type
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
 - id: loop.fluid_density
   symbol: rho_f
   description: Loop fluid density
   quantity_kind: density
   needed_by_phase: 5
   required_when: always
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: 997.0
+  unit: kg/m3
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#loop.fluid_density
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
 - id: loop.fluid_cp
   symbol: cp_f
   description: Loop fluid specific heat
   quantity_kind: specific_heat
   needed_by_phase: 5
   required_when: always
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: 4180.0
+  unit: J/(kg*K)
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#loop.fluid_cp
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
 - id: loop.flow_mode
-  symbol: null
+  symbol:
   description: Flow control
   quantity_kind: categorical
   needed_by_phase: 5
@@ -92,44 +95,46 @@ parameters:
   - fixed
   - variable_by_controller
   - user_table
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: fixed
+  unit:
+  source_type: literature
+  source_ref: ../../AquaSolar_TRNSYS_Master_Direction.md#3.2
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: Value transcribed from the cited AquaSolar design basis. Check 
+    interpretation and model-equation compatibility.
 - id: loop.mass_flow_fixed
-  symbol: null
+  symbol:
   description: Mass flow when pump is on
   quantity_kind: flow_mass
   needed_by_phase: 5
   required_when: loop.flow_mode == fixed
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: 0.011111111111111112
+  unit: kg/s
+  source_type: literature
+  source_ref: ../../AquaSolar_TRNSYS_Master_Direction.md#3.2
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: Value transcribed from the cited AquaSolar design basis. Check 
+    interpretation and model-equation compatibility.
 - id: loop.pump_power_model
-  symbol: null
+  symbol:
   description: Pump electrical power model
   quantity_kind: categorical
   needed_by_phase: 5
@@ -138,107 +143,112 @@ parameters:
   - fixed_when_on
   - hydraulic_power_over_efficiency
   - user_curve_table
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: fixed_when_on
+  unit:
+  source_type: literature
+  source_ref: ../../AquaSolar_TRNSYS_Master_Direction.md#3.2
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: Value transcribed from the cited AquaSolar design basis. Check 
+    interpretation and model-equation compatibility.
 - id: loop.pump_power_fixed
-  symbol: null
+  symbol:
   description: Pump electrical power when on
   quantity_kind: power
   needed_by_phase: 5
   required_when: loop.pump_power_model == fixed_when_on
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: 6.0
+  unit: W
+  source_type: literature
+  source_ref: ../../AquaSolar_TRNSYS_Master_Direction.md#3.2
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: Value transcribed from the cited AquaSolar design basis. Check 
+    interpretation and model-equation compatibility.
 - id: loop.pump_efficiency
-  symbol: null
+  symbol:
   description: Pump overall efficiency
   quantity_kind: fraction
   needed_by_phase: 5
   required_when: loop.pump_power_model == hydraulic_power_over_efficiency
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: 0.5696
+  unit: '1'
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#loop.pump_efficiency
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
 - id: loop.pressure_drop
-  symbol: null
+  symbol:
   description: Loop pressure drop at operating flow
   quantity_kind: pressure
   needed_by_phase: 5
   required_when: loop.pump_power_model == hydraulic_power_over_efficiency
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: 257911.557
+  unit: Pa
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#loop.pressure_drop
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
 - id: loop.pipe_loss_UA
-  symbol: null
+  symbol:
   description: Pipe heat-loss conductance, supply plus return
   quantity_kind: thermal_conductance
   needed_by_phase: 5
   required_when: always
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: 4.858
+  unit: W/K
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#loop.pipe_loss_UA
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
 - id: loop.pipe_ambient_mode
-  symbol: null
+  symbol:
   description: Ambient used for pipe losses
   quantity_kind: categorical
   needed_by_phase: 5
@@ -247,228 +257,238 @@ parameters:
   - site_ambient_air
   - tank_ambient
   - constant_value
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: tank_ambient
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#loop.pipe_ambient_mode
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
 - id: loop.pipe_ambient_value
-  symbol: null
+  symbol:
   description: Constant pipe ambient temperature
   quantity_kind: temperature
   needed_by_phase: 5
   required_when: loop.pipe_ambient_mode == constant_value
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: 295.923
+  unit: K
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#loop.pipe_ambient_value
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
 - id: loop.hx_present
-  symbol: null
+  symbol:
   description: Heat exchanger between loop and tank
   quantity_kind: boolean
   needed_by_phase: 5
   required_when: always
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: true
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#loop.hx_present
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
 - id: loop.hx_effectiveness
   symbol: eps_hx
   description: Heat exchanger effectiveness
   quantity_kind: fraction
   needed_by_phase: 5
   required_when: loop.hx_present == true
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: 0.7028
+  unit: '1'
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#loop.hx_effectiveness
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
 - id: loop.ctrl_dT_on
-  symbol: null
+  symbol:
   description: Temperature difference at which the pump turns on
   quantity_kind: temperature_difference
   needed_by_phase: 5
   required_when: always
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: 4.0
+  unit: K
+  source_type: literature
+  source_ref: ../../AquaSolar_TRNSYS_Master_Direction.md#3.2
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: Value transcribed from the cited AquaSolar design basis. Check 
+    interpretation and model-equation compatibility.
 - id: loop.ctrl_dT_off
-  symbol: null
+  symbol:
   description: Temperature difference at which the pump turns off
   quantity_kind: temperature_difference
   needed_by_phase: 5
   required_when: always
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: 1.0
+  unit: K
+  source_type: literature
+  source_ref: ../../AquaSolar_TRNSYS_Master_Direction.md#3.2
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: Value transcribed from the cited AquaSolar design basis. Check 
+    interpretation and model-equation compatibility.
 - id: loop.ctrl_T_tank_max
-  symbol: null
+  symbol:
   description: Tank temperature above which charging stops
   quantity_kind: temperature
   needed_by_phase: 5
   required_when: always
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: 358.15
+  unit: K
+  source_type: literature
+  source_ref: ../../AquaSolar_TRNSYS_Master_Direction.md#3.2
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: Value transcribed from the cited AquaSolar design basis. Check 
+    interpretation and model-equation compatibility.
 - id: loop.ctrl_min_irradiance
-  symbol: null
+  symbol:
   description: Minimum irradiance for pump operation, if used
   quantity_kind: irradiance
   needed_by_phase: 5
   required_when: loop.ctrl_use_min_irradiance == true
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: 100.0
+  unit: W/m2
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#loop.ctrl_min_irradiance
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: Demo pump threshold only; the exploratory PVT runner does not use this controller setting.
 - id: loop.ctrl_use_min_irradiance
-  symbol: null
+  symbol:
   description: Whether an irradiance condition is part of pump control
   quantity_kind: boolean
   needed_by_phase: 5
   required_when: always
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: false
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#loop.ctrl_use_min_irradiance
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
 - id: loop.ctrl_sensor_nodes
-  symbol: null
+  symbol:
   description: Tank node and collector point the controller reads (text)
   quantity_kind: text
   needed_by_phase: 5
   required_when: always
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: collector outlet versus tank reference; confirm node convention
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#loop.ctrl_sensor_nodes
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
 - id: loop.ctrl_min_dwell
-  symbol: null
+  symbol:
   description: Minimum on or off time
   quantity_kind: time
   needed_by_phase: 5
   required_when: always
-  value: null
-  unit: null
-  source_type: null
-  source_ref: null
+  value: 36677.02
+  unit: s
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#loop.ctrl_min_dwell
   uncertainty:
-    kind: null
-    value: null
-    distribution: null
+    kind:
+    value:
+    distribution:
   valid_range:
-    min: null
-    max: null
-  status: draft
-  entered_by: null
-  entered_on: null
-  notes: null
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.

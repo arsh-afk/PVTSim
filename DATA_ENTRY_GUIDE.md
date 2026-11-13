@@ -4,7 +4,7 @@ Generated from the same definitions as the template files, so the ids below matc
 
 ## Rules that apply to every input
 
-1. Nothing in the simulation has a default. Every required item must be filled and set to `confirmed`, or the run stops and names the item.
+1. Inputs start without defaults. You may apply the opt-in demo preset below; it fills eligible unset fields with documented values or seeded assumptions and labels their provenance. It intentionally leaves `pvt_th.T_fluid_max` unset because no supplied source specifies a limit for this PVT collector. Demo assumptions are not calibrated engineering inputs.
 2. Fill parameter files in `inputs/parameters/` (YAML). Fill data files in `inputs/timeseries/` and `inputs/tables/` (CSV plus a `.meta.yaml` with the same name).
 3. Put the evidence for each value in `inputs/provenance/` and name the file in `source_ref`.
 4. Units: give a unit string for every value in the parameter files, and for every column in the meta files (or a unit column in the CSV where one exists). Temperature differences use the `temperature_difference` kind, not an absolute temperature.
@@ -14,6 +14,178 @@ Generated from the same definitions as the template files, so the ids below matc
 8. Conditional entries: if `required_when` is false for your setup, set `status: not_applicable`.
 9. The agent never edits your values. It writes errors that quote the file, the id or row, what is wrong and what format it expected.
 10. Run `python -m aquasolar check-inputs` at any time. It rewrites `inputs/STATUS.md` with what is missing, in the order the phases need it.
+
+## Graphical input/output interfaces
+
+See the [input-to-calculation flow chart](docs/input_calculation_flow.md) for
+how parameter files and hourly weather feed the current PVT-only calculation
+and its outputs.
+
+Run `python -m aquasolar web-ui` from the project environment to start the
+localhost-only browser workbench, then open the printed `127.0.0.1` address.
+Its global search finds parameter ids/descriptions/sources, data files and
+columns, outputs, metrics, saved runs, and validation findings. The Parameters
+and Data files views also provide focused search and filters.
+
+The **Model** view provides an interactive input-to-equation-to-output trace
+for the current PVT-only runner, including required weather columns, formula
+details, units, dependencies, and implementation source paths. Select a saved
+run to inspect its recorded parameter values/provenance and summary outputs;
+older runs without snapshots are marked unavailable. The **Modules &
+requirements** tab in that view shows implementation status and prerequisites.
+Module enablement is stored in `inputs/module_registry.yaml`: disabling a
+module hides its associated inputs from the workbench without changing saved
+values. Enabling an unimplemented module is preparation-only and does not
+execute it or block the current PVT run. Disabling the operational PVT runner
+blocks PVT runs. Toggle changes use the same staged preview and explicit apply
+flow as other inputs.
+
+Edits and replacement CSV/metadata files are staged in the browser. Choose
+**Preview & apply changes** to run validation against the staged content and
+review the finding counts; explicitly confirm before anything is written.
+Input edits may be saved while other findings remain, but those errors remain
+visible and block simulation runs. Use one UI/editor at a time to avoid
+concurrent file edits.
+
+To add weather from the browser, open **Runs & plots → Add a weather dataset**
+and choose a uniquely named `<name>.csv` and matching `<name>.meta.yaml`.
+Both files must use safe matching names and together fit within the 8 MiB upload
+limit. Preview checks the new pair before it can be applied; any blocking error
+in the new pair must be corrected first. The existing dataset is not replaced,
+and compatible hourly files appear in the run-weather selector after saving.
+
+The Validation view checks parameter values, status, conditional
+requirements, configured ranges, allowed values, units and provenance; table
+and time-series metadata/CSV pairing, headers, required columns and cells,
+numeric values, timezone-aware timestamps, ordering, duplicates, intervals,
+quality codes, and constraints declared in metadata. Error findings identify
+the file and parameter, field, or row. Warnings cover incomplete provenance,
+metadata, and possible data-quality issues; the validator does not invent
+physical bounds.
+
+The browser **Runs & plots** view validates the selected hourly weather and PVT
+parameters before enabling a run. Compare multiple saved scenarios with one
+small-multiple chart per selected weather or PVT variable, linked cursor
+readouts, and drag-to-zoom across the shared time axis. Start/end date controls
+provide an alternative to dragging; use **Zoom out** or **Reset range** to
+expand the view. The window statistics include each run's mean difference from
+the first selected run. The aligned, sortable table is paged and can be exported
+to CSV for the selected time window. Expand **Static input parameters used by
+selected runs** to inspect values, units, and provenance captured when each
+scenario ran. Historical runs created before snapshots were added are labeled
+as unavailable rather than shown with current parameter values.
+
+The legacy desktop UI remains available with `python -m aquasolar ui`; it
+includes parameter/data/output catalogs and Matplotlib plots. Both interfaces
+write to the same project files.
+
+The runnable calculation remains PVT-only. It does not simulate the tank, DHW
+demand, electrical bus, or water treatment. The PVT runner requires a verified
+collector-fluid maximum with a real source; the supplied papers do not provide
+that PVT limit. Results are exploratory and must not be used for engineering,
+cost, safety, or potable-water decisions.
+
+To apply the documented and seeded demo defaults from a terminal, run
+`python -m aquasolar apply-demo-defaults`. The preset preserves existing values,
+records sources in each parameter, and writes a manifest to
+`inputs/provenance/demo_defaults.yaml`. Validate with
+`python -m aquasolar check-inputs`, then run
+`python -m aquasolar run <scenario_id>`. To use another compatible weather
+file, add `--weather inputs/timeseries/other_weather.csv`. The PVT-only runner
+writes an hourly CSV and JSON summary to `outputs/pvt_only/`.
+
+The PVT-only runner requires a verified `pvt_th.T_fluid_max`. The provided
+2016/2017 cogeneration papers report 50°C DHW supply, a 77°C storage-tank
+average in one case, and a 100°C tank/controller cutoff; none defines the
+maximum outlet temperature of this PVT collector. See
+[`coolpv_technical_data_sheet.md`](coolpv_technical_data_sheet.md) for the
+corrected source comparison. Do not treat those DHW or tank temperatures as a
+collector limit.
+
+## Converting EPW weather files
+
+Use `aquasolar.io.convert_epw_to_weather_csv(epw_path, csv_path,
+calendar_year=...)` to convert an hourly EPW file into the project's weather
+CSV column format. Select `calendar_year` to match the year you intend to use
+for this typical-weather simulation; TMY files can combine source years. The
+converter returns the number of records written and refuses to replace an
+existing output file. For example:
+
+```python
+from aquasolar.io import convert_epw_to_weather_csv
+
+convert_epw_to_weather_csv(
+    "ARE_RK_Khaimah.Intl.AP.411840_TMYx.epw",
+    "weather.csv",
+    calendar_year=user_selected_run_year,
+)
+```
+
+The resulting file contains timestamps, GHI, DNI, DHI, dry-bulb temperature,
+wind speed, and relative humidity; POA irradiance and cloud cover are blank.
+EPW timestamps are reconstructed from the EPW hour/minute fields in the
+selected calendar year and written with the file's UTC offset.
+Radiation is output as hourly-average W/m², while temperature remains in °C.
+The RAK TMYx file's timestamps fall at the half-hour mark; preserve that timing
+interpretation in the weather metadata.
+Before placing the output in `inputs/timeseries/`, set the matching metadata
+file's timezone, interval, timestamp convention, and column units. The converter
+does not calculate POA irradiance; that requires the confirmed collector
+orientation and the project's approved transposition setup.
+
+## Converting TRNSYS TM2 weather files
+
+The CLI supports the fixed-width TMY2 record layout used by the supplied
+TRNSYS-generated file. Because TM2 records do not have named, reorderable
+columns, the converter checks the exact record width and field positions rather
+than trying to infer a changed layout. It validates the header, all 8,760
+records, dates/order, numeric fields, source flags, missing-value sentinels,
+and non-leap target year before creating either output file. Existing output
+files are not overwritten.
+
+Run this from the `Simulation` directory to convert the sample Abu Dhabi file:
+
+```powershell
+.\.venv\Scripts\python.exe -m aquasolar convert-tm2 `
+  ..\AE-Abu-Dhabi-Intl-412170.tm2 `
+  inputs\timeseries\weather_abu_dhabi_2025.csv `
+  --calendar-year 2025 --site-timezone Asia/Dubai
+```
+
+The CLI validates the current PVT input parameters before conversion and leaves
+their files unchanged. It writes the hourly weather CSV and a matching
+`.meta.yaml` sidecar, retaining TM2 quality flags in `qc_flag`. Radiation values
+are hourly Wh/m², numerically equal to one-hour average W/m²; dry-bulb
+temperature and wind speed are scaled from tenths. The supplied Abu Dhabi
+station is not at the current Ras Al Khaimah model location, so the CLI warns
+about this difference rather than silently changing the modeled site.
+
+Run a scenario with the converted weather and unchanged PVT parameters:
+
+```powershell
+.\.venv\Scripts\python.exe -m aquasolar run abu-dhabi-2025 `
+  --weather inputs\timeseries\weather_abu_dhabi_2025.csv
+```
+
+For a NASA POWER hourly point JSON download, use:
+
+```python
+from aquasolar.io import convert_nasa_power_hourly_json
+
+convert_nasa_power_hourly_json(
+    "POWER_Point_Hourly.json",
+    "weather.csv",
+)
+```
+
+The NASA converter accepts UTC JSON exports, checks that the required weather
+series have aligned consecutive timestamps and no fill values, and writes the
+project weather columns. It maps `ALLSKY_SFC_SW_DWN`, `ALLSKY_SFC_SW_DNI`,
+`ALLSKY_SFC_SW_DIFF`, `T2M`, `WS10M`, and `RH2M` to GHI, DNI, DHI, ambient
+temperature, wind speed, and relative humidity. Since the POWER radiation
+values are hourly `Wh/m²`, their numeric values become hourly-average `W/m²`
+for one-hour records. POA irradiance, cloud cover, and QC flags remain blank.
+The output is created without overwriting an existing file.
 
 ## Where each input goes
 
@@ -85,7 +257,7 @@ Generated from the same definitions as the template files, so the ids below matc
 | `pvt_th.thermal_capacitance` | areal_heat_capacity | 3 | pvt_th.thermal_model == quasi_dynamic | Effective thermal capacitance per area |
 | `pvt_th.flow_min` | flow_mass | 5 | always | Minimum permitted collector flow |
 | `pvt_th.flow_max` | flow_mass | 5 | always | Maximum permitted collector flow |
-| `pvt_th.T_fluid_max` | temperature | 5 | always | Maximum permitted collector fluid temperature (stagnation or protection limit) |
+| `pvt_th.T_fluid_max` | temperature | 5 | always | Verified maximum permitted collector fluid temperature; no supplied paper specifies this for the modeled PVT collector |
 | `pvt_th.pv_only_reference_model` | categorical | 3 | always | How the PV-only reference cell temperature is computed for the cooling-benefit comparison |
 
 ### `inputs/parameters/collector_loop.yaml`: Pump, fluid and controller for the collector-to-tank loop

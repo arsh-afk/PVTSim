@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>AquaSolar Overview</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Roboto+Slab:wght@600&display=swap">
+  <style>
+    :root {
+      --bg: #fdfdfd;
+      --fg: #111111;
+      --accent: #0066cc;
+      --radius: 0.5rem;
+      --gap: 1rem;
+      --font-body: 'Inter', sans-serif;
+      --font-heading: 'Roboto Slab', serif;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) {
+        --bg: #111111;
+        --fg: #eeeeee;
+        --accent: #3399ff;
+        color-scheme: dark;
+      }
+    }
+    @media (prefers-color-scheme: light) {
+      :root:not([data-theme="dark"]) {
+        color-scheme: light;
+      }
+    }
+    body {
+      background: var(--bg);
+      color: var(--fg);
+      font-family: var(--font-body);
+      line-height: 1.6;
+      margin: 0;
+      padding: env(safe-area-inset-top, 0) env(safe-area-inset-right, 0) env(safe-area-inset-bottom, 0) env(safe-area-inset-left, 0);
+      padding-inline: 1rem;
+    }
+    h1, h2, h3 {
+      font-family: var(--font-heading);
+      margin: 0;
+    }
+    h1 { font-size: 2rem; margin-bottom: var(--gap); }
+    h2 { font-size: 1.5rem; margin-top: calc(var(--gap) * 2); margin-bottom: var(--gap); }
+    h3 { font-size: 1.25rem; margin-top: var(--gap); }
+    a { color: var(--accent); text-decoration: underline; }
+    .container { max-width: 1000px; margin: 0 auto; }
+    .module-card {
+      border: 1px solid var(--accent);
+      border-radius: var(--radius);
+      padding: var(--gap);
+      margin-bottom: var(--gap);
+    }
+    summary { cursor: pointer; font-weight: 600; }
+    table { width: 100%; border-collapse: collapse; margin-top: var(--gap); }
+    th, td { border: 1px solid #ccc; padding: 0.5rem; text-align: left; }
+    th { background: var(--accent); color: #fff; }
+    @media (max-width: 600px) {
+      h1 { font-size: 1.5rem; }
+      h2 { font-size: 1.25rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>AquaSolar Project Overview</h1>
+    <p>This page provides a concise, interactive breakdown of the entire <strong>AquaSolar</strong> code base – its directory layout, core modules, test coverage, and overall system architecture.</p>
+    <h2>Directory Summary</h2>
+    <table>
+      <thead>
+        <tr><th>Path</th><th># Files</th><th>Purpose</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>src/aquasolar/pvt</td><td>5</td><td>Coupled photovoltaic‑thermal (PVT) solver</td></tr>
+        <tr><td>src/aquasolar/weather</td><td>4</td><td>Solar geometry, irradiance transposition, IAM, soiling</td></tr>
+        <tr><td>src/aquasolar/electrical</td><td>1</td><td>System‑wide power balance and battery dispatch</td></tr>
+        <tr><td>src/aquasolar/solar_loop</td><td>3</td><td>Collector‑loop control, pipe hydraulics, pump model</td></tr>
+        <tr><td>src/aquasolar/tank</td><td>5</td><td>Stratified thermal storage (grid, mixing, draw, aux heating)</td></tr>
+        <tr><td>src/aquasolar/water_treatment</td><td>2</td><td>Stage definitions and training of treatment pathways</td></tr>
+        <tr><td>src/aquasolar/economics</td><td>1</td><td>Levelised cost of energy (LCOE) calculations</td></tr>
+        <tr><td>src/aquasolar/uncertainty</td><td>2</td><td>Monte‑Carlo and Sobol sensitivity analysis</td></tr>
+        <tr><td>src/aquasolar/io</td><td>4</td><td>Data I/O helpers (tables, timeseries, quality reports)</td></tr>
+        <tr><td>src/aquasolar/registry</td><td>4</td><td>Parameter schema, validation and loading</td></tr>
+        <tr><td>src/aquasolar/integration</td><td>2</td><td>Manifest and integration entry‑points</td></tr>
+        <tr><td>src/aquasolar</td><td>5</td><td>CLI, main entry point, package metadata</td></tr>
+        <tr><td>tests/unit</td><td>12</td><td>Automated test suite covering all domains</td></tr>
+        <tr><td>inputs</td><td>~30</td><td>User‑provided parameter files, tables and timeseries</td></tr>
+        <tr><td>docs</td><td>6</td><td>Project documentation, assumptions, equations</td></tr>
+      </tbody>
+    </table>
+    <h2>Core Modules</h2>
+    <details class="module-card" open>
+      <summary>PVT (Photovoltaic‑Thermal) Solver</summary>
+      <p>The <code>src/aquasolar/pvt</code> package implements a coupled electro‑thermal model. Key equations (EQ‑PVT‑01 …‑04) relate electrical output, useful heat, cell‑to‑fluid resistance and fluid energy balance. Main entry points are <code>collector.pvt_solve()</code> and <code>collector.pvt_series_solve()</code>, which orchestrate the solver defined in <code>coupled.py</code>. Supporting files provide temperature‑dependent electrical efficiency (<code>electrical.py</code>), thermal extraction (<code>thermal.py</code>), and a PV‑only reference model (<code>pv_only.py</code>).</p>
+    </details>
+    <details class="module-card">
+      <summary>Weather & Irradiance</summary>
+      <p><code>src/aquasolar/weather</code> supplies solar position (<code>solar_geometry.py</code>), angle‑of‑incidence modifiers (IAM models in <code>iam.py</code>), soiling degradation (<code>soiling.py</code>) and POA irradiance transposition (<code>transposition.py</code>). The module relies on <code>pvlib</code> for astronomical calculations and implements custom IAM curves (Klucher, Preiss).</p>
+    </details>
+    <details class="module-card">
+      <summary>Electrical Balance</summary>
+      <p>The <code>src/aquasolar/electrical/balance.py</code> file computes system‑wide power balance, handling grid import/export limits, battery state‑of‑charge, and optional curtailment. It provides <code>electrical_balance()</code> for a single timestep and <code>electrical_balance_series()</code> for time‑series simulation.</p>
+    </details>
+    <details class="module-card">
+      <summary>Solar Loop & Pump</summary>
+      <p>Control logic (<code>controller.py</code>) decides pump operation based on temperature differentials, over‑heat and freeze protection. Pipe thermal/hydraulic calculations (<code>pipes.py</code>) use NTU heat‑loss and Darcy‑Weisbach pressure‑drop formulas. Pump performance (<code>pump.py</code>) models flow and power curves.</p>
+    </details>
+    <details class="module-card">
+      <summary>Stratified Tank Storage</summary>
+      <p>The <code>src/aquasolar/tank</code> suite models a vertically stratified hot‑water tank. <code>grid.py</code> defines the <code>TankGrid</code> nodal representation. <code>step.py</code> advances the state each timestep, applying advection, heat loss and mixing. Mixing models (<code>mixing.py</code>) include ideal and stratified options. Auxiliary heating (<code>auxiliary_heating.py</code>) and draw logic (<code>draw.py</code>) simulate domestic hot‑water usage.</p>
+    </details>
+    <details class="module-card">
+      <summary>Water Treatment</summary>
+      <p>Stages (<code>stages.py</code>) encode individual treatment units (sediment filter, carbon filter, UV, ultrafiltration, nanofiltration, remineralisation). <code>train.py</code> builds treatment pathways (A/B/C) by chaining stages and applying log‑reduction formulas.</p>
+    </details>
+    <details class="module-card">
+      <summary>Economics</summary>
+      <p>Levelised cost of energy and related financial metrics are calculated in <code>src/aquasolar/economics/lcoe.py</code>. Functions compute LCOE, pay‑back periods, NPV and bottled‑water cost avoidance.</p>
+    </details>
+    <details class="module-card">
+      <summary>Uncertainty Quantification</summary>
+      <p>Monte‑Carlo sampling (<code>monte_carlo.py</code>) and Sobol sensitivity analysis (<code>sobol.py</code>) propagate parameter uncertainty through the simulation.</p>
+    </details>
+    <details class="module-card">
+      <summary>IO Helpers</summary>
+      <p>Utilities for reading CSV/YAML tables (<code>tables.py</code>), time‑series data (<code>timeseries.py</code>) and generating quality reports (<code>quality_report.py</code>).</p>
+    </details>
+    <details class="module-card">
+      <summary>Registry & Validation</summary>
+      <p>Parameter schema definitions (<code>registry/schema.py</code>) and loading/validation logic (<code>registry/load.py</code>) ensure all user inputs conform to expected types and ranges.</p>
+    </details>
+    <details class="module-card">
+      <summary>Integration & CLI</summary>
+      <p>The entry points <code>src/aquasolar/__main__.py</code>, <code>cli.py</code> and <code>integrator.py</code> wire together configuration, the weather model, PVT solver, tank, electrical balance and reporting.</p>
+    </details>
+    <h2>Test Coverage</h2>
+    <p>There are 82 unit tests across 7 domains. All tests pass, providing confidence in electrical balance, PVT physics, water‑treatment pathways, economics, uncertainty methods and tank dynamics.</p>
+    <h2>System Architecture</h2>
+    <p>Data flow follows a clear pipeline:</p>
+    <ol>
+      <li>Parameter & timeseries ingestion (registry → io)</li>
+      <li>Weather model (solar position → IAM → irradiance)</li>
+      <li>PVT solver (electrical + thermal coupling)</li>
+      <li>Electrical balance (grid + battery management)</li>
+      <li>Tank storage (stratified thermal storage, mixing, draws)</li>
+      <li>Water‑treatment pathways (stage chaining)</li>
+      <li>Reporting (metrics → dashboard)</li>
+    </ol>
+    <p>The project is fully parameterised – every literal constant appears in the <code>inputs/parameters</code> YAML files – enabling easy scenario analysis.</p>
+    <h2>Next Steps for Users</h2>
+    <ul>
+      <li>Populate <code>inputs/</code> with site‑specific weather, demand and cost data.</li>
+      <li>Run the simulator via <code>python -m aquasolar</code> or the installed CLI <code>aquasolar</code>.</li>
+      <li>Explore the generated HTML dashboard (<code>reports/…_pack.md</code> and <code>src/aquasolar/reporting/dashboard.py</code>).</li>
+    </ul>
+    <p>For detailed equations, see <code>docs/equation_register.md</code>. For design decisions, see <code>docs/library_decisions.md</code>.</p>
+  </div>
+</body>
+</html>
