@@ -1,0 +1,62 @@
+# Meta file for the data file with the same name. Fill every null field. The agent reads this before the CSV.
+# Units go here per column, not in the CSV body (except where a unit column exists in the CSV).
+file: product_quality_limits.csv
+description: Your drinking-water quality targets
+needed_by_phase: 7
+encoding: UTF-8
+delimiter: comma
+decimal_separator: period
+header_row: true
+data_origin: null
+data_origin_options:
+- measured_onsite
+- measured_other_site
+- typical_year
+- datasheet
+- lab_report
+- other_described_in_notes
+provenance_ref: null
+notes: null
+columns:
+- name: species_id
+  description: Must exist in species_registry
+  required: true
+  unit: null
+  quantity_kind: null
+  sensor_or_source: null
+- name: limit_type
+  description: max, min or range
+  required: true
+  unit: null
+  quantity_kind: null
+  sensor_or_source: null
+- name: limit_low
+  description: Lower limit, empty if not applicable
+  required: false
+  unit: null
+  quantity_kind: null
+  sensor_or_source: null
+- name: limit_high
+  description: Upper limit, empty if not applicable
+  required: false
+  unit: null
+  quantity_kind: null
+  sensor_or_source: null
+- name: unit
+  description: Unit string
+  required: true
+  unit: null
+  quantity_kind: null
+  sensor_or_source: null
+- name: basis
+  description: Regulation or guideline name and clause
+  required: true
+  unit: null
+  quantity_kind: null
+  sensor_or_source: null
+- name: applies_to
+  description: product_water, or tap_water_after_storage
+  required: true
+  unit: null
+  quantity_kind: null
+  sensor_or_source: null

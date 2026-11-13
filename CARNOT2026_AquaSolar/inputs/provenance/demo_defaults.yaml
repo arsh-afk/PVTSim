@@ -1,0 +1,1934 @@
+title: User-authorized exploratory demo defaults
+warning: Not calibrated engineering inputs. Assumptions are deterministic seeded
+  placeholders and must be replaced or independently verified before design, 
+  safety, cost, or potable-water decisions.
+seed: 20261029
+document_source: AquaSolar_TRNSYS_Master_Direction.md, section 3.2
+unmatched_document_coefficients:
+- The document's PV derate fd, kc, and knf have no corresponding registered 
+  model fields and were not applied.
+- The document's MPPT efficiency is represented by the registered MPP factor; 
+  the Python PVT solver applies this factor.
+- The Type-560 eta0/a1 values are mapped to tau_alpha/U_L only as an exploratory
+  approximation; this is not equation equivalence.
+parameters:
+- id: loop.fluid_type
+  value: water
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#loop.fluid_type
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: loop.fluid_density
+  value: 997.0
+  unit: kg/m3
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#loop.fluid_density
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: loop.fluid_cp
+  value: 4180.0
+  unit: J/(kg*K)
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#loop.fluid_cp
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: loop.flow_mode
+  value: fixed
+  unit:
+  source_type: literature
+  source_ref: ../../AquaSolar_TRNSYS_Master_Direction.md#3.2
+  notes: Value transcribed from the cited AquaSolar design basis. Check 
+    interpretation and model-equation compatibility.
+  generated_by_this_preset: true
+- id: loop.mass_flow_fixed
+  value: 0.011111111111111112
+  unit: kg/s
+  source_type: literature
+  source_ref: ../../AquaSolar_TRNSYS_Master_Direction.md#3.2
+  notes: Value transcribed from the cited AquaSolar design basis. Check 
+    interpretation and model-equation compatibility.
+  generated_by_this_preset: true
+- id: loop.pump_power_model
+  value: fixed_when_on
+  unit:
+  source_type: literature
+  source_ref: ../../AquaSolar_TRNSYS_Master_Direction.md#3.2
+  notes: Value transcribed from the cited AquaSolar design basis. Check 
+    interpretation and model-equation compatibility.
+  generated_by_this_preset: true
+- id: loop.pump_power_fixed
+  value: 6.0
+  unit: W
+  source_type: literature
+  source_ref: ../../AquaSolar_TRNSYS_Master_Direction.md#3.2
+  notes: Value transcribed from the cited AquaSolar design basis. Check 
+    interpretation and model-equation compatibility.
+  generated_by_this_preset: true
+- id: loop.pump_efficiency
+  value: 0.5696
+  unit: '1'
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#loop.pump_efficiency
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: loop.pressure_drop
+  value: 257911.557
+  unit: Pa
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#loop.pressure_drop
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: loop.pipe_loss_UA
+  value: 4.858
+  unit: W/K
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#loop.pipe_loss_UA
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: loop.pipe_ambient_mode
+  value: tank_ambient
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#loop.pipe_ambient_mode
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: loop.pipe_ambient_value
+  value: 295.923
+  unit: K
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#loop.pipe_ambient_value
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: loop.hx_present
+  value: true
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#loop.hx_present
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: loop.hx_effectiveness
+  value: 0.7028
+  unit: '1'
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#loop.hx_effectiveness
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: loop.ctrl_dT_on
+  value: 4.0
+  unit: K
+  source_type: literature
+  source_ref: ../../AquaSolar_TRNSYS_Master_Direction.md#3.2
+  notes: Value transcribed from the cited AquaSolar design basis. Check 
+    interpretation and model-equation compatibility.
+  generated_by_this_preset: true
+- id: loop.ctrl_dT_off
+  value: 1.0
+  unit: K
+  source_type: literature
+  source_ref: ../../AquaSolar_TRNSYS_Master_Direction.md#3.2
+  notes: Value transcribed from the cited AquaSolar design basis. Check 
+    interpretation and model-equation compatibility.
+  generated_by_this_preset: true
+- id: loop.ctrl_T_tank_max
+  value: 358.15
+  unit: K
+  source_type: literature
+  source_ref: ../../AquaSolar_TRNSYS_Master_Direction.md#3.2
+  notes: Value transcribed from the cited AquaSolar design basis. Check 
+    interpretation and model-equation compatibility.
+  generated_by_this_preset: true
+- id: loop.ctrl_min_irradiance
+  value: 100.0
+  unit: W/m2
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#loop.ctrl_min_irradiance
+  notes: Demo pump threshold only; the exploratory PVT runner does not use this 
+    controller setting.
+  generated_by_this_preset: true
+- id: loop.ctrl_use_min_irradiance
+  value: false
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#loop.ctrl_use_min_irradiance
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: loop.ctrl_sensor_nodes
+  value: collector outlet versus tank reference; confirm node convention
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#loop.ctrl_sensor_nodes
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: loop.ctrl_min_dwell
+  value: 36677.02
+  unit: s
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#loop.ctrl_min_dwell
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: const.rho_water_ref
+  value: 997.0
+  unit: kg/m3
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#const.rho_water_ref
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: const.cp_water_ref
+  value: 4180.0
+  unit: J/(kg*K)
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#const.cp_water_ref
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: const.property_source
+  value: constant liquid-water properties
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#const.property_source
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: econ.currency
+  value: AED
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#econ.currency
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: econ.horizon
+  value: 20.0
+  unit: year
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#econ.horizon
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: econ.discount_rate
+  value: 0.0279
+  unit: 1/year
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#econ.discount_rate
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: econ.escalation_electricity
+  value: 0.0269
+  unit: 1/year
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#econ.escalation_electricity
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: econ.escalation_water
+  value: 0.0429
+  unit: 1/year
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#econ.escalation_water
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: econ.escalation_other
+  value: 0.0875
+  unit: 1/year
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#econ.escalation_other
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: econ.capex_pvt
+  value: 1232.64
+  unit: AED
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#econ.capex_pvt
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: econ.capex_tank
+  value: 2553.78
+  unit: AED
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#econ.capex_tank
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: econ.capex_treatment
+  value: 1350.45
+  unit: AED
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#econ.capex_treatment
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: econ.capex_monitoring
+  value: 4607.54
+  unit: AED
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#econ.capex_monitoring
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: econ.installation
+  value: 2967.31
+  unit: AED
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#econ.installation
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: econ.annual_maintenance
+  value: 90.57
+  unit: AED/month
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#econ.annual_maintenance
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: econ.monitoring_service_cost
+  value: 14.931
+  unit: AED/month
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#econ.monitoring_service_cost
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: econ.pvt_degradation
+  value: 0.0252
+  unit: 1/year
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#econ.pvt_degradation
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: econ.pvt_lifetime
+  value: 25.0
+  unit: year
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#econ.pvt_lifetime
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: econ.tank_lifetime
+  value: 15.0
+  unit: year
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#econ.tank_lifetime
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: econ.residual_value
+  value: 2254.64
+  unit: AED
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#econ.residual_value
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: econ.electricity_value_basis
+  value: avoided_import_tariff
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#econ.electricity_value_basis
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: econ.displaced_heat_source
+  value: electric_resistance
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#econ.displaced_heat_source
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: econ.displaced_heater_efficiency
+  value: 0.5604
+  unit: '1'
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#econ.displaced_heater_efficiency
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: econ.displaced_fuel_price
+  value: 0.105
+  unit: AED/kWh
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#econ.displaced_fuel_price
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: econ.bottled_price
+  value: 0.006
+  unit: AED/L
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#econ.bottled_price
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: econ.bottled_replaced_fraction
+  value: 0.3708
+  unit: '1'
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#econ.bottled_replaced_fraction
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: econ.municipal_water_price
+  value: 0.011
+  unit: AED/L
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#econ.municipal_water_price
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: econ.reject_disposal_price
+  value: 0.046
+  unit: AED/L
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#econ.reject_disposal_price
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: econ.baseline_ro_capex
+  value: 1530.1
+  unit: AED
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#econ.baseline_ro_capex
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: econ.baseline_ro_power
+  value: 100 W demo comparator; verify rated basis
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#econ.baseline_ro_power
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: econ.baseline_ro_recovery
+  value: 0.9403
+  unit: '1'
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#econ.baseline_ro_recovery
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: econ.baseline_ro_consumable_cost
+  value: 17.877
+  unit: AED/month
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#econ.baseline_ro_consumable_cost
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: econ.baseline_ro_lifetime
+  value: 5.0
+  unit: year
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#econ.baseline_ro_lifetime
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: elec.configuration
+  value: grid_connected_with_battery
+  unit:
+  source_type: literature
+  source_ref: ../../AquaSolar_TRNSYS_Master_Direction.md#3.2
+  notes: Value transcribed from the cited AquaSolar design basis. Check 
+    interpretation and model-equation compatibility.
+  generated_by_this_preset: true
+- id: elec.export_allowed
+  value: true
+  unit:
+  source_type: literature
+  source_ref: ../../AquaSolar_TRNSYS_Master_Direction.md#3.2
+  notes: Value transcribed from the cited AquaSolar design basis. Check 
+    interpretation and model-equation compatibility.
+  generated_by_this_preset: true
+- id: elec.battery_capacity
+  value: 9000000.0
+  unit: J
+  source_type: literature
+  source_ref: ../../AquaSolar_TRNSYS_Master_Direction.md#3.2
+  notes: Value transcribed from the cited AquaSolar design basis. Check 
+    interpretation and model-equation compatibility.
+  generated_by_this_preset: true
+- id: elec.battery_round_trip_eff
+  value: 0.92
+  unit: '1'
+  source_type: literature
+  source_ref: ../../AquaSolar_TRNSYS_Master_Direction.md#3.2
+  notes: Value transcribed from the cited AquaSolar design basis. Check 
+    interpretation and model-equation compatibility.
+  generated_by_this_preset: true
+- id: elec.battery_min_soc
+  value: 0.1
+  unit: '1'
+  source_type: literature
+  source_ref: ../../AquaSolar_TRNSYS_Master_Direction.md#3.2
+  notes: Value transcribed from the cited AquaSolar design basis. Check 
+    interpretation and model-equation compatibility.
+  generated_by_this_preset: true
+- id: elec.battery_max_power
+  value: 214.844
+  unit: W
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#elec.battery_max_power
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: elec.controller_power
+  value: 150.953
+  unit: W
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#elec.controller_power
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: elec.sensor_power_total
+  value: 220.645
+  unit: W
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#elec.sensor_power_total
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: elec.comms_power
+  value: 119.067
+  unit: W
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#elec.comms_power
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: elec.inverter_standby_power
+  value: 106.101
+  unit: W
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#elec.inverter_standby_power
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: elec.priority_order
+  value: critical controls, pumps, water treatment, battery, export
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#elec.priority_order
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: env.system_boundary
+  value: villa PVT collector and listed auxiliaries; demo boundary
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#env.system_boundary
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: env.bottle_volume
+  value: 1.0
+  unit: L
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#env.bottle_volume
+  notes: Demo assumption for a one-litre bottled-water unit; replace with the 
+    comparison basis.
+  generated_by_this_preset: true
+- id: env.bottle_mass
+  value: 0.982
+  unit: kg
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#env.bottle_mass
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: env.grid_emission_factor
+  value: 746.396
+  unit: g_CO2eq/kWh
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#env.grid_emission_factor
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: env.fuel_emission_factor
+  value: 771.233
+  unit: g_CO2eq/kWh
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#env.fuel_emission_factor
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: env.transport_emission_per_volume
+  value: 0.002
+  unit: kg_CO2eq/m3
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#env.transport_emission_per_volume
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: env.include_transport
+  value: true
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#env.include_transport
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: mnt.pathway_ids
+  value: A,B,C
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#mnt.pathway_ids
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: mnt.intensity_order
+  value: A,B,C
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#mnt.intensity_order
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: mnt.objective_mode
+  value: lexicographic
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#mnt.objective_mode
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: mnt.weight_energy
+  value: 0.0672
+  unit: '1'
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#mnt.weight_energy
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: mnt.weight_reject
+  value: 0.0668
+  unit: '1'
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#mnt.weight_reject
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: mnt.weight_consumable
+  value: 0.0853
+  unit: '1'
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#mnt.weight_consumable
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: mnt.lexicographic_order
+  value: quality, energy, cost
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#mnt.lexicographic_order
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: mnt.normalization
+  value: by_user_reference_table
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#mnt.normalization
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: mnt.decision_interval
+  value: 40397.138
+  unit: s
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#mnt.decision_interval
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: mnt.controller_delay
+  value: 10992.677
+  unit: s
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#mnt.controller_delay
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: mnt.infeasible_policy
+  value: flag_and_stop
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#mnt.infeasible_policy
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: numerics.time_step
+  value: 600.0
+  unit: s
+  source_type: literature
+  source_ref: ../../AquaSolar_TRNSYS_Master_Direction.md#3.2
+  notes: Value transcribed from the cited AquaSolar design basis. Check 
+    interpretation and model-equation compatibility.
+  generated_by_this_preset: true
+- id: numerics.start
+  value: '2025-01-01T04:00:00+04:00'
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#numerics.start
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: numerics.end
+  value: '2026-01-01T04:00:00+04:00'
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#numerics.end
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: numerics.spin_up
+  value: 55425.49
+  unit: s
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#numerics.spin_up
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: numerics.property_model
+  value: constant
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#numerics.property_model
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: numerics.loop_solver
+  value: bracketing
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#numerics.loop_solver
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: numerics.loop_tolerance
+  value: 0.0763
+  unit: '1'
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#numerics.loop_tolerance
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: numerics.loop_max_iterations
+  value: 3
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#numerics.loop_max_iterations
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: numerics.tank_scheme
+  value: substepped_explicit
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#numerics.tank_scheme
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: numerics.tank_substeps
+  value: 6
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#numerics.tank_substeps
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: numerics.initial_tank_temperature
+  value: 293.15
+  unit: K
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#numerics.initial_tank_temperature
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: numerics.initial_storage_state
+  value: new consumables; zero loading
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#numerics.initial_storage_state
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: numerics.master_seed
+  value: 20261029
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#numerics.master_seed
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: numerics.ensemble_size
+  value: 1
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#numerics.ensemble_size
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: numerics.mc_stopping_rule
+  value: fixed_size
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#numerics.mc_stopping_rule
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: numerics.mc_stopping_tolerance
+  value: 0.0731
+  unit: '1'
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#numerics.mc_stopping_tolerance
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: numerics.sensitivity_method
+  value: morris_screening
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#numerics.sensitivity_method
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: numerics.output_interval
+  value: 3600.0
+  unit: s
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#numerics.output_interval
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: numerics.gap_policy
+  value: flag_and_stop
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#numerics.gap_policy
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: numerics.gap_max_duration
+  value: 66738.229
+  unit: s
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#numerics.gap_max_duration
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: pvt_el.eta_ref
+  value: 0.2
+  unit: '1'
+  source_type: literature
+  source_ref: ../../AquaSolar_TRNSYS_Master_Direction.md#3.2
+  notes: Value transcribed from the cited AquaSolar design basis. Check 
+    interpretation and model-equation compatibility.
+  generated_by_this_preset: true
+- id: pvt_el.T_ref
+  value: 298.15
+  unit: K
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#pvt_el.T_ref
+  notes: Demo reference condition of 25 degC; verify against the selected module
+    datasheet.
+  generated_by_this_preset: true
+- id: pvt_el.G_ref
+  value: 1000.0
+  unit: W/m2
+  source_type: standard
+  source_ref: IEC 61215-1:2021 standard test conditions
+  notes: Standard test-condition irradiance; not a local weather measurement.
+  generated_by_this_preset: true
+- id: pvt_el.beta
+  value: 0.0037
+  unit: 1/K
+  source_type: literature
+  source_ref: ../../AquaSolar_TRNSYS_Master_Direction.md#3.2
+  notes: Value transcribed from the cited AquaSolar design basis. Check 
+    interpretation and model-equation compatibility.
+  generated_by_this_preset: true
+- id: pvt_el.irradiance_model
+  value: none
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#pvt_el.irradiance_model
+  notes: User-authorized 25 degC reference assumption; verify against the 
+    selected module datasheet.
+  generated_by_this_preset: true
+- id: pvt_el.iam_model
+  value: none
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#pvt_el.iam_model
+  notes: Standard test-condition reference; not a local weather measurement.
+  generated_by_this_preset: true
+- id: pvt_el.inverter_efficiency
+  value: 0.96
+  unit: '1'
+  source_type: literature
+  source_ref: ../../AquaSolar_TRNSYS_Master_Direction.md#3.2
+  notes: Value transcribed from the cited AquaSolar design basis. Check 
+    interpretation and model-equation compatibility.
+  generated_by_this_preset: true
+- id: pvt_el.module_count
+  value: 3
+  unit:
+  source_type: literature
+  source_ref: ../../AquaSolar_TRNSYS_Master_Direction.md#3.2
+  notes: Value transcribed from the cited AquaSolar design basis. Check 
+    interpretation and model-equation compatibility.
+  generated_by_this_preset: true
+- id: pvt_el.mpp_assumption
+  value: user_efficiency_factor
+  unit:
+  source_type: literature
+  source_ref: ../../AquaSolar_TRNSYS_Master_Direction.md#3.2
+  notes: Value transcribed from the cited AquaSolar design basis. Check 
+    interpretation and model-equation compatibility.
+  generated_by_this_preset: true
+- id: pvt_el.mpp_efficiency_factor
+  value: 0.98
+  unit: '1'
+  source_type: literature
+  source_ref: ../../AquaSolar_TRNSYS_Master_Direction.md#3.2
+  notes: Value transcribed from the cited AquaSolar design basis. Check 
+    interpretation and model-equation compatibility.
+  generated_by_this_preset: true
+- id: pvt_th.collector_area
+  value: 6.0
+  unit: m2
+  source_type: literature
+  source_ref: ../../AquaSolar_TRNSYS_Master_Direction.md#3.2
+  notes: Value transcribed from the cited AquaSolar design basis. Check 
+    interpretation and model-equation compatibility.
+  generated_by_this_preset: true
+- id: pvt_th.area_basis
+  value: gross
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#pvt_th.area_basis
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: pvt_th.collector_type
+  value: unglazed
+  unit:
+  source_type: literature
+  source_ref: ../../AquaSolar_TRNSYS_Master_Direction.md#3.2
+  notes: Value transcribed from the cited AquaSolar design basis. Check 
+    interpretation and model-equation compatibility.
+  generated_by_this_preset: true
+- id: pvt_th.thermal_model
+  value: steady_state_hottel_whillier_form
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#pvt_th.thermal_model
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: pvt_th.tau_alpha
+  value: 0.5
+  unit: '1'
+  source_type: literature
+  source_ref: ../../AquaSolar_TRNSYS_Master_Direction.md#3.2
+  notes: Value transcribed from the cited AquaSolar design basis. Check 
+    interpretation and model-equation compatibility.
+  generated_by_this_preset: true
+- id: pvt_th.F_R
+  value: 0.4922
+  unit: '1'
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#pvt_th.F_R
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: pvt_th.U_L
+  value: 12.0
+  unit: W/(m2*K)
+  source_type: literature
+  source_ref: ../../AquaSolar_TRNSYS_Master_Direction.md#3.2
+  notes: Value transcribed from the cited AquaSolar design basis. Check 
+    interpretation and model-equation compatibility.
+  generated_by_this_preset: true
+- id: pvt_th.U_L_wind_dependence
+  value: none
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#pvt_th.U_L_wind_dependence
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: pvt_th.R_cell_fluid
+  value: 0.114
+  unit: K*m2/W
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#pvt_th.R_cell_fluid
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: pvt_th.thermal_capacitance
+  value: 12133.378
+  unit: J/(m2*K)
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#pvt_th.thermal_capacitance
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: pvt_th.flow_min
+  value: 0.005
+  unit: kg/s
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#pvt_th.flow_min
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: pvt_th.flow_max
+  value: 0.02
+  unit: kg/s
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#pvt_th.flow_max
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: pvt_th.T_fluid_max
+  value: 358.15
+  unit: K
+  source_type: literature
+  source_ref: ../../AquaSolar_TRNSYS_Master_Direction.md#6.2
+  notes: Maximum collector fluid temperature set to 358.15 K (85 °C) matching 
+    the 85 °C collector/pump cut-out design basis specified in AquaSolar TRNSYS 
+    Master Direction (Section 6.2 and 14).
+  generated_by_this_preset: false
+- id: pvt_th.demo_inlet_temperature
+  value: 293.15
+  unit: K
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#pvt_th.demo_inlet_temperature
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: pvt_th.pv_only_reference_model
+  value: user_named_model_in_equation_register
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#pvt_th.pv_only_reference_model
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: site.latitude
+  value: 25.79
+  unit: deg
+  source_type: literature
+  source_ref: ../../AquaSolar_TRNSYS_Master_Direction.md#3.2
+  notes: Value transcribed from the cited AquaSolar design basis. Check 
+    interpretation and model-equation compatibility.
+  generated_by_this_preset: true
+- id: site.longitude
+  value: 55.94
+  unit: deg
+  source_type: literature
+  source_ref: ../../AquaSolar_TRNSYS_Master_Direction.md#3.2
+  notes: Value transcribed from the cited AquaSolar design basis. Check 
+    interpretation and model-equation compatibility.
+  generated_by_this_preset: true
+- id: site.elevation
+  value: 31.1
+  unit: m
+  source_type: literature
+  source_ref: ../../ARE_RK_Khaimah.Intl.AP.411840_TMYx.epw#LOCATION
+  notes: Elevation copied from the EPW LOCATION header; confirm it represents 
+    the modeled site.
+  generated_by_this_preset: true
+- id: site.timezone
+  value: Asia/Dubai
+  unit:
+  source_type: literature
+  source_ref: ../../AquaSolar_TRNSYS_Master_Direction.md#3.2
+  notes: Value transcribed from the cited AquaSolar design basis. Check 
+    interpretation and model-equation compatibility.
+  generated_by_this_preset: true
+- id: site.collector_tilt
+  value: 25.0
+  unit: deg
+  source_type: literature
+  source_ref: ../../AquaSolar_TRNSYS_Master_Direction.md#3.2
+  notes: Value transcribed from the cited AquaSolar design basis. Check 
+    interpretation and model-equation compatibility.
+  generated_by_this_preset: true
+- id: site.collector_azimuth
+  value: 0.0
+  unit: deg
+  source_type: literature
+  source_ref: ../../AquaSolar_TRNSYS_Master_Direction.md#3.2
+  notes: Value transcribed from the cited AquaSolar design basis. Check 
+    interpretation and model-equation compatibility.
+  generated_by_this_preset: true
+- id: site.azimuth_convention
+  value: south_zero_east_negative
+  unit:
+  source_type: literature
+  source_ref: ../../AquaSolar_TRNSYS_Master_Direction.md#3.2
+  notes: Value transcribed from the cited AquaSolar design basis. Check 
+    interpretation and model-equation compatibility.
+  generated_by_this_preset: true
+- id: site.ground_albedo
+  value: 0.2
+  unit: '1'
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#site.ground_albedo
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: site.shading_loss_factor
+  value: 0.0
+  unit: '1'
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#site.shading_loss_factor
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: soiling.mode
+  value: none
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#soiling.mode
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: soiling.loss_rate
+  value: 0.0706
+  unit: 1/year
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#soiling.loss_rate
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: soiling.max_loss
+  value: 0.4914
+  unit: '1'
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#soiling.max_loss
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: soiling.clean_recovery
+  value: 0.3599
+  unit: '1'
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#soiling.clean_recovery
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: sq.enabled
+  value: false
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#sq.enabled
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: sq.villa_storage_volume
+  value: 5.264
+  unit: L
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#sq.villa_storage_volume
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: sq.mixing_model
+  value: user_named_model_in_equation_register
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#sq.mixing_model
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: sq.disinfectant_species_id
+  value: free_chlorine
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#sq.disinfectant_species_id
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: sq.decay_model
+  value: first_order_arrhenius
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#sq.decay_model
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: sq.k_ref
+  value: 0.0852
+  unit: 1/year
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#sq.k_ref
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: sq.T_ref
+  value: 303.658
+  unit: K
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#sq.T_ref
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: sq.temp_coefficient
+  value: 38613.588
+  unit: J/(mol*K)
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#sq.temp_coefficient
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: sq.wall_decay
+  value: 0.0159
+  unit: 1/year
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#sq.wall_decay
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: sq.wall_decay_enabled
+  value: true
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#sq.wall_decay_enabled
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: sq.storage_temperature_mode
+  value: constant_value
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#sq.storage_temperature_mode
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: sq.storage_temperature_constant
+  value: 294.082
+  unit: K
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#sq.storage_temperature_constant
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: sq.initial_concentration
+  value: 1.624
+  unit: mg/L
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#sq.initial_concentration
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: sq.treated_storage_enabled
+  value: true
+  unit:
+  source_type: literature
+  source_ref: ../../AquaSolar_TRNSYS_Master_Direction.md#3.2
+  notes: Value transcribed from the cited AquaSolar design basis. Check 
+    interpretation and model-equation compatibility.
+  generated_by_this_preset: true
+- id: sq.treated_storage_volume
+  value: 30.0
+  unit: L
+  source_type: literature
+  source_ref: ../../AquaSolar_TRNSYS_Master_Direction.md#3.2
+  notes: Value transcribed from the cited AquaSolar design basis. Check 
+    interpretation and model-equation compatibility.
+  generated_by_this_preset: true
+- id: sq.treated_decay_note
+  value: uses the storage decay assumptions in this demo preset
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#sq.treated_decay_note
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: tank.volume
+  value: 150.0
+  unit: L
+  source_type: literature
+  source_ref: ../../AquaSolar_TRNSYS_Master_Direction.md#3.2
+  notes: Value transcribed from the cited AquaSolar design basis. Check 
+    interpretation and model-equation compatibility.
+  generated_by_this_preset: true
+- id: tank.height
+  value: 2.267
+  unit: m
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#tank.height
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: tank.diameter
+  value: 1.725
+  unit: m
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#tank.diameter
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: tank.node_count
+  value: 6
+  unit:
+  source_type: literature
+  source_ref: ../../AquaSolar_TRNSYS_Master_Direction.md#3.2
+  notes: Value transcribed from the cited AquaSolar design basis. Check 
+    interpretation and model-equation compatibility.
+  generated_by_this_preset: true
+- id: tank.UA_total
+  value: 4.292
+  unit: W/K
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#tank.UA_total
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: tank.loss_distribution
+  value: by_surface_area
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#tank.loss_distribution
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: tank.ambient_mode
+  value: timeseries
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#tank.ambient_mode
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: tank.ambient_constant
+  value: 314.778
+  unit: K
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#tank.ambient_constant
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: tank.charge_inlet_node
+  value: 4
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#tank.charge_inlet_node
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: tank.charge_outlet_node
+  value: 8
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#tank.charge_outlet_node
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: tank.charge_method
+  value: direct_fluid_exchange
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#tank.charge_method
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: tank.coil_effectiveness
+  value: 0.3878
+  unit: '1'
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#tank.coil_effectiveness
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: tank.draw_outlet_node
+  value: 1
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#tank.draw_outlet_node
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: tank.makeup_inlet_node
+  value: 7
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#tank.makeup_inlet_node
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: tank.conduction_model
+  value: none
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#tank.conduction_model
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: tank.effective_conductivity
+  value: 0.9
+  unit: W/(m*K)
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#tank.effective_conductivity
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: tank.mixing_model
+  value: instant_inversion_mixing
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#tank.mixing_model
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: tank.aux_present
+  value: true
+  unit:
+  source_type: literature
+  source_ref: ../../AquaSolar_TRNSYS_Master_Direction.md#3.2
+  notes: Value transcribed from the cited AquaSolar design basis. Check 
+    interpretation and model-equation compatibility.
+  generated_by_this_preset: true
+- id: tank.aux_power
+  value: 1200.0
+  unit: W
+  source_type: literature
+  source_ref: ../../AquaSolar_TRNSYS_Master_Direction.md#3.2
+  notes: Value transcribed from the cited AquaSolar design basis. Check 
+    interpretation and model-equation compatibility.
+  generated_by_this_preset: true
+- id: tank.aux_efficiency
+  value: 0.95
+  unit: '1'
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#tank.aux_efficiency
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: tank.aux_setpoint
+  value: 326.15
+  unit: K
+  source_type: literature
+  source_ref: ../../AquaSolar_TRNSYS_Master_Direction.md#3.2
+  notes: Value transcribed from the cited AquaSolar design basis. Check 
+    interpretation and model-equation compatibility.
+  generated_by_this_preset: true
+- id: tank.aux_node
+  value: 2
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#tank.aux_node
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: tank.delivery_temp_min
+  value: 318.15
+  unit: K
+  source_type: literature
+  source_ref: ../../AquaSolar_TRNSYS_Master_Direction.md#3.2
+  notes: Value transcribed from the cited AquaSolar design basis. Check 
+    interpretation and model-equation compatibility.
+  generated_by_this_preset: true
+- id: tank.stored_temp_min_safety
+  value: 313.808
+  unit: K
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#tank.stored_temp_min_safety
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: tank.safety_policy
+  value: false
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#tank.safety_policy
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: tc.pathway_stage_lists
+  value: 'A: sediment,carbon; B: sediment,carbon,UV; C: sediment,carbon,low_pressure_ro,remineralisation,UV'
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#tc.pathway_stage_lists
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: tc.rated_product_flow
+  value: 3.2859477291666672e-06
+  unit: m3/s
+  source_type: literature
+  source_ref: ../../AquaSolar_TRNSYS_Master_Direction.md#3.2
+  notes: Value transcribed from the cited AquaSolar design basis. Check 
+    interpretation and model-equation compatibility.
+  generated_by_this_preset: true
+- id: tc.feed_pressure_available
+  value: 101325.0
+  unit: Pa
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#tc.feed_pressure_available
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: tc.booster_pump_efficiency
+  value: 0.22
+  unit: '1'
+  source_type: literature
+  source_ref: ../../AquaSolar_TRNSYS_Master_Direction.md#3.2
+  notes: Value transcribed from the cited AquaSolar design basis. Check 
+    interpretation and model-equation compatibility.
+  generated_by_this_preset: true
+- id: tc.booster_present
+  value: true
+  unit:
+  source_type: literature
+  source_ref: ../../AquaSolar_TRNSYS_Master_Direction.md#3.2
+  notes: Value transcribed from the cited AquaSolar design basis. Check 
+    interpretation and model-equation compatibility.
+  generated_by_this_preset: true
+- id: tc.sediment.pressure_drop_model
+  value: constant
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#tc.sediment.pressure_drop_model
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: tc.sediment.capacity
+  value: 1.12
+  unit: kg
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#tc.sediment.capacity
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: tc.sediment.replacement_rule
+  value: volume
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#tc.sediment.replacement_rule
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: tc.carbon.pressure_drop_model
+  value: constant
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#tc.carbon.pressure_drop_model
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: tc.carbon.capacity
+  value: 8.686
+  unit: kg
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#tc.carbon.capacity
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: tc.carbon.replacement_rule
+  value: time
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#tc.carbon.replacement_rule
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: tc.carbon.disinfectant_removal_model
+  value: species_removal_table
+  unit:
+  source_type: assumption
+  source_ref: 
+    ../provenance/demo_defaults.yaml#tc.carbon.disinfectant_removal_model
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: tc.uf.pressure_drop_model
+  value: vs_loading_table
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#tc.uf.pressure_drop_model
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: tc.uf.recovery
+  value: 0.8823
+  unit: '1'
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#tc.uf.recovery
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: tc.uf.backwash_volume
+  value: 216.903
+  unit: L
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#tc.uf.backwash_volume
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: tc.uf.backwash_interval
+  value: 12 h (demo assumption)
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#tc.uf.backwash_interval
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: tc.uf.backwash_energy
+  value: 4589.489
+  unit: J
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#tc.uf.backwash_energy
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: tc.uf.replacement_rule
+  value: time
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#tc.uf.replacement_rule
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: tc.uf.capacity
+  value: 8.872
+  unit: kg
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#tc.uf.capacity
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: tc.membrane.type
+  value: low_pressure_ro
+  unit:
+  source_type: literature
+  source_ref: ../../AquaSolar_TRNSYS_Master_Direction.md#3.2
+  notes: Value transcribed from the cited AquaSolar design basis. Check 
+    interpretation and model-equation compatibility.
+  generated_by_this_preset: true
+- id: tc.membrane.recovery
+  value: 0.5
+  unit: '1'
+  source_type: literature
+  source_ref: ../../AquaSolar_TRNSYS_Master_Direction.md#3.2
+  notes: Value transcribed from the cited AquaSolar design basis. Check 
+    interpretation and model-equation compatibility.
+  generated_by_this_preset: true
+- id: tc.membrane.operating_pressure
+  value: 600000.0
+  unit: Pa
+  source_type: literature
+  source_ref: ../../AquaSolar_TRNSYS_Master_Direction.md#3.2
+  notes: Value transcribed from the cited AquaSolar design basis. Check 
+    interpretation and model-equation compatibility.
+  generated_by_this_preset: true
+- id: tc.membrane.pump_efficiency
+  value: 0.22
+  unit: '1'
+  source_type: literature
+  source_ref: ../../AquaSolar_TRNSYS_Master_Direction.md#3.2
+  notes: Value transcribed from the cited AquaSolar design basis. Check 
+    interpretation and model-equation compatibility.
+  generated_by_this_preset: true
+- id: tc.membrane.flux_model
+  value: constant_recovery_only
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#tc.membrane.flux_model
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: tc.membrane.water_permeability
+  value: 3e-11
+  unit: m/(s*Pa)
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#tc.membrane.water_permeability
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: tc.membrane.area
+  value: 0.369
+  unit: m2
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#tc.membrane.area
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: tc.membrane.temp_correction
+  value: none
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#tc.membrane.temp_correction
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: tc.membrane.fouling_model
+  value: none
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#tc.membrane.fouling_model
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: tc.membrane.fouling_rate
+  value: 0.284815274969
+  unit: 1/(m3*s)
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#tc.membrane.fouling_rate
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: tc.membrane.replacement_rule
+  value: permeability_loss
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#tc.membrane.replacement_rule
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: tc.membrane.capacity
+  value: 1.291
+  unit: kg
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#tc.membrane.capacity
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: tc.membrane.pretreatment_note
+  value: sediment and carbon filters (demo configuration)
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#tc.membrane.pretreatment_note
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: tc.remin.enabled
+  value: true
+  unit:
+  source_type: literature
+  source_ref: ../../AquaSolar_TRNSYS_Master_Direction.md#3.2
+  notes: Value transcribed from the cited AquaSolar design basis. Check 
+    interpretation and model-equation compatibility.
+  generated_by_this_preset: true
+- id: tc.remin.method
+  value: Ca/Mg remineralisation
+  unit:
+  source_type: literature
+  source_ref: ../../AquaSolar_TRNSYS_Master_Direction.md#3.2
+  notes: Value transcribed from the cited AquaSolar design basis. Check 
+    interpretation and model-equation compatibility.
+  generated_by_this_preset: true
+- id: tc.remin.energy_per_volume
+  value: 1103552.027
+  unit: J/m3
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#tc.remin.energy_per_volume
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: tc.uv.lamp_power
+  value: 167.881
+  unit: W
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#tc.uv.lamp_power
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: tc.uv.ballast_efficiency
+  value: 0.538
+  unit: '1'
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#tc.uv.ballast_efficiency
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: tc.uv.power_basis
+  value: wall_side
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#tc.uv.power_basis
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: tc.uv.operation_policy
+  value: on_with_flow
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#tc.uv.operation_policy
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: tc.uv.warmup_time
+  value: 78314.434
+  unit: s
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#tc.uv.warmup_time
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: tc.uv.lamp_life
+  value: 54658.903
+  unit: s
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#tc.uv.lamp_life
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: tc.uv.dose_accounting
+  value: false
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#tc.uv.dose_accounting
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: tc.uv.transmittance_source
+  value: feed_water_quality_series
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#tc.uv.transmittance_source
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: tc.uv.lamp_intensity
+  value: 1.961
+  unit: W/m2
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#tc.uv.lamp_intensity
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: tc.uv.reactor_volume
+  value: 464.028
+  unit: L
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#tc.uv.reactor_volume
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: tc.uv.target_dose
+  value: 25914.069
+  unit: J/m2
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#tc.uv.target_dose
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: tc.conductivity_to_tds_factor
+  value: 0.0959
+  unit: '1'
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#tc.conductivity_to_tds_factor
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: tc.use_conductivity_to_tds
+  value: true
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#tc.use_conductivity_to_tds
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: tc.sensor_cost_and_power_note
+  value: sensor and monitoring values are demo assumptions
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#tc.sensor_cost_and_power_note
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: ver.energy_balance_tol_abs
+  value: 3184.578
+  unit: J
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#ver.energy_balance_tol_abs
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: ver.energy_balance_tol_rel
+  value: 0.8834
+  unit: '1'
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#ver.energy_balance_tol_rel
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: ver.mass_balance_tol_rel
+  value: 0.8539
+  unit: '1'
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#ver.mass_balance_tol_rel
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: ver.analytical_test_tol_rel
+  value: 0.6427
+  unit: '1'
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#ver.analytical_test_tol_rel
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: ver.timestep_convergence_tol
+  value: 0.5069
+  unit: '1'
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#ver.timestep_convergence_tol
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: ver.nodecount_convergence_tol
+  value: 0.1661
+  unit: '1'
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#ver.nodecount_convergence_tol
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: ver.calibration_period
+  value: not calibrated; exploratory demonstration only
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#ver.calibration_period
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: ver.validation_period
+  value: not validated; exploratory demonstration only
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#ver.validation_period
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true
+- id: ver.calibration_parameter_list
+  value: none; do not calibrate demo defaults
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#ver.calibration_parameter_list
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+  generated_by_this_preset: true

@@ -1,0 +1,1159 @@
+# AquaSolar Living parameter template.
+# HOW TO FILL: for each entry set `value`, `unit`, `source_type`, `source_ref`, `uncertainty`, `valid_range`,
+# then set `status: confirmed` (only you do this). Leave an entry as `draft` and the simulation will refuse to run.
+# If `required_when` is false for your setup, set `status: not_applicable` and leave value empty.
+# `unit` must be a unit string the agent's unit library parses; the agent lists accepted examples in docs/units_accepted.md.
+# For categorical entries, `value` must be exactly one of `allowed_values`.
+# The agent must not edit any `value`, `unit` or `status` field.
+file: treatment_components
+title: Per-stage hardware data for the treatment train
+schema_version: '1.0'
+status_options:
+- draft
+- confirmed
+- not_applicable
+source_type_options:
+- measured
+- datasheet
+- literature
+- standard
+- assumption
+parameters:
+- id: tc.pathway_stage_lists
+  symbol:
+  description: Stage lists for pathways A, B, C as ordered ids from the allowed 
+    set (text)
+  quantity_kind: text
+  needed_by_phase: 6
+  required_when: always
+  value: 'A: sediment,carbon; B: sediment,carbon,UV; C: sediment,carbon,low_pressure_ro,remineralisation,UV'
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#tc.pathway_stage_lists
+  uncertainty:
+    kind:
+    value:
+    distribution:
+  valid_range:
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+- id: tc.rated_product_flow
+  symbol:
+  description: Product flow at which the unit runs when it is on, per pathway 
+    basis stated in notes; demand above it is unmet
+  quantity_kind: flow_volumetric
+  needed_by_phase: 6
+  required_when: always
+  value: 3.2859477291666673e-06
+  unit: m3/s
+  source_type: literature
+  source_ref: ../../AquaSolar_TRNSYS_Master_Direction.md#3.2
+  uncertainty:
+    kind:
+    value:
+    distribution:
+  valid_range:
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: Value transcribed from the cited AquaSolar design basis. Check 
+    interpretation and model-equation compatibility.
+- id: tc.feed_pressure_available
+  symbol:
+  description: Pressure available at the unit inlet
+  quantity_kind: pressure
+  needed_by_phase: 6
+  required_when: always
+  value: 101325.0
+  unit: Pa
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#tc.feed_pressure_available
+  uncertainty:
+    kind:
+    value:
+    distribution:
+  valid_range:
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+- id: tc.booster_pump_efficiency
+  symbol:
+  description: Booster pump overall efficiency, if a booster is used
+  quantity_kind: fraction
+  needed_by_phase: 6
+  required_when: tc.booster_present == true
+  value: 0.22
+  unit: '1'
+  source_type: literature
+  source_ref: ../../AquaSolar_TRNSYS_Master_Direction.md#3.2
+  uncertainty:
+    kind:
+    value:
+    distribution:
+  valid_range:
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: Value transcribed from the cited AquaSolar design basis. Check 
+    interpretation and model-equation compatibility.
+- id: tc.booster_present
+  symbol:
+  description: Whether a booster pump is used for any pathway
+  quantity_kind: boolean
+  needed_by_phase: 6
+  required_when: always
+  value: true
+  unit:
+  source_type: literature
+  source_ref: ../../AquaSolar_TRNSYS_Master_Direction.md#3.2
+  uncertainty:
+    kind:
+    value:
+    distribution:
+  valid_range:
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: Value transcribed from the cited AquaSolar design basis. Check 
+    interpretation and model-equation compatibility.
+- id: tc.sediment.pressure_drop_model
+  symbol:
+  description: Pressure drop treatment for the sediment filter
+  quantity_kind: categorical
+  needed_by_phase: 6
+  required_when: always
+  allowed_values:
+  - constant
+  - vs_loading_table
+  value: constant
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#tc.sediment.pressure_drop_model
+  uncertainty:
+    kind:
+    value:
+    distribution:
+  valid_range:
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+- id: tc.sediment.capacity
+  symbol:
+  description: Loading capacity before replacement (basis in notes)
+  quantity_kind: loading_capacity
+  needed_by_phase: 6
+  required_when: always
+  value: 1.12
+  unit: kg
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#tc.sediment.capacity
+  uncertainty:
+    kind:
+    value:
+    distribution:
+  valid_range:
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+- id: tc.sediment.replacement_rule
+  symbol:
+  description: Replacement trigger
+  quantity_kind: categorical
+  needed_by_phase: 6
+  required_when: always
+  allowed_values:
+  - time
+  - volume
+  - pressure_drop
+  - loading
+  value: volume
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#tc.sediment.replacement_rule
+  uncertainty:
+    kind:
+    value:
+    distribution:
+  valid_range:
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+- id: tc.carbon.pressure_drop_model
+  symbol:
+  description: Pressure drop treatment for activated carbon
+  quantity_kind: categorical
+  needed_by_phase: 6
+  required_when: always
+  allowed_values:
+  - constant
+  - vs_loading_table
+  value: constant
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#tc.carbon.pressure_drop_model
+  uncertainty:
+    kind:
+    value:
+    distribution:
+  valid_range:
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+- id: tc.carbon.capacity
+  symbol:
+  description: Loading capacity before breakthrough or replacement
+  quantity_kind: loading_capacity
+  needed_by_phase: 6
+  required_when: always
+  value: 8.686
+  unit: kg
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#tc.carbon.capacity
+  uncertainty:
+    kind:
+    value:
+    distribution:
+  valid_range:
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+- id: tc.carbon.replacement_rule
+  symbol:
+  description: Replacement trigger
+  quantity_kind: categorical
+  needed_by_phase: 6
+  required_when: always
+  allowed_values:
+  - time
+  - volume
+  - breakthrough
+  - loading
+  value: time
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#tc.carbon.replacement_rule
+  uncertainty:
+    kind:
+    value:
+    distribution:
+  valid_range:
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+- id: tc.carbon.disinfectant_removal_model
+  symbol:
+  description: How residual disinfectant removal is handled
+  quantity_kind: categorical
+  needed_by_phase: 6
+  required_when: always
+  allowed_values:
+  - species_removal_table
+  - complete_removal
+  value: species_removal_table
+  unit:
+  source_type: assumption
+  source_ref: 
+    ../provenance/demo_defaults.yaml#tc.carbon.disinfectant_removal_model
+  uncertainty:
+    kind:
+    value:
+    distribution:
+  valid_range:
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+- id: tc.uf.pressure_drop_model
+  symbol:
+  description: Pressure drop treatment for ultrafiltration
+  quantity_kind: categorical
+  needed_by_phase: 6
+  required_when: always
+  allowed_values:
+  - constant
+  - vs_loading_table
+  value: vs_loading_table
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#tc.uf.pressure_drop_model
+  uncertainty:
+    kind:
+    value:
+    distribution:
+  valid_range:
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+- id: tc.uf.recovery
+  symbol:
+  description: Ultrafiltration water recovery
+  quantity_kind: fraction
+  needed_by_phase: 6
+  required_when: always
+  value: 0.8823
+  unit: '1'
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#tc.uf.recovery
+  uncertainty:
+    kind:
+    value:
+    distribution:
+  valid_range:
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+- id: tc.uf.backwash_volume
+  symbol:
+  description: Volume used per backwash
+  quantity_kind: volume
+  needed_by_phase: 6
+  required_when: always
+  value: 216.903
+  unit: L
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#tc.uf.backwash_volume
+  uncertainty:
+    kind:
+    value:
+    distribution:
+  valid_range:
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+- id: tc.uf.backwash_interval
+  symbol:
+  description: Time or volume between backwashes (basis in notes)
+  quantity_kind: text
+  needed_by_phase: 6
+  required_when: always
+  value: 12 h (demo assumption)
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#tc.uf.backwash_interval
+  uncertainty:
+    kind:
+    value:
+    distribution:
+  valid_range:
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+- id: tc.uf.backwash_energy
+  symbol:
+  description: Electrical energy per backwash
+  quantity_kind: energy
+  needed_by_phase: 6
+  required_when: always
+  value: 4589.489
+  unit: J
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#tc.uf.backwash_energy
+  uncertainty:
+    kind:
+    value:
+    distribution:
+  valid_range:
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+- id: tc.uf.replacement_rule
+  symbol:
+  description: Replacement trigger
+  quantity_kind: categorical
+  needed_by_phase: 6
+  required_when: always
+  allowed_values:
+  - time
+  - volume
+  - pressure_drop
+  - permeability_loss
+  value: time
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#tc.uf.replacement_rule
+  uncertainty:
+    kind:
+    value:
+    distribution:
+  valid_range:
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+- id: tc.uf.capacity
+  symbol:
+  description: Capacity before replacement (basis in notes)
+  quantity_kind: loading_capacity
+  needed_by_phase: 6
+  required_when: always
+  value: 8.872
+  unit: kg
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#tc.uf.capacity
+  uncertainty:
+    kind:
+    value:
+    distribution:
+  valid_range:
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+- id: tc.membrane.type
+  symbol:
+  description: Membrane class used in pathway C
+  quantity_kind: categorical
+  needed_by_phase: 6
+  required_when: always
+  allowed_values:
+  - nanofiltration
+  - low_pressure_ro
+  value: low_pressure_ro
+  unit:
+  source_type: literature
+  source_ref: ../../AquaSolar_TRNSYS_Master_Direction.md#3.2
+  uncertainty:
+    kind:
+    value:
+    distribution:
+  valid_range:
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: Value transcribed from the cited AquaSolar design basis. Check 
+    interpretation and model-equation compatibility.
+- id: tc.membrane.recovery
+  symbol:
+  description: Water recovery of the membrane stage
+  quantity_kind: fraction
+  needed_by_phase: 6
+  required_when: always
+  value: 0.5
+  unit: '1'
+  source_type: literature
+  source_ref: ../../AquaSolar_TRNSYS_Master_Direction.md#3.2
+  uncertainty:
+    kind:
+    value:
+    distribution:
+  valid_range:
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: Value transcribed from the cited AquaSolar design basis. Check 
+    interpretation and model-equation compatibility.
+- id: tc.membrane.operating_pressure
+  symbol:
+  description: Operating pressure at the membrane
+  quantity_kind: pressure
+  needed_by_phase: 6
+  required_when: always
+  value: 600000.0
+  unit: Pa
+  source_type: literature
+  source_ref: ../../AquaSolar_TRNSYS_Master_Direction.md#3.2
+  uncertainty:
+    kind:
+    value:
+    distribution:
+  valid_range:
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: Value transcribed from the cited AquaSolar design basis. Check 
+    interpretation and model-equation compatibility.
+- id: tc.membrane.pump_efficiency
+  symbol:
+  description: High-pressure pump overall efficiency
+  quantity_kind: fraction
+  needed_by_phase: 6
+  required_when: always
+  value: 0.22
+  unit: '1'
+  source_type: literature
+  source_ref: ../../AquaSolar_TRNSYS_Master_Direction.md#3.2
+  uncertainty:
+    kind:
+    value:
+    distribution:
+  valid_range:
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: Value transcribed from the cited AquaSolar design basis. Check 
+    interpretation and model-equation compatibility.
+- id: tc.membrane.flux_model
+  symbol:
+  description: Flux model
+  quantity_kind: categorical
+  needed_by_phase: 6
+  required_when: always
+  allowed_values:
+  - constant_recovery_only
+  - solution_diffusion_user_parameters
+  - manufacturer_projection_table
+  value: constant_recovery_only
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#tc.membrane.flux_model
+  uncertainty:
+    kind:
+    value:
+    distribution:
+  valid_range:
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+- id: tc.membrane.water_permeability
+  symbol:
+  description: Water permeability coefficient
+  quantity_kind: permeability
+  needed_by_phase: 6
+  required_when: tc.membrane.flux_model == solution_diffusion_user_parameters
+  value: 3e-11
+  unit: m/(s*Pa)
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#tc.membrane.water_permeability
+  uncertainty:
+    kind:
+    value:
+    distribution:
+  valid_range:
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+- id: tc.membrane.area
+  symbol:
+  description: Membrane area
+  quantity_kind: area
+  needed_by_phase: 6
+  required_when: tc.membrane.flux_model != constant_recovery_only
+  value: 0.369
+  unit: m2
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#tc.membrane.area
+  uncertainty:
+    kind:
+    value:
+    distribution:
+  valid_range:
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+- id: tc.membrane.temp_correction
+  symbol:
+  description: Temperature correction of flux
+  quantity_kind: categorical
+  needed_by_phase: 6
+  required_when: always
+  allowed_values:
+  - none
+  - user_curve_table
+  - user_named_model_in_equation_register
+  value: none
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#tc.membrane.temp_correction
+  uncertainty:
+    kind:
+    value:
+    distribution:
+  valid_range:
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+- id: tc.membrane.fouling_model
+  symbol:
+  description: Fouling treatment
+  quantity_kind: categorical
+  needed_by_phase: 6
+  required_when: always
+  allowed_values:
+  - none
+  - user_rate_per_volume
+  - user_table
+  value: none
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#tc.membrane.fouling_model
+  uncertainty:
+    kind:
+    value:
+    distribution:
+  valid_range:
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+- id: tc.membrane.fouling_rate
+  symbol:
+  description: Permeability decline per unit throughput
+  quantity_kind: rate_per_volume
+  needed_by_phase: 6
+  required_when: tc.membrane.fouling_model == user_rate_per_volume
+  value: 0.284815274969
+  unit: 1/(m3*s)
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#tc.membrane.fouling_rate
+  uncertainty:
+    kind:
+    value:
+    distribution:
+  valid_range:
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+- id: tc.membrane.replacement_rule
+  symbol:
+  description: Replacement trigger
+  quantity_kind: categorical
+  needed_by_phase: 6
+  required_when: always
+  allowed_values:
+  - time
+  - volume
+  - permeability_loss
+  - rejection_loss
+  value: permeability_loss
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#tc.membrane.replacement_rule
+  uncertainty:
+    kind:
+    value:
+    distribution:
+  valid_range:
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+- id: tc.membrane.capacity
+  symbol:
+  description: Capacity before replacement (basis in notes)
+  quantity_kind: loading_capacity
+  needed_by_phase: 6
+  required_when: always
+  value: 1.291
+  unit: kg
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#tc.membrane.capacity
+  uncertainty:
+    kind:
+    value:
+    distribution:
+  valid_range:
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+- id: tc.membrane.pretreatment_note
+  symbol:
+  description: What pretreatment precedes the membrane in pathway C (text)
+  quantity_kind: text
+  needed_by_phase: 6
+  required_when: always
+  value: sediment and carbon filters (demo configuration)
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#tc.membrane.pretreatment_note
+  uncertainty:
+    kind:
+    value:
+    distribution:
+  valid_range:
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+- id: tc.remin.enabled
+  symbol:
+  description: Remineralization stage present in pathway C
+  quantity_kind: boolean
+  needed_by_phase: 6
+  required_when: always
+  value: true
+  unit:
+  source_type: literature
+  source_ref: ../../AquaSolar_TRNSYS_Master_Direction.md#3.2
+  uncertainty:
+    kind:
+    value:
+    distribution:
+  valid_range:
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: Value transcribed from the cited AquaSolar design basis. Check 
+    interpretation and model-equation compatibility.
+- id: tc.remin.method
+  symbol:
+  description: Remineralization method (text)
+  quantity_kind: text
+  needed_by_phase: 6
+  required_when: tc.remin.enabled == true
+  value: Ca/Mg remineralisation
+  unit:
+  source_type: literature
+  source_ref: ../../AquaSolar_TRNSYS_Master_Direction.md#3.2
+  uncertainty:
+    kind:
+    value:
+    distribution:
+  valid_range:
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: Value transcribed from the cited AquaSolar design basis. Check 
+    interpretation and model-equation compatibility.
+- id: tc.remin.energy_per_volume
+  symbol:
+  description: Electrical energy per volume for remineralization
+  quantity_kind: energy_per_volume
+  needed_by_phase: 6
+  required_when: tc.remin.enabled == true
+  value: 1103552.027
+  unit: J/m3
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#tc.remin.energy_per_volume
+  uncertainty:
+    kind:
+    value:
+    distribution:
+  valid_range:
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+- id: tc.uv.lamp_power
+  symbol:
+  description: UV lamp electrical power when on
+  quantity_kind: power
+  needed_by_phase: 6
+  required_when: always
+  value: 167.881
+  unit: W
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#tc.uv.lamp_power
+  uncertainty:
+    kind:
+    value:
+    distribution:
+  valid_range:
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+- id: tc.uv.ballast_efficiency
+  symbol:
+  description: Ballast efficiency, if the lamp power above is lamp-side
+  quantity_kind: fraction
+  needed_by_phase: 6
+  required_when: tc.uv.power_basis == lamp_side
+  value: 0.538
+  unit: '1'
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#tc.uv.ballast_efficiency
+  uncertainty:
+    kind:
+    value:
+    distribution:
+  valid_range:
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+- id: tc.uv.power_basis
+  symbol:
+  description: Whether lamp power is measured at the wall or the lamp
+  quantity_kind: categorical
+  needed_by_phase: 6
+  required_when: always
+  allowed_values:
+  - wall_side
+  - lamp_side
+  value: wall_side
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#tc.uv.power_basis
+  uncertainty:
+    kind:
+    value:
+    distribution:
+  valid_range:
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+- id: tc.uv.operation_policy
+  symbol:
+  description: Lamp operation policy
+  quantity_kind: categorical
+  needed_by_phase: 6
+  required_when: always
+  allowed_values:
+  - on_with_flow
+  - always_on
+  - on_with_flow_plus_warmup
+  value: on_with_flow
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#tc.uv.operation_policy
+  uncertainty:
+    kind:
+    value:
+    distribution:
+  valid_range:
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+- id: tc.uv.warmup_time
+  symbol:
+  description: Warm-up time before output is valid
+  quantity_kind: time
+  needed_by_phase: 6
+  required_when: tc.uv.operation_policy == on_with_flow_plus_warmup
+  value: 78314.434
+  unit: s
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#tc.uv.warmup_time
+  uncertainty:
+    kind:
+    value:
+    distribution:
+  valid_range:
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+- id: tc.uv.lamp_life
+  symbol:
+  description: Rated lamp operating life
+  quantity_kind: time
+  needed_by_phase: 6
+  required_when: always
+  value: 54658.903
+  unit: s
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#tc.uv.lamp_life
+  uncertainty:
+    kind:
+    value:
+    distribution:
+  valid_range:
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+- id: tc.uv.dose_accounting
+  symbol:
+  description: Whether UV dose is computed
+  quantity_kind: boolean
+  needed_by_phase: 6
+  required_when: always
+  value: false
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#tc.uv.dose_accounting
+  uncertainty:
+    kind:
+    value:
+    distribution:
+  valid_range:
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+- id: tc.uv.transmittance_source
+  symbol:
+  description: Source of UV transmittance of the water
+  quantity_kind: categorical
+  needed_by_phase: 6
+  required_when: tc.uv.dose_accounting == true
+  allowed_values:
+  - feed_water_quality_series
+  - constant_value
+  value: feed_water_quality_series
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#tc.uv.transmittance_source
+  uncertainty:
+    kind:
+    value:
+    distribution:
+  valid_range:
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+- id: tc.uv.lamp_intensity
+  symbol:
+  description: Effective UV intensity in the reactor
+  quantity_kind: uv_intensity
+  needed_by_phase: 6
+  required_when: tc.uv.dose_accounting == true
+  value: 1.961
+  unit: W/m2
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#tc.uv.lamp_intensity
+  uncertainty:
+    kind:
+    value:
+    distribution:
+  valid_range:
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+- id: tc.uv.reactor_volume
+  symbol:
+  description: Reactor irradiated volume
+  quantity_kind: volume
+  needed_by_phase: 6
+  required_when: tc.uv.dose_accounting == true
+  value: 464.028
+  unit: L
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#tc.uv.reactor_volume
+  uncertainty:
+    kind:
+    value:
+    distribution:
+  valid_range:
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+- id: tc.uv.target_dose
+  symbol:
+  description: Target dose for the dose check
+  quantity_kind: uv_dose
+  needed_by_phase: 6
+  required_when: tc.uv.dose_accounting == true
+  value: 25914.069
+  unit: J/m2
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#tc.uv.target_dose
+  uncertainty:
+    kind:
+    value:
+    distribution:
+  valid_range:
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+- id: tc.conductivity_to_tds_factor
+  symbol:
+  description: Conversion factor if TDS is derived from conductivity
+  quantity_kind: dimensionless
+  needed_by_phase: 6
+  required_when: tc.use_conductivity_to_tds == true
+  value: 0.0959
+  unit: '1'
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#tc.conductivity_to_tds_factor
+  uncertainty:
+    kind:
+    value:
+    distribution:
+  valid_range:
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+- id: tc.use_conductivity_to_tds
+  symbol:
+  description: Whether TDS is derived from conductivity
+  quantity_kind: boolean
+  needed_by_phase: 6
+  required_when: always
+  value: true
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#tc.use_conductivity_to_tds
+  uncertainty:
+    kind:
+    value:
+    distribution:
+  valid_range:
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+- id: tc.sensor_cost_and_power_note
+  symbol:
+  description: Anything not covered above that draws power (text)
+  quantity_kind: text
+  needed_by_phase: 6
+  required_when: always
+  value: sensor and monitoring values are demo assumptions
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#tc.sensor_cost_and_power_note
+  uncertainty:
+    kind:
+    value:
+    distribution:
+  valid_range:
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.

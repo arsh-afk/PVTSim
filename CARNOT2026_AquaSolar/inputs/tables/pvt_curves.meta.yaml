@@ -1,0 +1,68 @@
+# Meta file for the data file with the same name. Fill every null field. The agent reads this before the CSV.
+# Units go here per column, not in the CSV body (except where a unit column exists in the CSV).
+file: pvt_curves.csv
+description: 'Optional curves: efficiency vs irradiance, incidence-angle modifier, wind dependence, pump curve, membrane projection'
+needed_by_phase: 3
+encoding: UTF-8
+delimiter: comma
+decimal_separator: period
+header_row: true
+data_origin: null
+data_origin_options:
+- measured_onsite
+- measured_other_site
+- typical_year
+- datasheet
+- lab_report
+- other_described_in_notes
+provenance_ref: null
+notes: null
+columns:
+- name: curve_id
+  description: irradiance_efficiency, iam, wind_loss, pump, membrane_projection, or other id
+  required: true
+  unit: null
+  quantity_kind: null
+  sensor_or_source: null
+- name: x_name
+  description: Name of the x variable
+  required: true
+  unit: null
+  quantity_kind: null
+  sensor_or_source: null
+- name: x_value
+  description: x value
+  required: true
+  unit: null
+  quantity_kind: null
+  sensor_or_source: null
+- name: x_unit
+  description: Unit string of x
+  required: true
+  unit: null
+  quantity_kind: null
+  sensor_or_source: null
+- name: y_name
+  description: Name of the y variable
+  required: true
+  unit: null
+  quantity_kind: null
+  sensor_or_source: null
+- name: y_value
+  description: y value
+  required: true
+  unit: null
+  quantity_kind: null
+  sensor_or_source: null
+- name: y_unit
+  description: Unit string of y
+  required: true
+  unit: null
+  quantity_kind: null
+  sensor_or_source: null
+- name: source_ref
+  description: Source file or verified citation
+  required: true
+  unit: null
+  quantity_kind: null
+  sensor_or_source: null

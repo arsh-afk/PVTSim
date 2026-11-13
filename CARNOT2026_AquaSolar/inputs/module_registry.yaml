@@ -1,0 +1,158 @@
+# Operational status describes the current CLI execution path, not whether source files exist.
+# Enabled is a persistent workbench selection; toggling it never deletes parameter values.
+modules:
+  - id: pvt_runner
+    name: PVT collector and weather calculation
+    operational_status: operational
+    enabled: true
+    parameter_files:
+      - site
+      - pvt_electrical
+      - pvt_thermal
+      - collector_loop
+    parameter_ids:
+      - site.latitude
+      - site.longitude
+      - site.elevation
+      - site.collector_tilt
+      - site.collector_azimuth
+      - site.azimuth_convention
+      - site.ground_albedo
+      - site.shading_loss_factor
+      - soiling.mode
+      - pvt_el.eta_ref
+      - pvt_el.T_ref
+      - pvt_el.beta
+      - pvt_el.irradiance_model
+      - pvt_el.iam_model
+      - pvt_el.mpp_assumption
+      - pvt_el.mpp_efficiency_factor
+      - pvt_th.collector_area
+      - pvt_th.thermal_model
+      - pvt_th.tau_alpha
+      - pvt_th.F_R
+      - pvt_th.U_L
+      - pvt_th.U_L_wind_dependence
+      - pvt_th.R_cell_fluid
+      - pvt_th.T_fluid_max
+      - pvt_th.demo_inlet_temperature
+      - loop.mass_flow_fixed
+      - loop.fluid_cp
+    data_kinds:
+      - timeseries
+    requirements:
+      - Confirm the required PVT values, supported modes, units, and traceable sources.
+      - Select a compatible hourly weather CSV with timestamp, GHI, DNI, DHI, ambient temperature, and wind speed.
+    description: Current supported aquasolar run path; exploratory fixed-inlet PVT-only calculation.
+
+  - id: solar_loop
+    name: Collector-to-tank solar loop
+    operational_status: prototype
+    enabled: false
+    parameter_files:
+      - collector_loop
+    data_kinds: []
+    requirements:
+      - Complete pump, pipe-loss, heat-exchanger, and controller inputs for an integrated loop run.
+    description: Loop helpers and parameter definitions are not connected to the current CLI run.
+
+  - id: tank_storage
+    name: Thermal tank and storage quality
+    operational_status: prototype
+    enabled: false
+    parameter_files:
+      - tank
+      - storage_quality
+    data_kinds: []
+    requirements:
+      - Complete tank geometry, heat-loss, node, draw, and storage-quality requirements.
+    description: Tank and storage-quality code is not connected to the current CLI run.
+
+  - id: minimum_treatment_decision
+    name: Minimum necessary treatment controller
+    operational_status: prototype
+    enabled: false
+    parameter_files:
+      - mnt_spec
+    data_kinds: []
+    requirements:
+      - Complete treatment objectives, pathway ordering, constraints, and decision timing.
+    description: MNT helpers are not connected to the current CLI run.
+
+  - id: water_treatment
+    name: Water treatment train
+    operational_status: prototype
+    enabled: false
+    parameter_files:
+      - treatment_components
+    data_kinds: []
+    requirements:
+      - Complete the selected treatment pathway stages, capacities, operating limits, and water-quality inputs.
+    description: Treatment-stage helpers and component definitions are not connected to the current CLI run.
+
+  - id: electrical_balance
+    name: Electrical bus and loads
+    operational_status: prototype
+    enabled: false
+    parameter_files:
+      - electrical_system
+      - pvt_electrical
+    data_kinds: []
+    requirements:
+      - Complete the electrical configuration, export policy, loads, storage, and inverter requirements.
+    description: Electrical-balance code is not connected to the current CLI run.
+
+  - id: economics
+    name: Economic assessment
+    operational_status: prototype
+    enabled: false
+    parameter_files:
+      - economics
+    data_kinds: []
+    requirements:
+      - Complete costs, lifetimes, tariffs, baselines, and the selected financial assumptions.
+    description: Economic helpers are not connected to the current CLI run.
+
+  - id: environmental_accounting
+    name: Environmental accounting
+    operational_status: not_integrated
+    enabled: false
+    parameter_files:
+      - environment
+    data_kinds: []
+    requirements:
+      - Define the system boundary and complete the applicable emissions and displacement factors.
+    description: Inputs are registered but no environmental calculation is in the current CLI run.
+
+  - id: uncertainty
+    name: Uncertainty and sensitivity analysis
+    operational_status: prototype
+    enabled: false
+    parameter_files:
+      - numerics
+    data_kinds: []
+    requirements:
+      - Select the analysis method, ensemble settings, seed, and stopping criteria.
+    description: Analysis helpers are not connected to the current CLI run.
+
+  - id: verification
+    name: Verification and validation
+    operational_status: not_integrated
+    enabled: false
+    parameter_files:
+      - verification
+    data_kinds: []
+    requirements:
+      - Set acceptance tolerances and define the calibration, validation, and convergence cases.
+    description: Verification inputs are registered but not consumed by the current CLI run.
+
+  - id: physical_constants
+    name: Physical constants and properties
+    operational_status: not_integrated
+    enabled: false
+    parameter_files:
+      - constants
+    data_kinds: []
+    requirements:
+      - Choose the supported property model and cite the selected constant or property source.
+    description: These registered constants are not consumed by the current PVT-only CLI run.

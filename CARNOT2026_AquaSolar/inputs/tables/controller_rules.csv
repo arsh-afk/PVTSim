@@ -1,0 +1,1 @@
+rule_id,priority,input_signal,comparison,threshold_low,threshold_high,unit,action_pathway,hysteresis,min_dwell

@@ -1,0 +1,386 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light">
+    <title>AquaSolar | Carnot Evaluation Workbench</title>
+    <link rel="stylesheet" href="/static/app.css">
+  </head>
+  <body class="app-body">
+    <div class="app-shell">
+      <aside class="sidebar" aria-label="Project navigation">
+        <a class="brand" href="/" aria-label="AquaSolar workbench home">
+          <span class="brand-mark" aria-hidden="true">A</span>
+          <span><strong>AquaSolar</strong><small>Carnot evaluation workbench</small></span>
+        </a>
+        <div class="project-chip"><span class="status-dot"></span> Local project</div>
+        <nav class="primary-nav" aria-label="Evaluator navigation">
+          <p class="nav-section-label">Review the project</p>
+          <button class="nav-link is-active" data-view="overview" aria-current="page"><span>01</span> Overview</button>
+          <button class="nav-link" data-view="model"><span>02</span> System model</button>
+          <button class="nav-link" data-view="runs"><span>03</span> Results &amp; plots</button>
+          <button class="nav-link" data-view="validation"><span>04</span> Validation</button>
+          <p class="nav-section-label nav-section-spaced">Inspect the inputs</p>
+          <button class="nav-link" data-view="parameters"><span>05</span> Parameters <b id="nav-parameter-count">—</b></button>
+          <button class="nav-link" data-view="data"><span>06</span> Data files <b id="nav-data-count">—</b></button>
+        </nav>
+        <div class="sidebar-footer">
+          <span class="eyebrow">MODEL SCOPE</span>
+          <p>Exploratory PVT-only estimate. Tank, DHW, electrical bus, and treatment are not simulated.</p>
+        </div>
+      </aside>
+
+      <main class="workspace">
+        <header class="topbar">
+          <div class="crumbs"><span>PROJECT</span><span class="crumb-separator">/</span><strong id="view-crumb">Project overview</strong></div>
+          <div class="temp-unit-toggle" role="group" aria-label="Temperature unit selection">
+            <span class="temp-unit-label">Temp:</span>
+            <button type="button" class="temp-unit-btn is-active" data-temp-unit="C" title="Display temperature in Celsius (°C)" aria-pressed="true">°C</button>
+            <button type="button" class="temp-unit-btn" data-temp-unit="K" title="Display temperature in Kelvin (K)" aria-pressed="false">K</button>
+          </div>
+          <div class="search-shell">
+            <label class="global-search">
+              <span aria-hidden="true">⌕</span>
+              <input id="global-search" type="search" placeholder="Search inputs, files, outputs…" autocomplete="off" aria-label="Search all project items" aria-expanded="false">
+              <kbd>Ctrl K</kbd>
+            </label>
+            <div id="global-results" class="global-results" role="listbox" hidden></div>
+          </div>
+          <button class="button button-quiet" id="validate-now" type="button">Validate project</button>
+        </header>
+
+        <section class="view is-visible" id="view-overview" aria-labelledby="overview-title">
+          <div class="page-heading">
+            <div>
+              <p class="eyebrow">PROJECT READINESS</p>
+              <h1 id="overview-title">Project overview</h1>
+              <p class="lede">Follow the model, inspect its results, then review validation and source inputs.</p>
+            </div>
+            <div class="validation-stamp" id="readiness-stamp"><span class="status-dot"></span><span>Checking inputs…</span></div>
+          </div>
+          <div class="readiness-grid">
+            <article class="readiness-card">
+              <span class="eyebrow">BLOCKING ISSUES</span>
+              <strong id="summary-errors">—</strong>
+              <p>Must be resolved before a run.</p>
+              <button class="text-button" data-go="validation">Review findings <span aria-hidden="true">→</span></button>
+            </article>
+            <article class="readiness-card">
+              <span class="eyebrow">WARNINGS</span>
+              <strong id="summary-warnings">—</strong>
+              <p>Review metadata and input quality.</p>
+              <button class="text-button" data-go="validation">Inspect warnings <span aria-hidden="true">→</span></button>
+            </article>
+            <article class="readiness-card">
+              <span class="eyebrow">REGISTERED INPUTS</span>
+              <strong id="summary-inputs">—</strong>
+              <p>Parameters, tables, and time series.</p>
+              <button class="text-button" data-go="parameters">Browse parameters <span aria-hidden="true">→</span></button>
+            </article>
+          </div>
+          <section class="review-path panel" aria-labelledby="review-path-title">
+            <div><p class="eyebrow">EVALUATOR TOUR</p><h2 id="review-path-title">Review the evidence in sequence</h2><p class="muted">Start with the system and equations, then inspect a reproducible run and its input checks.</p></div>
+            <div class="review-path-actions">
+              <button class="review-step" data-go="model" type="button"><span>01</span><strong>Understand the model</strong><small>System diagram and calculation graph →</small></button>
+              <button class="review-step" data-go="runs" type="button"><span>02</span><strong>Inspect results</strong><small>Hourly PVT outputs and plots →</small></button>
+              <button class="review-step" data-go="validation" type="button"><span>03</span><strong>Check reproducibility</strong><small>Validation findings and provenance →</small></button>
+            </div>
+          </section>
+          <div class="content-grid overview-content">
+            <article class="panel">
+              <div class="panel-heading"><div><p class="eyebrow">NEXT ACTION</p><h2 id="next-action-title">Loading readiness</h2></div></div>
+              <p id="next-action-copy" class="muted">The project validator checks parameter requirements and registered data files.</p>
+              <button class="button button-primary" data-go="validation" type="button">Open validation report</button>
+            </article>
+            <article class="panel scope-panel">
+              <p class="eyebrow">IMPORTANT LIMIT</p>
+              <h2>Temperature limit needs evidence</h2>
+              <p>The PVT runner requires a verified collector-fluid maximum. The supplied cogeneration papers do not establish this PVT collector limit; do not infer it from DHW or tank temperatures.</p>
+              <a href="/api/reference" target="_blank" rel="noreferrer">Open corrected source comparison <span aria-hidden="true">↗</span></a>
+            </article>
+          </div>
+        </section>
+
+        <section class="view" id="view-parameters" aria-labelledby="parameters-title">
+          <div class="page-heading compact-heading">
+            <div><p class="eyebrow">REGISTERED INPUTS</p><h1 id="parameters-title">Parameters</h1><p class="lede">Search by ID, description, group, source, or requirement. Changes stay staged until you preview and apply them.</p></div>
+            <span class="count-pill" id="parameter-count">— parameters</span>
+          </div>
+          <div class="browser-layout">
+            <div class="browser-list panel">
+              <div class="list-tools">
+                <label class="field-search"><span aria-hidden="true">⌕</span><input id="parameter-search" type="search" placeholder="Search parameters…" aria-label="Search parameters"></label>
+                <select id="parameter-status-filter" aria-label="Filter parameters by status">
+                  <option value="">All statuses</option><option value="confirmed">Confirmed</option><option value="draft">Draft</option><option value="not_applicable">Not applicable</option>
+                </select>
+                <select id="parameter-group-filter" aria-label="Filter parameters by group"><option value="">All groups</option></select>
+              </div>
+              <div id="parameter-list" class="record-list" role="list"></div>
+            </div>
+            <article class="detail-panel panel" id="parameter-detail">
+              <div class="empty-state"><span class="empty-mark">P</span><h2>Select a parameter</h2><p>Its definition, requirement, provenance, and editable fields will appear here.</p></div>
+            </article>
+          </div>
+        </section>
+
+        <section class="view" id="view-data" aria-labelledby="data-title">
+          <div class="page-heading compact-heading">
+            <div><p class="eyebrow">INPUT DATA</p><h1 id="data-title">Tables &amp; time series</h1><p class="lede">Inspect metadata, search columns, validate data quality, and stage a replacement file for review.</p></div>
+            <span class="count-pill" id="data-count">— files</span>
+          </div>
+          <div class="browser-layout data-layout">
+            <div class="browser-list panel">
+              <div class="list-tools">
+                <label class="field-search"><span aria-hidden="true">⌕</span><input id="data-search" type="search" placeholder="Search files or columns…" aria-label="Search data files"></label>
+                <select id="data-kind-filter" aria-label="Filter data file type"><option value="">Tables and time series</option><option value="tables">Tables</option><option value="timeseries">Time series</option></select>
+              </div>
+              <div id="data-list" class="record-list" role="list"></div>
+            </div>
+            <article class="detail-panel panel" id="data-detail">
+              <div class="empty-state"><span class="empty-mark">D</span><h2>Select a data file</h2><p>Review its columns, metadata, sample rows, and current validation findings.</p></div>
+            </article>
+          </div>
+        </section>
+
+        <section class="view" id="view-validation" aria-labelledby="validation-title">
+          <div class="page-heading compact-heading">
+            <div><p class="eyebrow">PREFLIGHT REPORT</p><h1 id="validation-title">Validation</h1><p class="lede">Each finding points to its file and field. Fix the source input, then validate again.</p></div>
+            <button class="button button-primary" id="refresh-validation" type="button">Run validation</button>
+          </div>
+          <div class="validation-summary" id="validation-summary"></div>
+          <div class="list-tools validation-tools">
+            <label class="field-search"><span aria-hidden="true">⌕</span><input id="finding-search" type="search" placeholder="Search findings…" aria-label="Search validation findings"></label>
+            <select id="severity-filter" aria-label="Filter findings by severity"><option value="">All severities</option><option value="error">Blocking errors</option><option value="warning">Warnings</option></select>
+            <select id="finding-category-filter" aria-label="Filter findings by category"><option value="">All categories</option></select>
+          </div>
+          <div id="finding-list" class="finding-list"></div>
+        </section>
+
+        <section class="view" id="view-model" aria-labelledby="model-title">
+          <div class="page-heading compact-heading">
+            <div><p class="eyebrow">SYSTEM &amp; MATHEMATICAL MODEL</p><h1 id="model-title">How AquaSolar works</h1><p class="lede">See the physical energy and water pathways, then follow the calculations that the current PVT runner actually executes.</p></div>
+            <button class="button button-primary" data-go="runs" type="button">View simulation results</button>
+          </div>
+          <div class="model-tabs" role="tablist" aria-label="Model sections">
+            <button class="model-tab is-active" id="model-tab-system" type="button" role="tab" aria-selected="true" aria-controls="model-panel-system" data-model-tab="system">Physical system</button>
+            <button class="model-tab" id="model-tab-flow" type="button" role="tab" aria-selected="false" aria-controls="model-panel-flow" data-model-tab="flow">Calculation graph</button>
+            <button class="model-tab" id="model-tab-modules" type="button" role="tab" aria-selected="false" aria-controls="model-panel-modules" data-model-tab="modules">Modules &amp; requirements</button>
+          </div>
+          <section class="model-panel" id="model-panel-system" role="tabpanel" aria-labelledby="model-tab-system">
+            <div class="system-intro">
+              <div><p class="eyebrow">PHYSICAL ENERGY &amp; WATER PATHWAYS</p><h2>From desert sunlight to useful outputs</h2><p>The PVT collector converts solar input to electricity and useful heat. Downstream storage, domestic hot water, and water-treatment blocks show the wider concept; they are not connected to the current executable simulation.</p></div>
+              <div class="diagram-legend" aria-label="Diagram legend">
+                <span><i class="legend-swatch implemented"></i> Implemented in current PVT run</span>
+                <span><i class="legend-swatch conceptual"></i> Conceptual · not simulated</span>
+              </div>
+            </div>
+            <div class="system-diagram-scroll">
+              <svg class="system-diagram" viewBox="0 0 1160 600" role="img" aria-labelledby="system-diagram-title system-diagram-description">
+                <title id="system-diagram-title">AquaSolar PVT and water-assurance system schematic</title>
+                <desc id="system-diagram-description">Weather and site data drive solar geometry and plane-of-array irradiance, then the PVT collector calculates electrical output and useful heat. Storage, domestic hot water, electrical bus, and water treatment are conceptual extensions not simulated by the current runner.</desc>
+                <defs>
+                  <marker id="arrow-active" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#087c78"></path></marker>
+                  <marker id="arrow-concept" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#8a9995"></path></marker>
+                </defs>
+                <rect class="diagram-region-active" x="18" y="24" width="790" height="552" rx="18"></rect>
+                <text class="diagram-region-label" x="42" y="54">EXECUTED PVT-ONLY MODEL</text>
+
+                <g class="diagram-node is-active">
+                  <rect x="42" y="102" width="190" height="96" rx="12"></rect>
+                  <text class="diagram-node-title" x="60" y="132">Weather + site</text>
+                  <text x="60" y="158">GHI · DNI · DHI · ambient</text>
+                  <text x="60" y="178">location · tilt · azimuth</text>
+                </g>
+                <g class="diagram-node is-active">
+                  <rect x="286" y="102" width="205" height="96" rx="12"></rect>
+                  <text class="diagram-node-title" x="304" y="132">Solar geometry</text>
+                  <text x="304" y="158">Solar position + transposition</text>
+                  <text x="304" y="178">POA → effective irradiance</text>
+                </g>
+                <path class="diagram-flow is-active" d="M232 150 H278" marker-end="url(#arrow-active)"></path>
+
+                <g class="diagram-node is-active">
+                  <rect x="532" y="92" width="240" height="228" rx="14"></rect>
+                  <text class="diagram-node-title" x="552" y="123">PVT collector</text>
+                  <text x="552" y="148">Coupled electrical + thermal solve</text>
+                  <rect class="collector-cell" x="554" y="166" width="196" height="70" rx="7"></rect>
+                  <path class="collector-grid" d="M603 166 V236 M652 166 V236 M701 166 V236 M554 201 H750"></path>
+                  <path class="collector-pipe" d="M560 260 H744"></path>
+                  <path class="collector-pipe-arrow" d="M570 260 H730" marker-end="url(#arrow-active)"></path>
+                  <text x="552" y="290">Fixed inlet + fixed-flow / zero-flow branch</text>
+                  <text class="diagram-small" x="552" y="309">No dynamic tank or pump controller</text>
+                </g>
+                <path class="diagram-flow is-active" d="M491 150 H524" marker-end="url(#arrow-active)"></path>
+                <text class="diagram-flow-label" x="496" y="137">G_eff</text>
+
+                <g class="diagram-node is-active">
+                  <rect x="572" y="380" width="200" height="78" rx="12"></rect>
+                  <text class="diagram-node-title" x="590" y="410">Electrical output</text>
+                  <text x="590" y="436">P_el · interval energy</text>
+                </g>
+                <g class="diagram-node is-active">
+                  <rect x="320" y="380" width="210" height="78" rx="12"></rect>
+                  <text class="diagram-node-title" x="338" y="410">Thermal output</text>
+                  <text x="338" y="436">Q_u · T_out · interval energy</text>
+                </g>
+                <path class="diagram-flow is-active" d="M652 320 V372" marker-end="url(#arrow-active)"></path>
+                <path class="diagram-flow is-active" d="M652 320 C652 348 425 344 425 372" marker-end="url(#arrow-active)"></path>
+                <text class="diagram-flow-label" x="664" y="354">P_el</text>
+                <text class="diagram-flow-label" x="500" y="351">Q_u</text>
+
+                <g class="diagram-node is-concept">
+                  <rect x="870" y="82" width="250" height="90" rx="12"></rect>
+                  <text class="diagram-node-title" x="890" y="112">Electrical bus / loads</text>
+                  <text x="890" y="138">Grid, household, treatment power</text>
+                  <text class="diagram-status" x="890" y="158">NOT SIMULATED</text>
+                </g>
+                <path class="diagram-flow is-concept" d="M772 419 C825 419 820 127 862 127" marker-end="url(#arrow-concept)"></path>
+
+                <g class="diagram-node is-concept">
+                  <rect x="870" y="238" width="250" height="90" rx="12"></rect>
+                  <text class="diagram-node-title" x="890" y="268">Thermal storage</text>
+                  <text x="890" y="294">Stratified tank / heat buffering</text>
+                  <text class="diagram-status" x="890" y="314">NOT SIMULATED</text>
+                </g>
+                <path class="diagram-flow is-concept" d="M530 419 H862" marker-end="url(#arrow-concept)"></path>
+
+                <g class="diagram-node is-concept">
+                  <rect x="870" y="374" width="250" height="76" rx="12"></rect>
+                  <text class="diagram-node-title" x="890" y="404">DHW demand</text>
+                  <text x="890" y="428">Thermal service to the villa</text>
+                  <text class="diagram-status" x="890" y="444">NOT SIMULATED</text>
+                </g>
+                <path class="diagram-flow is-concept" d="M995 328 V366" marker-end="url(#arrow-concept)"></path>
+
+                <g class="diagram-node is-concept">
+                  <rect x="870" y="488" width="250" height="76" rx="12"></rect>
+                  <text class="diagram-node-title" x="890" y="518">Water assurance</text>
+                  <text x="890" y="542">Raw feed → MNT → product water</text>
+                  <text class="diagram-status" x="890" y="556">NOT SIMULATED</text>
+                </g>
+                <path class="diagram-flow is-concept" d="M995 172 V228" marker-end="url(#arrow-concept)"></path>
+                <text class="diagram-flow-label" x="1008" y="207">conceptual energy link</text>
+                <path class="diagram-flow is-concept" d="M812 526 H862" marker-end="url(#arrow-concept)"></path>
+              </svg>
+            </div>
+            <p class="diagram-caption">The solid, teal-bounded portion is the current runnable model. The dashed, gray links describe the broader AquaSolar concept only; they do not represent computed energy or water balances.</p>
+          </section>
+          <section class="model-panel" id="model-panel-flow" role="tabpanel" aria-labelledby="model-tab-flow" hidden>
+            <div class="model-note" id="model-load-status" role="status">Loading calculation trace…</div>
+            <p class="graph-explainer">Follow arrows from registered inputs through the calculations to saved hourly and summary outputs. Select a node to inspect its equation, parameter values, units, and source.</p>
+            <div class="trace-run-bar">
+              <label class="form-field"><span>Saved run snapshot</span><select id="trace-run-select"><option value="">No saved runs</option></select></label>
+              <p class="muted">Snapshots show the inputs and summary outputs recorded by that run. Existing runs without a snapshot are identified as unavailable.</p>
+            </div>
+            <div class="trace-graph-scroll">
+              <div class="trace-graph" id="trace-graph" role="group" aria-label="Interactive directed graph of inputs, calculations, and outputs"></div>
+            </div>
+            <article class="trace-detail panel" id="trace-detail" aria-live="polite">
+              <div class="empty-state"><span class="empty-mark">ƒ</span><h2>Select a graph node</h2><p>Inspect its values, equation, units, dependencies, and implementation source.</p></div>
+            </article>
+            <section class="analysis-section trace-snapshot" aria-labelledby="trace-snapshot-title">
+              <div class="analysis-section-heading"><div><p class="eyebrow">RECORDED RUN</p><h2 id="trace-snapshot-title">Inputs and outputs</h2></div></div>
+              <div id="trace-run-snapshot" class="analysis-table-wrap"><p class="muted">Select a saved run to inspect its summary and input snapshot.</p></div>
+            </section>
+          </section>
+          <section class="model-panel" id="model-panel-modules" role="tabpanel" aria-labelledby="model-tab-modules" hidden>
+            <div class="module-intro panel">
+              <div><p class="eyebrow">IMPLEMENTATION SCOPE</p><h2>Module status and preparation</h2><p>Operational status is maintained by the project. Enablement only controls which module inputs appear in the workbench. Enabled modules that are not integrated show preparation requirements and do not execute or block the current PVT-only run.</p></div>
+            </div>
+            <div id="module-list" class="module-list" aria-live="polite"><p class="muted">Loading module registry…</p></div>
+          </section>
+        </section>
+
+        <section class="view" id="view-runs" aria-labelledby="runs-title">
+          <div class="page-heading compact-heading">
+            <div><p class="eyebrow">EXPLORATORY CALCULATION</p><h1 id="runs-title">Runs &amp; plots</h1><p class="lede">Compare hourly weather drivers and PVT-only outputs across saved scenarios.</p></div>
+            <span class="scope-badge">PVT ONLY · NOT DESIGN-VALIDATED</span>
+          </div>
+          <div class="content-grid run-grid">
+            <article class="panel run-form-panel">
+              <p class="eyebrow">NEW SCENARIO</p>
+              <h2>Run preflight</h2>
+              <label class="form-field"><span>Scenario ID</span><input id="scenario-id" type="text" placeholder="e.g. summer-case-01" maxlength="80"></label>
+              <label class="form-field"><span>Hourly weather file</span><select id="weather-select"></select></label>
+              <div class="weather-quality" id="weather-quality">Checking compatible weather files…</div>
+              <div class="run-blocker" id="run-blocker"></div>
+              <button class="button button-primary button-wide" id="start-run" type="button" disabled>Start PVT run</button>
+              <div id="run-job-status" class="run-job-status" aria-live="polite"></div>
+              <details class="weather-upload-details">
+                <summary>Add a weather dataset</summary>
+                <p class="muted">Add a unique hourly CSV with its matching metadata sidecar. The pair is validated in preview and saved only after confirmation.</p>
+                <label class="form-field"><span>Weather CSV</span><input id="weather-csv-upload" type="file" accept=".csv,text/csv"></label>
+                <label class="form-field"><span>Matching .meta.yaml</span><input id="weather-meta-upload" type="file" accept=".yaml,.yml,text/yaml"></label>
+                <div id="weather-upload-status" class="weather-upload-status" role="status" aria-live="polite">Choose both files with the same base filename.</div>
+              </details>
+            </article>
+            <article class="panel results-panel">
+              <div class="panel-heading"><div><p class="eyebrow">SAVED RESULTS</p><h2>Scenario explorer</h2></div><button class="button button-quiet" id="refresh-runs" type="button">Refresh</button></div>
+              <div class="result-controls">
+                <fieldset class="selection-field">
+                  <legend>Scenarios to compare</legend>
+                  <div id="run-picker" class="selection-list"><p class="muted">Loading saved scenarios…</p></div>
+                </fieldset>
+                <fieldset class="selection-field">
+                  <legend>Variables to chart</legend>
+                  <div id="variable-picker" class="selection-list"><p class="muted">Choose one or more variables.</p></div>
+                </fieldset>
+              </div>
+              <div class="analysis-toolbar">
+                <span id="time-range-copy" class="time-range-copy">Full time range</span>
+                <div class="analysis-actions">
+                  <div class="temp-unit-toggle" role="group" aria-label="Chart temperature unit">
+                    <span class="temp-unit-label">Temp:</span>
+                    <button type="button" class="temp-unit-btn is-active" data-temp-unit="C" title="Display charts in Celsius (°C)" aria-pressed="true">°C</button>
+                    <button type="button" class="temp-unit-btn" data-temp-unit="K" title="Display charts in Kelvin (K)" aria-pressed="false">K</button>
+                  </div>
+                  <label class="range-control"><span>From</span><input id="range-start" type="datetime-local" step="3600" aria-label="Zoom range start"></label>
+                  <label class="range-control"><span>To</span><input id="range-end" type="datetime-local" step="3600" aria-label="Zoom range end"></label>
+                  <button class="button button-quiet" id="apply-range" type="button" disabled>Apply range</button>
+                  <button class="button button-quiet" id="zoom-out" type="button" disabled>Zoom out</button>
+                  <button class="button button-quiet" id="reset-zoom" type="button" disabled>Reset range</button>
+                  <button class="button button-quiet" id="export-table" type="button" disabled>Export table CSV</button>
+                </div>
+              </div>
+              <div id="cursor-readout" class="cursor-readout" aria-live="polite">Hover over a chart to inspect values across runs. Drag within a chart to zoom all panels to that time range.</div>
+              <div id="analysis-charts" class="analysis-charts"></div>
+              <p class="chart-empty" id="chart-empty">Choose one or more valid saved runs to compare.</p>
+              <section class="analysis-section" aria-labelledby="statistics-title">
+                <div class="analysis-section-heading"><div><p class="eyebrow">SELECTED TIME WINDOW</p><h3 id="statistics-title">Window statistics</h3></div><span class="muted">Per run and variable</span></div>
+                <div id="analysis-statistics" class="analysis-table-wrap"><p class="muted">Select runs and variables to calculate statistics.</p></div>
+              </section>
+              <section class="analysis-section" aria-labelledby="hourly-table-title">
+                <div class="analysis-section-heading"><div><p class="eyebrow">HOURLY RECORDS</p><h3 id="hourly-table-title">Aligned comparison table</h3></div>
+                  <label class="page-size-control">Rows per page<select id="table-page-size"><option>50</option><option selected>100</option><option>250</option></select></label>
+                </div>
+                <div id="analysis-table" class="analysis-table-wrap"><p class="muted">Select runs and variables to inspect hourly records.</p></div>
+                <div class="table-pagination"><span id="table-page-status">No rows</span><div><button class="button button-quiet" id="table-prev" type="button" disabled>Previous</button><button class="button button-quiet" id="table-next" type="button" disabled>Next</button></div></div>
+              </section>
+              <details class="analysis-section snapshot-section">
+                <summary>Static input parameters used by selected runs</summary>
+                <div id="parameter-snapshot" class="analysis-table-wrap"><p class="muted">Select saved runs to inspect their recorded inputs.</p></div>
+              </details>
+              <div class="result-quality" id="result-quality" aria-live="polite"></div>
+            </article>
+          </div>
+        </section>
+
+        <footer class="workspace-footer">
+          <span>AquaSolar · local input validation</span>
+          <span id="save-state" role="status">No staged changes</span>
+          <button class="button button-primary" id="apply-staged" type="button" disabled>Preview &amp; apply changes</button>
+        </footer>
+      </main>
+    </div>
+    <dialog id="confirm-dialog" class="confirm-dialog">
+      <form method="dialog">
+        <p class="eyebrow">EXPLICIT SAVE</p>
+        <h2>Apply staged project inputs?</h2>
+        <p id="confirm-copy">A validation preview will be shown before anything is written.</p>
+        <div class="dialog-actions"><button class="button button-quiet" value="cancel">Keep editing</button><button class="button button-primary" id="confirm-apply" value="confirm">Preview changes</button></div>
+      </form>
+    </dialog>
+    <script src="/static/app.js" defer></script>
+  </body>
+</html>

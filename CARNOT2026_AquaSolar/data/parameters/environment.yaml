@@ -1,0 +1,174 @@
+# AquaSolar Living parameter template.
+# HOW TO FILL: for each entry set `value`, `unit`, `source_type`, `source_ref`, `uncertainty`, `valid_range`,
+# then set `status: confirmed` (only you do this). Leave an entry as `draft` and the simulation will refuse to run.
+# If `required_when` is false for your setup, set `status: not_applicable` and leave value empty.
+# `unit` must be a unit string the agent's unit library parses; the agent lists accepted examples in docs/units_accepted.md.
+# For categorical entries, `value` must be exactly one of `allowed_values`.
+# The agent must not edit any `value`, `unit` or `status` field.
+file: environment
+title: Environmental accounting inputs
+schema_version: '1.0'
+status_options:
+- draft
+- confirmed
+- not_applicable
+source_type_options:
+- measured
+- datasheet
+- literature
+- standard
+- assumption
+parameters:
+- id: env.system_boundary
+  symbol:
+  description: Written system boundary for environmental indicators (text)
+  quantity_kind: text
+  needed_by_phase: 9
+  required_when: always
+  value: villa PVT collector and listed auxiliaries; demo boundary
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#env.system_boundary
+  uncertainty:
+    kind:
+    value:
+    distribution:
+  valid_range:
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+- id: env.bottle_volume
+  symbol:
+  description: Volume of one bottled-water unit
+  quantity_kind: volume
+  needed_by_phase: 9
+  required_when: always
+  value: 1.0
+  unit: L
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#env.bottle_volume
+  uncertainty:
+    kind:
+    value:
+    distribution:
+  valid_range:
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: Demo assumption for a one-litre bottled-water unit; replace with the comparison basis.
+- id: env.bottle_mass
+  symbol:
+  description: Mass of packaging per bottled unit
+  quantity_kind: mass
+  needed_by_phase: 9
+  required_when: always
+  value: 0.982
+  unit: kg
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#env.bottle_mass
+  uncertainty:
+    kind:
+    value:
+    distribution:
+  valid_range:
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+- id: env.grid_emission_factor
+  symbol:
+  description: Emission factor of grid electricity
+  quantity_kind: emission_per_energy
+  needed_by_phase: 9
+  required_when: always
+  value: 746.396
+  unit: g_CO2eq/kWh
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#env.grid_emission_factor
+  uncertainty:
+    kind:
+    value:
+    distribution:
+  valid_range:
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+- id: env.fuel_emission_factor
+  symbol:
+  description: Emission factor of the displaced heating fuel
+  quantity_kind: emission_per_energy
+  needed_by_phase: 9
+  required_when: always
+  value: 771.233
+  unit: g_CO2eq/kWh
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#env.fuel_emission_factor
+  uncertainty:
+    kind:
+    value:
+    distribution:
+  valid_range:
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+- id: env.transport_emission_per_volume
+  symbol:
+  description: Transport emissions per volume of bottled water, if included
+  quantity_kind: emission_per_volume
+  needed_by_phase: 9
+  required_when: env.include_transport == true
+  value: 0.002
+  unit: kg_CO2eq/m3
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#env.transport_emission_per_volume
+  uncertainty:
+    kind:
+    value:
+    distribution:
+  valid_range:
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+- id: env.include_transport
+  symbol:
+  description: Include transport emissions
+  quantity_kind: boolean
+  needed_by_phase: 9
+  required_when: always
+  value: true
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#env.include_transport
+  uncertainty:
+    kind:
+    value:
+    distribution:
+  valid_range:
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.

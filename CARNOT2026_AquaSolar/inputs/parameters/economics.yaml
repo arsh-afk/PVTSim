@@ -1,0 +1,692 @@
+# AquaSolar Living parameter template.
+# HOW TO FILL: for each entry set `value`, `unit`, `source_type`, `source_ref`, `uncertainty`, `valid_range`,
+# then set `status: confirmed` (only you do this). Leave an entry as `draft` and the simulation will refuse to run.
+# If `required_when` is false for your setup, set `status: not_applicable` and leave value empty.
+# `unit` must be a unit string the agent's unit library parses; the agent lists accepted examples in docs/units_accepted.md.
+# For categorical entries, `value` must be exactly one of `allowed_values`.
+# The agent must not edit any `value`, `unit` or `status` field.
+file: economics
+title: Costs, prices and financial settings
+schema_version: '1.0'
+status_options:
+- draft
+- confirmed
+- not_applicable
+source_type_options:
+- measured
+- datasheet
+- literature
+- standard
+- assumption
+parameters:
+- id: econ.currency
+  symbol:
+  description: Currency code
+  quantity_kind: text
+  needed_by_phase: 9
+  required_when: always
+  value: AED
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#econ.currency
+  uncertainty:
+    kind:
+    value:
+    distribution:
+  valid_range:
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+- id: econ.horizon
+  symbol:
+  description: Analysis horizon
+  quantity_kind: time
+  needed_by_phase: 9
+  required_when: always
+  value: 20.0
+  unit: year
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#econ.horizon
+  uncertainty:
+    kind:
+    value:
+    distribution:
+  valid_range:
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+- id: econ.discount_rate
+  symbol: r
+  description: Discount rate per year
+  quantity_kind: rate_per_time
+  needed_by_phase: 9
+  required_when: always
+  value: 0.0279
+  unit: 1/year
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#econ.discount_rate
+  uncertainty:
+    kind:
+    value:
+    distribution:
+  valid_range:
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+- id: econ.escalation_electricity
+  symbol:
+  description: Electricity price escalation per year
+  quantity_kind: rate_per_time
+  needed_by_phase: 9
+  required_when: always
+  value: 0.0269
+  unit: 1/year
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#econ.escalation_electricity
+  uncertainty:
+    kind:
+    value:
+    distribution:
+  valid_range:
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+- id: econ.escalation_water
+  symbol:
+  description: Water and bottled-water price escalation per year
+  quantity_kind: rate_per_time
+  needed_by_phase: 9
+  required_when: always
+  value: 0.0429
+  unit: 1/year
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#econ.escalation_water
+  uncertainty:
+    kind:
+    value:
+    distribution:
+  valid_range:
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+- id: econ.escalation_other
+  symbol:
+  description: Escalation for other costs per year
+  quantity_kind: rate_per_time
+  needed_by_phase: 9
+  required_when: always
+  value: 0.0875
+  unit: 1/year
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#econ.escalation_other
+  uncertainty:
+    kind:
+    value:
+    distribution:
+  valid_range:
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+- id: econ.capex_pvt
+  symbol:
+  description: Capital cost of the PVT system as used for this villa
+  quantity_kind: currency
+  needed_by_phase: 9
+  required_when: always
+  value: 1232.64
+  unit: AED
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#econ.capex_pvt
+  uncertainty:
+    kind:
+    value:
+    distribution:
+  valid_range:
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+- id: econ.capex_tank
+  symbol:
+  description: Capital cost of the tank and loop
+  quantity_kind: currency
+  needed_by_phase: 9
+  required_when: always
+  value: 2553.78
+  unit: AED
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#econ.capex_tank
+  uncertainty:
+    kind:
+    value:
+    distribution:
+  valid_range:
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+- id: econ.capex_treatment
+  symbol:
+  description: Capital cost of the treatment unit per pathway (see table 
+    pathway_costs)
+  quantity_kind: currency
+  needed_by_phase: 9
+  required_when: always
+  value: 1350.45
+  unit: AED
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#econ.capex_treatment
+  uncertainty:
+    kind:
+    value:
+    distribution:
+  valid_range:
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+- id: econ.capex_monitoring
+  symbol:
+  description: Capital cost of sensors, controller and data platform
+  quantity_kind: currency
+  needed_by_phase: 9
+  required_when: always
+  value: 4607.54
+  unit: AED
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#econ.capex_monitoring
+  uncertainty:
+    kind:
+    value:
+    distribution:
+  valid_range:
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+- id: econ.installation
+  symbol:
+  description: Installation cost
+  quantity_kind: currency
+  needed_by_phase: 9
+  required_when: always
+  value: 2967.31
+  unit: AED
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#econ.installation
+  uncertainty:
+    kind:
+    value:
+    distribution:
+  valid_range:
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+- id: econ.annual_maintenance
+  symbol:
+  description: Annual maintenance cost
+  quantity_kind: currency_per_time
+  needed_by_phase: 9
+  required_when: always
+  value: 90.57
+  unit: AED/month
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#econ.annual_maintenance
+  uncertainty:
+    kind:
+    value:
+    distribution:
+  valid_range:
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+- id: econ.monitoring_service_cost
+  symbol:
+  description: Annual cost of the monitoring service
+  quantity_kind: currency_per_time
+  needed_by_phase: 9
+  required_when: always
+  value: 14.931
+  unit: AED/month
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#econ.monitoring_service_cost
+  uncertainty:
+    kind:
+    value:
+    distribution:
+  valid_range:
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+- id: econ.pvt_degradation
+  symbol:
+  description: Annual electrical degradation rate
+  quantity_kind: rate_per_time
+  needed_by_phase: 9
+  required_when: always
+  value: 0.0252
+  unit: 1/year
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#econ.pvt_degradation
+  uncertainty:
+    kind:
+    value:
+    distribution:
+  valid_range:
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+- id: econ.pvt_lifetime
+  symbol:
+  description: Service life of the PVT system
+  quantity_kind: time
+  needed_by_phase: 9
+  required_when: always
+  value: 25.0
+  unit: year
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#econ.pvt_lifetime
+  uncertainty:
+    kind:
+    value:
+    distribution:
+  valid_range:
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+- id: econ.tank_lifetime
+  symbol:
+  description: Service life of the tank
+  quantity_kind: time
+  needed_by_phase: 9
+  required_when: always
+  value: 15.0
+  unit: year
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#econ.tank_lifetime
+  uncertainty:
+    kind:
+    value:
+    distribution:
+  valid_range:
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+- id: econ.residual_value
+  symbol:
+  description: Residual value at the end of the horizon
+  quantity_kind: currency
+  needed_by_phase: 9
+  required_when: always
+  value: 2254.64
+  unit: AED
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#econ.residual_value
+  uncertainty:
+    kind:
+    value:
+    distribution:
+  valid_range:
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+- id: econ.electricity_value_basis
+  symbol:
+  description: How PV electricity is valued
+  quantity_kind: categorical
+  needed_by_phase: 9
+  required_when: always
+  allowed_values:
+  - avoided_import_tariff
+  - export_tariff_for_surplus
+  - user_table
+  value: avoided_import_tariff
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#econ.electricity_value_basis
+  uncertainty:
+    kind:
+    value:
+    distribution:
+  valid_range:
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+- id: econ.displaced_heat_source
+  symbol:
+  description: What the stored heat displaces
+  quantity_kind: categorical
+  needed_by_phase: 9
+  required_when: always
+  allowed_values:
+  - electric_resistance
+  - gas
+  - other_described_in_notes
+  value: electric_resistance
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#econ.displaced_heat_source
+  uncertainty:
+    kind:
+    value:
+    distribution:
+  valid_range:
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+- id: econ.displaced_heater_efficiency
+  symbol:
+  description: Efficiency of the displaced water heater
+  quantity_kind: fraction
+  needed_by_phase: 9
+  required_when: always
+  value: 0.5604
+  unit: '1'
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#econ.displaced_heater_efficiency
+  uncertainty:
+    kind:
+    value:
+    distribution:
+  valid_range:
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+- id: econ.displaced_fuel_price
+  symbol:
+  description: Price of the displaced energy per energy unit
+  quantity_kind: currency_per_energy
+  needed_by_phase: 9
+  required_when: always
+  value: 0.105
+  unit: AED/kWh
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#econ.displaced_fuel_price
+  uncertainty:
+    kind:
+    value:
+    distribution:
+  valid_range:
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+- id: econ.bottled_price
+  symbol:
+  description: Price of bottled drinking water per volume
+  quantity_kind: currency_per_volume
+  needed_by_phase: 9
+  required_when: always
+  value: 0.006
+  unit: AED/L
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#econ.bottled_price
+  uncertainty:
+    kind:
+    value:
+    distribution:
+  valid_range:
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+- id: econ.bottled_replaced_fraction
+  symbol:
+  description: Fraction of the drinking-water demand that bottled water 
+    currently supplies
+  quantity_kind: fraction
+  needed_by_phase: 9
+  required_when: always
+  value: 0.3708
+  unit: '1'
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#econ.bottled_replaced_fraction
+  uncertainty:
+    kind:
+    value:
+    distribution:
+  valid_range:
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+- id: econ.municipal_water_price
+  symbol:
+  description: Municipal water price per volume
+  quantity_kind: currency_per_volume
+  needed_by_phase: 9
+  required_when: always
+  value: 0.011
+  unit: AED/L
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#econ.municipal_water_price
+  uncertainty:
+    kind:
+    value:
+    distribution:
+  valid_range:
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+- id: econ.reject_disposal_price
+  symbol:
+  description: Cost per volume of reject water, if any
+  quantity_kind: currency_per_volume
+  needed_by_phase: 9
+  required_when: always
+  value: 0.046
+  unit: AED/L
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#econ.reject_disposal_price
+  uncertainty:
+    kind:
+    value:
+    distribution:
+  valid_range:
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+- id: econ.baseline_ro_capex
+  symbol:
+  description: Capital cost of the conventional full-RO comparator
+  quantity_kind: currency
+  needed_by_phase: 9
+  required_when: always
+  value: 1530.1
+  unit: AED
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#econ.baseline_ro_capex
+  uncertainty:
+    kind:
+    value:
+    distribution:
+  valid_range:
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+- id: econ.baseline_ro_power
+  symbol:
+  description: Electrical power or energy per volume of the comparator (basis in
+    notes)
+  quantity_kind: text
+  needed_by_phase: 9
+  required_when: always
+  value: 100 W demo comparator; verify rated basis
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#econ.baseline_ro_power
+  uncertainty:
+    kind:
+    value:
+    distribution:
+  valid_range:
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+- id: econ.baseline_ro_recovery
+  symbol:
+  description: Water recovery of the comparator
+  quantity_kind: fraction
+  needed_by_phase: 9
+  required_when: always
+  value: 0.9403
+  unit: '1'
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#econ.baseline_ro_recovery
+  uncertainty:
+    kind:
+    value:
+    distribution:
+  valid_range:
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+- id: econ.baseline_ro_consumable_cost
+  symbol:
+  description: Annual consumable cost of the comparator
+  quantity_kind: currency_per_time
+  needed_by_phase: 9
+  required_when: always
+  value: 17.877
+  unit: AED/month
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#econ.baseline_ro_consumable_cost
+  uncertainty:
+    kind:
+    value:
+    distribution:
+  valid_range:
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+- id: econ.baseline_ro_lifetime
+  symbol:
+  description: Service life of the comparator
+  quantity_kind: time
+  needed_by_phase: 9
+  required_when: always
+  value: 5.0
+  unit: year
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#econ.baseline_ro_lifetime
+  uncertainty:
+    kind:
+    value:
+    distribution:
+  valid_range:
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.

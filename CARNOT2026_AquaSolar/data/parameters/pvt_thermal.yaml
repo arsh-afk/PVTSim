@@ -1,0 +1,374 @@
+# AquaSolar Living parameter template.
+# HOW TO FILL: for each entry set `value`, `unit`, `source_type`, `source_ref`, `uncertainty`, `valid_range`,
+# then set `status: confirmed` (only you do this). Leave an entry as `draft` and the simulation will refuse to run.
+# If `required_when` is false for your setup, set `status: not_applicable` and leave value empty.
+# `unit` must be a unit string the agent's unit library parses; the agent lists accepted examples in docs/units_accepted.md.
+# For categorical entries, `value` must be exactly one of `allowed_values`.
+# The agent must not edit any `value`, `unit` or `status` field.
+file: pvt_thermal
+title: Thermal side of the PVT collector
+schema_version: '1.0'
+status_options:
+- draft
+- confirmed
+- not_applicable
+source_type_options:
+- measured
+- datasheet
+- literature
+- standard
+- assumption
+parameters:
+- id: pvt_th.collector_area
+  symbol: A
+  description: Collector area used for the thermal and electrical calculation 
+    (state aperture or gross in notes)
+  quantity_kind: area
+  needed_by_phase: 3
+  required_when: always
+  value: 6.0
+  unit: m2
+  source_type: literature
+  source_ref: ../../AquaSolar_TRNSYS_Master_Direction.md#3.2
+  uncertainty:
+    kind:
+    value:
+    distribution:
+  valid_range:
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: Value transcribed from the cited AquaSolar design basis. Check 
+    interpretation and model-equation compatibility.
+- id: pvt_th.area_basis
+  symbol:
+  description: Which area the value above refers to
+  quantity_kind: categorical
+  needed_by_phase: 3
+  required_when: always
+  allowed_values:
+  - aperture
+  - gross
+  - absorber
+  value: gross
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#pvt_th.area_basis
+  uncertainty:
+    kind:
+    value:
+    distribution:
+  valid_range:
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+- id: pvt_th.collector_type
+  symbol:
+  description: Collector construction
+  quantity_kind: categorical
+  needed_by_phase: 3
+  required_when: always
+  allowed_values:
+  - glazed
+  - unglazed
+  - other_described_in_notes
+  value: unglazed
+  unit:
+  source_type: literature
+  source_ref: ../../AquaSolar_TRNSYS_Master_Direction.md#3.2
+  uncertainty:
+    kind:
+    value:
+    distribution:
+  valid_range:
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: Value transcribed from the cited AquaSolar design basis. Check 
+    interpretation and model-equation compatibility.
+- id: pvt_th.thermal_model
+  symbol:
+  description: Collector thermal model
+  quantity_kind: categorical
+  needed_by_phase: 3
+  required_when: always
+  allowed_values:
+  - steady_state_hottel_whillier_form
+  - quasi_dynamic
+  - user_named_model_in_equation_register
+  value: steady_state_hottel_whillier_form
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#pvt_th.thermal_model
+  uncertainty:
+    kind:
+    value:
+    distribution:
+  valid_range:
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+- id: pvt_th.tau_alpha
+  symbol: tau_alpha
+  description: Effective transmittance-absorptance product
+  quantity_kind: fraction
+  needed_by_phase: 3
+  required_when: always
+  value: 0.5
+  unit: '1'
+  source_type: literature
+  source_ref: ../../AquaSolar_TRNSYS_Master_Direction.md#3.2
+  uncertainty:
+    kind:
+    value:
+    distribution:
+  valid_range:
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: Value transcribed from the cited AquaSolar design basis. Check 
+    interpretation and model-equation compatibility.
+- id: pvt_th.F_R
+  symbol: F_R
+  description: Collector heat-removal factor
+  quantity_kind: fraction
+  needed_by_phase: 3
+  required_when: pvt_th.thermal_model == steady_state_hottel_whillier_form
+  value: 0.4922
+  unit: '1'
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#pvt_th.F_R
+  uncertainty:
+    kind:
+    value:
+    distribution:
+  valid_range:
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+- id: pvt_th.U_L
+  symbol: U_L
+  description: Overall heat-loss coefficient
+  quantity_kind: heat_transfer_coefficient
+  needed_by_phase: 3
+  required_when: always
+  value: 12.0
+  unit: W/(m2*K)
+  source_type: literature
+  source_ref: ../../AquaSolar_TRNSYS_Master_Direction.md#3.2
+  uncertainty:
+    kind:
+    value:
+    distribution:
+  valid_range:
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: Value transcribed from the cited AquaSolar design basis. Check 
+    interpretation and model-equation compatibility.
+- id: pvt_th.U_L_wind_dependence
+  symbol:
+  description: Wind dependence of the loss coefficient
+  quantity_kind: categorical
+  needed_by_phase: 3
+  required_when: always
+  allowed_values:
+  - none
+  - user_curve_table
+  value: none
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#pvt_th.U_L_wind_dependence
+  uncertainty:
+    kind:
+    value:
+    distribution:
+  valid_range:
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+- id: pvt_th.R_cell_fluid
+  symbol: R_cf
+  description: Thermal resistance per area between cell and mean fluid
+  quantity_kind: area_thermal_resistance
+  needed_by_phase: 3
+  required_when: always
+  value: 0.114
+  unit: K*m2/W
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#pvt_th.R_cell_fluid
+  uncertainty:
+    kind:
+    value:
+    distribution:
+  valid_range:
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+- id: pvt_th.thermal_capacitance
+  symbol: C_c
+  description: Effective thermal capacitance per area
+  quantity_kind: areal_heat_capacity
+  needed_by_phase: 3
+  required_when: pvt_th.thermal_model == quasi_dynamic
+  value: 12133.378
+  unit: J/(m2*K)
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#pvt_th.thermal_capacitance
+  uncertainty:
+    kind:
+    value:
+    distribution:
+  valid_range:
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+- id: pvt_th.flow_min
+  symbol:
+  description: Minimum permitted collector flow
+  quantity_kind: flow_mass
+  needed_by_phase: 5
+  required_when: always
+  value: 0.005
+  unit: kg/s
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#pvt_th.flow_min
+  uncertainty:
+    kind:
+    value:
+    distribution:
+  valid_range:
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+- id: pvt_th.flow_max
+  symbol:
+  description: Maximum permitted collector flow
+  quantity_kind: flow_mass
+  needed_by_phase: 5
+  required_when: always
+  value: 0.02
+  unit: kg/s
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#pvt_th.flow_max
+  uncertainty:
+    kind:
+    value:
+    distribution:
+  valid_range:
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+- id: pvt_th.T_fluid_max
+  symbol:
+  description: Maximum permitted collector fluid temperature; requires a 
+    verified collector limit or approved model boundary
+  quantity_kind: temperature
+  needed_by_phase: 5
+  required_when: always
+  value: 358.15
+  unit: K
+  source_type: literature
+  source_ref: ../../AquaSolar_TRNSYS_Master_Direction.md#6.2
+  uncertainty:
+    kind:
+    value:
+    distribution:
+  valid_range:
+    min: 0.0
+    max: 1000.0
+  status: confirmed
+  entered_by: User-authorized exploratory preset
+  entered_on: '2026-11-12'
+  notes: Maximum collector fluid temperature set to 358.15 K (85 °C) matching 
+    the 85 °C collector/pump cut-out design basis specified in AquaSolar TRNSYS 
+    Master Direction (Section 6.2 and 14).
+- id: pvt_th.demo_inlet_temperature
+  symbol: T_f_in
+  description: Constant collector inlet temperature for the PVT-only exploratory
+    run
+  quantity_kind: temperature
+  needed_by_phase: 3
+  required_when: always
+  value: 293.15
+  unit: K
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#pvt_th.demo_inlet_temperature
+  uncertainty:
+    kind:
+    value:
+    distribution:
+  valid_range:
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+- id: pvt_th.pv_only_reference_model
+  symbol:
+  description: How the PV-only reference cell temperature is computed for the 
+    cooling-benefit comparison
+  quantity_kind: categorical
+  needed_by_phase: 3
+  required_when: always
+  allowed_values:
+  - user_named_model_in_equation_register
+  - measured_pv_only_series
+  value: user_named_model_in_equation_register
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#pvt_th.pv_only_reference_model
+  uncertainty:
+    kind:
+    value:
+    distribution:
+  valid_range:
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.

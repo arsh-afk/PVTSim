@@ -1,0 +1,384 @@
+# AquaSolar Living parameter template.
+# HOW TO FILL: for each entry set `value`, `unit`, `source_type`, `source_ref`, `uncertainty`, `valid_range`,
+# then set `status: confirmed` (only you do this). Leave an entry as `draft` and the simulation will refuse to run.
+# If `required_when` is false for your setup, set `status: not_applicable` and leave value empty.
+# `unit` must be a unit string the agent's unit library parses; the agent lists accepted examples in docs/units_accepted.md.
+# For categorical entries, `value` must be exactly one of `allowed_values`.
+# The agent must not edit any `value`, `unit` or `status` field.
+file: storage_quality
+title: Storage-tank water quality and disinfectant decay
+schema_version: '1.0'
+status_options:
+- draft
+- confirmed
+- not_applicable
+source_type_options:
+- measured
+- datasheet
+- literature
+- standard
+- assumption
+parameters:
+- id: sq.enabled
+  symbol:
+  description: Run the storage-quality module
+  quantity_kind: boolean
+  needed_by_phase: 6
+  required_when: always
+  value: false
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#sq.enabled
+  uncertainty:
+    kind:
+    value:
+    distribution:
+  valid_range:
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+- id: sq.villa_storage_volume
+  symbol: V_s
+  description: Villa storage tank volume
+  quantity_kind: volume
+  needed_by_phase: 6
+  required_when: sq.enabled == true
+  value: 5.264
+  unit: L
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#sq.villa_storage_volume
+  uncertainty:
+    kind:
+    value:
+    distribution:
+  valid_range:
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+- id: sq.mixing_model
+  symbol:
+  description: Storage mixing treatment
+  quantity_kind: categorical
+  needed_by_phase: 6
+  required_when: sq.enabled == true
+  allowed_values:
+  - well_mixed
+  - user_named_model_in_equation_register
+  value: user_named_model_in_equation_register
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#sq.mixing_model
+  uncertainty:
+    kind:
+    value:
+    distribution:
+  valid_range:
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+- id: sq.disinfectant_species_id
+  symbol:
+  description: Species id (from the species registry) that decays
+  quantity_kind: text
+  needed_by_phase: 6
+  required_when: sq.enabled == true
+  value: free_chlorine
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#sq.disinfectant_species_id
+  uncertainty:
+    kind:
+    value:
+    distribution:
+  valid_range:
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+- id: sq.decay_model
+  symbol:
+  description: Decay model
+  quantity_kind: categorical
+  needed_by_phase: 6
+  required_when: sq.enabled == true
+  allowed_values:
+  - first_order_arrhenius
+  - first_order_constant
+  - user_table
+  value: first_order_arrhenius
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#sq.decay_model
+  uncertainty:
+    kind:
+    value:
+    distribution:
+  valid_range:
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+- id: sq.k_ref
+  symbol: k_ref
+  description: First-order decay rate at reference temperature
+  quantity_kind: rate_per_time
+  needed_by_phase: 6
+  required_when: sq.decay_model in first_order_arrhenius,first_order_constant
+  value: 0.0852
+  unit: 1/year
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#sq.k_ref
+  uncertainty:
+    kind:
+    value:
+    distribution:
+  valid_range:
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+- id: sq.T_ref
+  symbol: T_ref
+  description: Reference temperature for the decay rate
+  quantity_kind: temperature
+  needed_by_phase: 6
+  required_when: sq.decay_model == first_order_arrhenius
+  value: 303.658
+  unit: K
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#sq.T_ref
+  uncertainty:
+    kind:
+    value:
+    distribution:
+  valid_range:
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+- id: sq.temp_coefficient
+  symbol:
+  description: Temperature sensitivity of decay (activation energy or 
+    equivalent, basis in notes)
+  quantity_kind: activation_energy
+  needed_by_phase: 6
+  required_when: sq.decay_model == first_order_arrhenius
+  value: 38613.588
+  unit: J/(mol*K)
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#sq.temp_coefficient
+  uncertainty:
+    kind:
+    value:
+    distribution:
+  valid_range:
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+- id: sq.wall_decay
+  symbol:
+  description: Wall decay rate, if modelled
+  quantity_kind: rate_per_time
+  needed_by_phase: 6
+  required_when: sq.wall_decay_enabled == true
+  value: 0.0159
+  unit: 1/year
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#sq.wall_decay
+  uncertainty:
+    kind:
+    value:
+    distribution:
+  valid_range:
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+- id: sq.wall_decay_enabled
+  symbol:
+  description: Whether wall decay is modelled
+  quantity_kind: boolean
+  needed_by_phase: 6
+  required_when: sq.enabled == true
+  value: true
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#sq.wall_decay_enabled
+  uncertainty:
+    kind:
+    value:
+    distribution:
+  valid_range:
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+- id: sq.storage_temperature_mode
+  symbol:
+  description: Source of storage water temperature
+  quantity_kind: categorical
+  needed_by_phase: 6
+  required_when: sq.enabled == true
+  allowed_values:
+  - timeseries
+  - constant_value
+  value: constant_value
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#sq.storage_temperature_mode
+  uncertainty:
+    kind:
+    value:
+    distribution:
+  valid_range:
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+- id: sq.storage_temperature_constant
+  symbol:
+  description: Constant storage temperature
+  quantity_kind: temperature
+  needed_by_phase: 6
+  required_when: sq.storage_temperature_mode == constant_value
+  value: 294.082
+  unit: K
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#sq.storage_temperature_constant
+  uncertainty:
+    kind:
+    value:
+    distribution:
+  valid_range:
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+- id: sq.initial_concentration
+  symbol:
+  description: Initial disinfectant concentration in storage
+  quantity_kind: concentration
+  needed_by_phase: 6
+  required_when: sq.enabled == true
+  value: 1.624
+  unit: mg/L
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#sq.initial_concentration
+  uncertainty:
+    kind:
+    value:
+    distribution:
+  valid_range:
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+- id: sq.treated_storage_enabled
+  symbol:
+  description: Model storage of treated water downstream of the unit
+  quantity_kind: boolean
+  needed_by_phase: 6
+  required_when: always
+  value: true
+  unit:
+  source_type: literature
+  source_ref: ../../AquaSolar_TRNSYS_Master_Direction.md#3.2
+  uncertainty:
+    kind:
+    value:
+    distribution:
+  valid_range:
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: Value transcribed from the cited AquaSolar design basis. Check 
+    interpretation and model-equation compatibility.
+- id: sq.treated_storage_volume
+  symbol:
+  description: Treated-water storage volume
+  quantity_kind: volume
+  needed_by_phase: 6
+  required_when: sq.treated_storage_enabled == true
+  value: 30.0
+  unit: L
+  source_type: literature
+  source_ref: ../../AquaSolar_TRNSYS_Master_Direction.md#3.2
+  uncertainty:
+    kind:
+    value:
+    distribution:
+  valid_range:
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: Value transcribed from the cited AquaSolar design basis. Check 
+    interpretation and model-equation compatibility.
+- id: sq.treated_decay_note
+  symbol:
+  description: Which decay settings apply to treated water (text)
+  quantity_kind: text
+  needed_by_phase: 6
+  required_when: sq.treated_storage_enabled == true
+  value: uses the storage decay assumptions in this demo preset
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#sq.treated_decay_note
+  uncertainty:
+    kind:
+    value:
+    distribution:
+  valid_range:
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.

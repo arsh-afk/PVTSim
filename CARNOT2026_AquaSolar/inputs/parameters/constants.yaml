@@ -1,0 +1,90 @@
+# AquaSolar Living parameter template.
+# HOW TO FILL: for each entry set `value`, `unit`, `source_type`, `source_ref`, `uncertainty`, `valid_range`,
+# then set `status: confirmed` (only you do this). Leave an entry as `draft` and the simulation will refuse to run.
+# If `required_when` is false for your setup, set `status: not_applicable` and leave value empty.
+# `unit` must be a unit string the agent's unit library parses; the agent lists accepted examples in docs/units_accepted.md.
+# For categorical entries, `value` must be exactly one of `allowed_values`.
+# The agent must not edit any `value`, `unit` or `status` field.
+file: constants
+title: Physical constants and reference fluid properties
+schema_version: '1.0'
+status_options:
+- draft
+- confirmed
+- not_applicable
+source_type_options:
+- measured
+- datasheet
+- literature
+- standard
+- assumption
+parameters:
+- id: const.rho_water_ref
+  symbol: rho_w
+  description: Reference density of liquid water, used only if property_model is
+    constant
+  quantity_kind: density
+  needed_by_phase: 4
+  required_when: numerics.property_model == constant
+  value: 997.0
+  unit: kg/m3
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#const.rho_water_ref
+  uncertainty:
+    kind:
+    value:
+    distribution:
+  valid_range:
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+- id: const.cp_water_ref
+  symbol: cp_w
+  description: Reference specific heat of liquid water, used only if 
+    property_model is constant
+  quantity_kind: specific_heat
+  needed_by_phase: 4
+  required_when: numerics.property_model == constant
+  value: 4180.0
+  unit: J/(kg*K)
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#const.cp_water_ref
+  uncertainty:
+    kind:
+    value:
+    distribution:
+  valid_range:
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
+- id: const.property_source
+  symbol:
+  description: Name of property source used when property_model is 
+    temperature_dependent
+  quantity_kind: text
+  needed_by_phase: 4
+  required_when: numerics.property_model == temperature_dependent
+  value: constant liquid-water properties
+  unit:
+  source_type: assumption
+  source_ref: ../provenance/demo_defaults.yaml#const.property_source
+  uncertainty:
+    kind:
+    value:
+    distribution:
+  valid_range:
+    min:
+    max:
+  status: confirmed
+  entered_by: User-authorized exploratory demo preset
+  entered_on: '2026-10-29'
+  notes: User-authorized, reproducible exploratory placeholder; not measured, 
+    calibrated, or suitable for design decisions. Seed=20261029.
