@@ -55,7 +55,7 @@ coverage.xml
 
 # Environments
 .env
-.venv
+.venv*/
 env/
 venv/
 ENV/
@@ -76,6 +76,7 @@ ipython_config.py
 
 # pyenv
 .python-version
+!/.python-version
 
 # pipenv
 Pipfile.lock
@@ -84,12 +85,7 @@ Pipfile.lock
 __pypackages__/
 
 # Parcel
-.cache
 .parcel-cache
-
-# Webpack
-dist/
-build/
 
 # MyPy
 .mypy_cache/
@@ -106,5 +102,5 @@ dmypy.json
 runs/
 outputs/
 
-# Virtual environments
-*.lock
+# Poetry
+poetry.lock

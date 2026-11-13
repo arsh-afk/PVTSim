@@ -53,6 +53,24 @@ remain visible for review.
 The browser and desktop UIs use the same local project files. Use one editor at
 a time to avoid overwriting changes from another open UI or external editor.
 
+## Deploy a public read-only showcase to Render
+
+The root `render.yaml` defines a public Render web service for exploring the
+project inputs, validation report, model trace, and any saved results. The
+hosted service is read-only: it rejects edits, uploads, and simulation runs.
+It does not require persistent storage.
+
+1. Push this repository, including `render.yaml` and `.python-version`, to
+   GitHub. The Python version file should contain `3.12`.
+2. In Render, choose **New +** → **Blueprint**, connect the repository, and
+   deploy the `aquasolar-readonly` service defined in `render.yaml`.
+3. Open the public URL Render provides. The first build installs the project
+   and its `solar` extra.
+
+The service is public, so treat all committed project inputs and metadata as
+public information. Render deploys the committed branch contents; local,
+uncommitted files are not uploaded.
+
 ## Run from the command line
 
 Apply the optional seeded exploratory preset if inputs are blank, then validate

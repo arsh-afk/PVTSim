@@ -1092,6 +1092,18 @@ h3 {
   font-size: 11px;
 }
 
+.read-only .parameter-form,
+.read-only .detail-actions,
+.read-only .temp-param-helper,
+.read-only .upload-row,
+.read-only .weather-upload-details,
+.read-only .run-form-panel,
+.read-only .module-toggle,
+.read-only #apply-staged,
+.read-only #save-state {
+  display: none !important;
+}
+
 .finding-list {
   display: grid;
   gap: var(--space-2);

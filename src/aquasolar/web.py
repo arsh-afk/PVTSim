@@ -705,9 +705,19 @@ def _run_worker(
             )
 
 
-def create_app(project_root: Path = PROJECT_ROOT) -> FastAPI:
-    """Create the local browser app; ``project_root`` is injectable for tests."""
+def create_app(
+    project_root: Path = PROJECT_ROOT, *, read_only: bool | None = None
+) -> FastAPI:
+    """Create the browser app; ``project_root`` is injectable for tests."""
     root = project_root.resolve()
+    is_read_only = read_only
+    if is_read_only is None:
+        is_read_only = os.environ.get("AQUASOLAR_READ_ONLY", "").strip().lower() in {
+            "1",
+            "true",
+            "yes",
+            "on",
+        }
     executor = ThreadPoolExecutor(max_workers=1, thread_name_prefix="aquasolar-run")
     jobs: dict[str, dict[str, Any]] = {}
     jobs_lock = threading.Lock()
@@ -743,6 +753,13 @@ def create_app(project_root: Path = PROJECT_ROOT) -> FastAPI:
     @app.middleware("http")
     async def verify_browser_origin(request, call_next):
         if request.method in {"POST", "PUT", "PATCH", "DELETE"}:
+            if is_read_only:
+                return JSONResponse(
+                    status_code=HTTPStatus.FORBIDDEN,
+                    content={
+                        "detail": "This public showcase is read-only; edits and runs are disabled."
+                    },
+                )
             origin = request.headers.get("origin")
             if origin:
                 if urlparse(origin).hostname not in {
@@ -756,6 +773,10 @@ def create_app(project_root: Path = PROJECT_ROOT) -> FastAPI:
                         content={"detail": "Only local browser requests are allowed."},
                     )
         return await call_next(request)
+
+    @app.get("/api/config")
+    def get_config() -> dict[str, bool]:
+        return {"read_only": is_read_only}
 
     @app.get("/")
     def index() -> FileResponse:

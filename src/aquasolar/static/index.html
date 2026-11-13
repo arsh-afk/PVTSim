@@ -16,7 +16,7 @@
           <span class="brand-mark" aria-hidden="true">A</span>
           <span><strong>AquaSolar</strong><small>Simulation workbench</small></span>
         </a>
-        <div class="project-chip"><span class="status-dot"></span> Local project</div>
+        <div class="project-chip"><span class="status-dot"></span> <span id="project-mode">Local project</span></div>
         <nav class="primary-nav" aria-label="Workbench sections">
           <div class="nav-group">
             <p class="nav-section-label">PREPARE</p>
@@ -64,7 +64,7 @@
             <div class="overview-hero-copy">
               <p class="eyebrow">RAS AL KHAIMAH · CARNOT 2026 · CMAT-00184</p>
               <h1 id="overview-title" tabindex="-1">AquaSolar, from inputs to insight</h1>
-              <p>Prepare site and hourly weather data, inspect the implemented PVT calculations, then compare scenario outputs.</p>
+              <p id="overview-intro">Prepare site and hourly weather data, inspect the implemented PVT calculations, then compare scenario outputs.</p>
               <div class="hero-meta">
                 <span class="scope-badge">PVT ONLY · EXPLORATORY</span>
                 <div class="validation-stamp" id="readiness-stamp"><span class="status-dot"></span><span>Checking inputs…</span></div>
@@ -129,7 +129,7 @@
 
         <section class="view" id="view-parameters" aria-labelledby="parameters-title">
           <div class="page-heading compact-heading">
-            <div><p class="eyebrow">REGISTERED INPUTS</p><h1 id="parameters-title" tabindex="-1">Parameters</h1><p class="lede">Search by ID, description, group, source, or requirement. Changes stay staged until you preview and apply them.</p></div>
+            <div><p class="eyebrow">REGISTERED INPUTS</p><h1 id="parameters-title" tabindex="-1">Parameters</h1><p class="lede" id="parameters-intro">Search by ID, description, group, source, or requirement. Changes stay staged until you preview and apply them.</p></div>
             <span class="count-pill" id="parameter-count">— parameters</span>
           </div>
           <div class="browser-layout">
@@ -151,7 +151,7 @@
 
         <section class="view" id="view-data" aria-labelledby="data-title">
           <div class="page-heading compact-heading">
-            <div><p class="eyebrow">INPUT DATA</p><h1 id="data-title" tabindex="-1">Tables &amp; time series</h1><p class="lede">Inspect metadata, search columns, validate data quality, and stage a replacement file for review.</p></div>
+            <div><p class="eyebrow">INPUT DATA</p><h1 id="data-title" tabindex="-1">Tables &amp; time series</h1><p class="lede" id="data-intro">Inspect metadata, search columns, validate data quality, and stage a replacement file for review.</p></div>
             <span class="count-pill" id="data-count">— files</span>
           </div>
           <div class="browser-layout data-layout">
@@ -216,9 +216,10 @@
 
         <section class="view" id="view-runs" aria-labelledby="runs-title">
           <div class="page-heading compact-heading">
-            <div><p class="eyebrow">EXPLORATORY CALCULATION</p><h1 id="runs-title" tabindex="-1">Runs &amp; plots</h1><p class="lede">Compare hourly weather drivers and PVT-only outputs across saved scenarios.</p></div>
+            <div><p class="eyebrow">EXPLORATORY CALCULATION</p><h1 id="runs-title" tabindex="-1">Runs &amp; plots</h1><p class="lede" id="runs-intro">Compare hourly weather drivers and PVT-only outputs across saved scenarios.</p></div>
             <span class="scope-badge">PVT ONLY · NOT DESIGN-VALIDATED</span>
           </div>
+          <p class="model-note readonly-run-note" id="readonly-run-note" role="status" hidden></p>
           <div class="content-grid run-grid">
             <article class="panel run-form-panel">
               <p class="eyebrow">NEW SCENARIO</p>
@@ -289,7 +290,7 @@
         </section>
 
         <footer class="workspace-footer">
-          <span>AquaSolar · local input validation</span>
+          <span id="footer-mode">AquaSolar · local input validation</span>
           <span id="save-state" role="status">No staged changes</span>
           <button class="button button-primary" id="apply-staged" type="button" disabled>Preview &amp; apply changes</button>
         </footer>

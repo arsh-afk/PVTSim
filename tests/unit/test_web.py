@@ -560,3 +560,23 @@ def test_mutation_routes_reject_nonlocal_origins(tmp_path):
     )
 
     assert response.status_code == 403
+
+
+def test_read_only_mode_disables_mutations(tmp_path, monkeypatch):
+    _make_project(tmp_path)
+    parameter_path = tmp_path / "inputs" / "parameters" / "demo.yaml"
+    original = parameter_path.read_text(encoding="utf-8")
+    monkeypatch.setenv("AQUASOLAR_READ_ONLY", "true")
+    client = TestClient(create_app(tmp_path))
+
+    assert client.get("/api/config").json() == {"read_only": True}
+    response = client.post(
+        "/api/validation/apply",
+        json={
+            "confirmed": True,
+            "parameter_overrides": {"demo.limit": {"value": 0.8}},
+        },
+    )
+
+    assert response.status_code == 403
+    assert parameter_path.read_text(encoding="utf-8") == original
