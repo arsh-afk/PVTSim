@@ -4,6 +4,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="color-scheme" content="light">
+    <meta name="theme-color" content="#102f37">
+    <meta name="description" content="AquaSolar Living simulation workbench for PVT model inputs, results, and validation.">
     <title>AquaSolar | Input Workbench</title>
     <link rel="stylesheet" href="/static/app.css">
   </head>
@@ -15,13 +17,22 @@
           <span><strong>AquaSolar</strong><small>Simulation workbench</small></span>
         </a>
         <div class="project-chip"><span class="status-dot"></span> Local project</div>
-        <nav class="primary-nav">
-          <button class="nav-link is-active" data-view="overview"><span>01</span> Overview</button>
-          <button class="nav-link" data-view="parameters"><span>02</span> Parameters <b id="nav-parameter-count">—</b></button>
-          <button class="nav-link" data-view="data"><span>03</span> Data files <b id="nav-data-count">—</b></button>
-          <button class="nav-link" data-view="validation"><span>04</span> Validation <b id="nav-error-count">—</b></button>
-          <button class="nav-link" data-view="model"><span>05</span> Model</button>
-          <button class="nav-link" data-view="runs"><span>06</span> Runs &amp; plots</button>
+        <nav class="primary-nav" aria-label="Workbench sections">
+          <div class="nav-group">
+            <p class="nav-section-label">PREPARE</p>
+            <button type="button" class="nav-link is-active" data-view="overview" aria-current="page"><span>01</span> Overview</button>
+            <button type="button" class="nav-link" data-view="parameters"><span>02</span> Parameters <b id="nav-parameter-count">—</b></button>
+            <button type="button" class="nav-link" data-view="data"><span>03</span> Data files <b id="nav-data-count">—</b></button>
+            <button type="button" class="nav-link" data-view="validation"><span>04</span> Validation <b id="nav-error-count">—</b></button>
+          </div>
+          <div class="nav-group">
+            <p class="nav-section-label">UNDERSTAND</p>
+            <button type="button" class="nav-link" data-view="model"><span>05</span> Model</button>
+          </div>
+          <div class="nav-group">
+            <p class="nav-section-label">ANALYZE</p>
+            <button type="button" class="nav-link" data-view="runs"><span>06</span> Runs &amp; plots</button>
+          </div>
         </nav>
         <div class="sidebar-footer">
           <span class="eyebrow">MODEL SCOPE</span>
@@ -31,7 +42,7 @@
 
       <main class="workspace">
         <header class="topbar">
-          <div class="crumbs"><span>PROJECT</span><span class="crumb-separator">/</span><strong id="view-crumb">Overview</strong></div>
+          <div class="crumbs"><button class="project-crumb" type="button" data-go="overview">PROJECT</button><span class="crumb-separator">/</span><strong id="view-crumb">Overview</strong></div>
           <div class="temp-unit-toggle" role="group" aria-label="Temperature unit selection">
             <span class="temp-unit-label">Temp:</span>
             <button type="button" class="temp-unit-btn is-active" data-temp-unit="C" title="Display temperature in Celsius (°C)" aria-pressed="true">°C</button>
@@ -49,14 +60,38 @@
         </header>
 
         <section class="view is-visible" id="view-overview" aria-labelledby="overview-title">
-          <div class="page-heading">
-            <div>
-              <p class="eyebrow">PROJECT READINESS</p>
-              <h1 id="overview-title">Input workbench</h1>
-              <p class="lede">Find, review, and validate simulation inputs before starting a PVT scenario.</p>
+          <div class="overview-hero">
+            <div class="overview-hero-copy">
+              <p class="eyebrow">RAS AL KHAIMAH · CARNOT 2026 · CMAT-00184</p>
+              <h1 id="overview-title" tabindex="-1">AquaSolar, from inputs to insight</h1>
+              <p>Prepare site and hourly weather data, inspect the implemented PVT calculations, then compare scenario outputs.</p>
+              <div class="hero-meta">
+                <span class="scope-badge">PVT ONLY · EXPLORATORY</span>
+                <div class="validation-stamp" id="readiness-stamp"><span class="status-dot"></span><span>Checking inputs…</span></div>
+              </div>
             </div>
-            <div class="validation-stamp" id="readiness-stamp"><span class="status-dot"></span><span>Checking inputs…</span></div>
+            <div class="system-flow" role="img" aria-label="Hourly weather and site inputs feed the PVT collector model, which estimates electrical power and useful heat">
+              <div class="flow-node"><span>INPUTS</span><strong>Weather + site</strong></div>
+              <span class="flow-arrow" aria-hidden="true">→</span>
+              <div class="flow-node flow-node-model"><span>MODEL</span><strong>PVT collector</strong></div>
+              <span class="flow-arrow" aria-hidden="true">→</span>
+              <div class="flow-node"><span>OUTPUTS</span><strong>Power + useful heat</strong></div>
+            </div>
           </div>
+          <nav class="workflow-strip" aria-label="Simulation workflow">
+            <button class="workflow-step" data-go="parameters" type="button">
+              <span>01 · PREPARE</span><strong>Review inputs</strong><small>Parameters and weather files</small>
+            </button>
+            <button class="workflow-step" data-go="validation" type="button">
+              <span>02 · CHECK</span><strong>Validate setup</strong><small>Resolve blockers before a run</small>
+            </button>
+            <button class="workflow-step" data-go="model" type="button">
+              <span>03 · UNDERSTAND</span><strong>Follow the model</strong><small>Trace equations to outputs</small>
+            </button>
+            <button class="workflow-step" data-go="runs" type="button">
+              <span>04 · ANALYZE</span><strong>Compare runs</strong><small>Explore hourly results</small>
+            </button>
+          </nav>
           <div class="readiness-grid">
             <article class="readiness-card">
               <span class="eyebrow">BLOCKING ISSUES</span>
@@ -94,7 +129,7 @@
 
         <section class="view" id="view-parameters" aria-labelledby="parameters-title">
           <div class="page-heading compact-heading">
-            <div><p class="eyebrow">REGISTERED INPUTS</p><h1 id="parameters-title">Parameters</h1><p class="lede">Search by ID, description, group, source, or requirement. Changes stay staged until you preview and apply them.</p></div>
+            <div><p class="eyebrow">REGISTERED INPUTS</p><h1 id="parameters-title" tabindex="-1">Parameters</h1><p class="lede">Search by ID, description, group, source, or requirement. Changes stay staged until you preview and apply them.</p></div>
             <span class="count-pill" id="parameter-count">— parameters</span>
           </div>
           <div class="browser-layout">
@@ -116,7 +151,7 @@
 
         <section class="view" id="view-data" aria-labelledby="data-title">
           <div class="page-heading compact-heading">
-            <div><p class="eyebrow">INPUT DATA</p><h1 id="data-title">Tables &amp; time series</h1><p class="lede">Inspect metadata, search columns, validate data quality, and stage a replacement file for review.</p></div>
+            <div><p class="eyebrow">INPUT DATA</p><h1 id="data-title" tabindex="-1">Tables &amp; time series</h1><p class="lede">Inspect metadata, search columns, validate data quality, and stage a replacement file for review.</p></div>
             <span class="count-pill" id="data-count">— files</span>
           </div>
           <div class="browser-layout data-layout">
@@ -135,7 +170,7 @@
 
         <section class="view" id="view-validation" aria-labelledby="validation-title">
           <div class="page-heading compact-heading">
-            <div><p class="eyebrow">PREFLIGHT REPORT</p><h1 id="validation-title">Validation</h1><p class="lede">Each finding points to its file and field. Fix the source input, then validate again.</p></div>
+            <div><p class="eyebrow">PREFLIGHT REPORT</p><h1 id="validation-title" tabindex="-1">Validation</h1><p class="lede">Each finding points to its file and field. Fix the source input, then validate again.</p></div>
             <button class="button button-primary" id="refresh-validation" type="button">Run validation</button>
           </div>
           <div class="validation-summary" id="validation-summary"></div>
@@ -149,7 +184,7 @@
 
         <section class="view" id="view-model" aria-labelledby="model-title">
           <div class="page-heading compact-heading">
-            <div><p class="eyebrow">EXECUTED MODEL</p><h1 id="model-title">Calculation flow</h1><p class="lede">Trace the current PVT-only runner from its inputs through the implemented equations to saved outputs.</p></div>
+            <div><p class="eyebrow">EXECUTED MODEL</p><h1 id="model-title" tabindex="-1">Calculation flow</h1><p class="lede">Trace the current PVT-only runner from its inputs through the implemented equations to saved outputs.</p></div>
             <span class="scope-badge">PVT ONLY · EXPLORATORY</span>
           </div>
           <div class="model-tabs" role="tablist" aria-label="Model sections">
@@ -181,7 +216,7 @@
 
         <section class="view" id="view-runs" aria-labelledby="runs-title">
           <div class="page-heading compact-heading">
-            <div><p class="eyebrow">EXPLORATORY CALCULATION</p><h1 id="runs-title">Runs &amp; plots</h1><p class="lede">Compare hourly weather drivers and PVT-only outputs across saved scenarios.</p></div>
+            <div><p class="eyebrow">EXPLORATORY CALCULATION</p><h1 id="runs-title" tabindex="-1">Runs &amp; plots</h1><p class="lede">Compare hourly weather drivers and PVT-only outputs across saved scenarios.</p></div>
             <span class="scope-badge">PVT ONLY · NOT DESIGN-VALIDATED</span>
           </div>
           <div class="content-grid run-grid">

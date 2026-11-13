@@ -2316,3 +2316,220 @@ textarea:focus-visible {
     transition-duration: 0s;
   }
 }
+
+.app-body {
+  background:
+    radial-gradient(ellipse at 92% 0, #e6f2ec 0, transparent 34rem),
+    radial-gradient(ellipse at 8% 12%, #fff8e9 0, transparent 29rem),
+    var(--paper);
+}
+
+.sidebar {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  max-height: 100vh;
+  align-self: flex-start;
+  overflow-y: auto;
+  scrollbar-color: #42656a #102f37;
+  scrollbar-width: thin;
+}
+
+.workspace {
+  min-width: 0;
+}
+
+.topbar {
+  position: sticky;
+  z-index: 10;
+  top: 0;
+  background: rgb(244 247 245 / 94%);
+  backdrop-filter: blur(12px);
+}
+
+.project-crumb {
+  padding: 4px 0;
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+  font: inherit;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.13em;
+  cursor: pointer;
+}
+
+.project-crumb:hover {
+  color: var(--teal-dark);
+}
+
+.overview-heading {
+  position: relative;
+  min-height: 122px;
+  box-sizing: border-box;
+  overflow: hidden;
+  padding: var(--space-5);
+  border: 1px solid #d6e5dc;
+  border-radius: 14px;
+  background: linear-gradient(112deg, #fff 0%, #f6faf7 56%, #fff8e9 100%);
+  box-shadow: 0 8px 26px #17323a0a;
+}
+
+.overview-heading::before,
+.overview-heading::after {
+  position: absolute;
+  content: "";
+  pointer-events: none;
+}
+
+.overview-heading::before {
+  top: -98px;
+  right: 118px;
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #f6cf6d 0 19%, #f6cf6d38 20% 21%, transparent 22%);
+  opacity: 0.8;
+}
+
+.overview-heading::after {
+  right: -14px;
+  bottom: -48px;
+  width: 214px;
+  height: 136px;
+  transform: skewX(-18deg);
+  border: 1px solid #9dbbb5;
+  border-radius: 10px;
+  background:
+    repeating-linear-gradient(90deg, transparent 0 34px, #087c7824 35px 36px),
+    repeating-linear-gradient(0deg, #e6f0ed 0 20px, #afc8c1 21px 22px);
+  opacity: 0.65;
+}
+
+.overview-heading > div,
+.overview-heading > .validation-stamp {
+  position: relative;
+  z-index: 1;
+}
+
+.overview-heading .eyebrow {
+  color: var(--teal-dark);
+}
+
+.overview-heading .lede {
+  max-width: 620px;
+}
+
+.readiness-card {
+  border-top: 3px solid var(--line-strong);
+  transition: transform 140ms ease, box-shadow 140ms ease;
+}
+
+.readiness-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 22px #17323a12;
+}
+
+.readiness-card:nth-child(1) {
+  border-top-color: #e27a53;
+}
+
+.readiness-card:nth-child(2) {
+  border-top-color: #e0ad43;
+}
+
+.readiness-card:nth-child(3) {
+  border-top-color: #56a98a;
+}
+
+.review-path {
+  background: linear-gradient(120deg, #fff 0%, #fbfdfb 100%);
+}
+
+.review-step {
+  min-height: 104px;
+  align-content: start;
+  transition: border-color 120ms ease, background-color 120ms ease, transform 120ms ease;
+}
+
+.review-step:hover {
+  transform: translateY(-2px);
+}
+
+.analysis-chart-card {
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: 0 2px 8px #17323a0a;
+}
+
+.chart-surface {
+  overflow: hidden;
+  border-radius: 7px;
+  background: #fcfdfc;
+}
+
+.nav-link {
+  transition: background-color 120ms ease, color 120ms ease;
+}
+
+@container app (width <= 820px) {
+  .sidebar {
+    position: sticky;
+    z-index: 20;
+    top: 0;
+    height: auto;
+    max-height: none;
+    overflow: visible;
+    border-bottom: 1px solid #315057;
+    box-shadow: 0 4px 14px #102f3717;
+  }
+
+  .primary-nav {
+    scroll-padding-inline: var(--space-3);
+    scrollbar-color: #42656a #102f37;
+    scrollbar-width: thin;
+  }
+
+  .nav-link {
+    min-height: 38px;
+    scroll-snap-align: start;
+  }
+
+  .nav-link.is-active {
+    box-shadow: inset 0 -3px #48b596;
+  }
+
+  .topbar {
+    position: static;
+    backdrop-filter: none;
+  }
+
+  .overview-heading {
+    min-height: 0;
+  }
+
+  .overview-heading::before {
+    right: -48px;
+  }
+
+  .overview-heading::after {
+    display: none;
+  }
+
+  .overview-heading .lede {
+    max-width: 88%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .readiness-card,
+  .review-step,
+  .nav-link {
+    transition-duration: 0s;
+  }
+
+  .readiness-card:hover,
+  .review-step:hover {
+    transform: none;
+  }
+}

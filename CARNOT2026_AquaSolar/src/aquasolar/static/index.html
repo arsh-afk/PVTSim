@@ -4,6 +4,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="color-scheme" content="light">
+    <meta name="theme-color" content="#102f37">
+    <meta name="description" content="AquaSolar Living Carnot 2026 evaluation workbench for PVT model inputs, results, and validation.">
     <title>AquaSolar | Carnot Evaluation Workbench</title>
     <link rel="stylesheet" href="/static/app.css">
   </head>
@@ -33,7 +35,7 @@
 
       <main class="workspace">
         <header class="topbar">
-          <div class="crumbs"><span>PROJECT</span><span class="crumb-separator">/</span><strong id="view-crumb">Project overview</strong></div>
+          <div class="crumbs"><button class="project-crumb" type="button" data-go="overview">PROJECT</button><span class="crumb-separator">/</span><strong id="view-crumb">Project overview</strong></div>
           <div class="temp-unit-toggle" role="group" aria-label="Temperature unit selection">
             <span class="temp-unit-label">Temp:</span>
             <button type="button" class="temp-unit-btn is-active" data-temp-unit="C" title="Display temperature in Celsius (°C)" aria-pressed="true">°C</button>
@@ -51,10 +53,10 @@
         </header>
 
         <section class="view is-visible" id="view-overview" aria-labelledby="overview-title">
-          <div class="page-heading">
+          <div class="page-heading overview-heading">
             <div>
-              <p class="eyebrow">PROJECT READINESS</p>
-              <h1 id="overview-title">Project overview</h1>
+              <p class="eyebrow">CARNOT 2026 · TEAM CMAT-00184</p>
+              <h1 id="overview-title" tabindex="-1">Project overview</h1>
               <p class="lede">Follow the model, inspect its results, then review validation and source inputs.</p>
             </div>
             <div class="validation-stamp" id="readiness-stamp"><span class="status-dot"></span><span>Checking inputs…</span></div>
@@ -104,7 +106,7 @@
 
         <section class="view" id="view-parameters" aria-labelledby="parameters-title">
           <div class="page-heading compact-heading">
-            <div><p class="eyebrow">REGISTERED INPUTS</p><h1 id="parameters-title">Parameters</h1><p class="lede">Search by ID, description, group, source, or requirement. Changes stay staged until you preview and apply them.</p></div>
+            <div><p class="eyebrow">REGISTERED INPUTS</p><h1 id="parameters-title" tabindex="-1">Parameters</h1><p class="lede">Search by ID, description, group, source, or requirement. Changes stay staged until you preview and apply them.</p></div>
             <span class="count-pill" id="parameter-count">— parameters</span>
           </div>
           <div class="browser-layout">
@@ -126,7 +128,7 @@
 
         <section class="view" id="view-data" aria-labelledby="data-title">
           <div class="page-heading compact-heading">
-            <div><p class="eyebrow">INPUT DATA</p><h1 id="data-title">Tables &amp; time series</h1><p class="lede">Inspect metadata, search columns, validate data quality, and stage a replacement file for review.</p></div>
+            <div><p class="eyebrow">INPUT DATA</p><h1 id="data-title" tabindex="-1">Tables &amp; time series</h1><p class="lede">Inspect metadata, search columns, validate data quality, and stage a replacement file for review.</p></div>
             <span class="count-pill" id="data-count">— files</span>
           </div>
           <div class="browser-layout data-layout">
@@ -145,7 +147,7 @@
 
         <section class="view" id="view-validation" aria-labelledby="validation-title">
           <div class="page-heading compact-heading">
-            <div><p class="eyebrow">PREFLIGHT REPORT</p><h1 id="validation-title">Validation</h1><p class="lede">Each finding points to its file and field. Fix the source input, then validate again.</p></div>
+            <div><p class="eyebrow">PREFLIGHT REPORT</p><h1 id="validation-title" tabindex="-1">Validation</h1><p class="lede">Each finding points to its file and field. Fix the source input, then validate again.</p></div>
             <button class="button button-primary" id="refresh-validation" type="button">Run validation</button>
           </div>
           <div class="validation-summary" id="validation-summary"></div>
@@ -159,7 +161,7 @@
 
         <section class="view" id="view-model" aria-labelledby="model-title">
           <div class="page-heading compact-heading">
-            <div><p class="eyebrow">SYSTEM &amp; MATHEMATICAL MODEL</p><h1 id="model-title">How AquaSolar works</h1><p class="lede">See the physical energy and water pathways, then follow the calculations that the current PVT runner actually executes.</p></div>
+            <div><p class="eyebrow">SYSTEM &amp; MATHEMATICAL MODEL</p><h1 id="model-title" tabindex="-1">How AquaSolar works</h1><p class="lede">See the physical energy and water pathways, then follow the calculations that the current PVT runner actually executes.</p></div>
             <button class="button button-primary" data-go="runs" type="button">View simulation results</button>
           </div>
           <div class="model-tabs" role="tablist" aria-label="Model sections">
@@ -294,7 +296,7 @@
 
         <section class="view" id="view-runs" aria-labelledby="runs-title">
           <div class="page-heading compact-heading">
-            <div><p class="eyebrow">EXPLORATORY CALCULATION</p><h1 id="runs-title">Runs &amp; plots</h1><p class="lede">Compare hourly weather drivers and PVT-only outputs across saved scenarios.</p></div>
+            <div><p class="eyebrow">EXPLORATORY CALCULATION</p><h1 id="runs-title" tabindex="-1">Results &amp; plots</h1><p class="lede">Compare hourly weather drivers and PVT-only outputs across saved scenarios.</p></div>
             <span class="scope-badge">PVT ONLY · NOT DESIGN-VALIDATED</span>
           </div>
           <div class="content-grid run-grid">

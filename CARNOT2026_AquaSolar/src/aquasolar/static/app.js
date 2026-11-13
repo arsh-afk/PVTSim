@@ -105,10 +105,19 @@ function updateTempUnitButtons() {
   });
 }
 
-const SERIES_COLORS = ["#087c78", "#c27524", "#5d6ec0", "#b45155", "#487e54", "#895b9f", "#39758a"];
+const SERIES_COLORS = ["#4472c4", "#70ad47", "#ed7d31", "#6f5bd5", "#0f9f88", "#a6a6a6", "#173b63"];
 const DEFAULT_VARIABLES = ["POA_W_m2", "P_el_W", "Q_u_W", "T_f_out_K"];
 const MAX_UPLOAD_BYTES = 8 * 1024 * 1024;
 const MAX_TABLE_ROWS = 100;
+const VIEW_LABELS = Object.freeze({
+  overview: "Project overview",
+  parameters: "Parameters",
+  data: "Data files",
+  validation: "Validation",
+  model: "System model",
+  runs: "Results & plots",
+});
+const VIEW_NAMES = new Set(Object.keys(VIEW_LABELS));
 
 const byId = (id) => document.getElementById(id);
 const parameterList = byId("parameter-list");
@@ -162,7 +171,8 @@ function setGlobalError(message) {
   byId("summary-errors").textContent = "!";
 }
 
-function showView(name) {
+function showView(name, { updateHistory = true, focusHeading = true } = {}) {
+  if (!VIEW_NAMES.has(name)) return;
   document.querySelectorAll(".view").forEach((view) => {
     view.classList.toggle("is-visible", view.id === `view-${name}`);
   });
@@ -171,16 +181,16 @@ function showView(name) {
     button.classList.toggle("is-active", active);
     if (active) button.setAttribute("aria-current", "page");
     else button.removeAttribute("aria-current");
+    if (active) button.scrollIntoView({ block: "nearest", inline: "nearest" });
   });
-  const label = {
-    overview: "Project overview",
-    parameters: "Parameters",
-    data: "Data files",
-    validation: "Validation",
-    model: "System model",
-    runs: "Results & plots",
-  }[name] || name;
-  byId("view-crumb").textContent = label;
+  byId("view-crumb").textContent = VIEW_LABELS[name];
+  if (updateHistory && window.location.hash !== `#${name}`) {
+    window.history.pushState({ view: name }, "", `${window.location.pathname}${window.location.search}#${name}`);
+  }
+  if (focusHeading) {
+    window.scrollTo(0, 0);
+    document.querySelector(`#view-${name} h1`)?.focus({ preventScroll: true });
+  }
   if (name === "runs") window.requestAnimationFrame(drawAnalysisCanvases);
   if (name === "model") {
     renderTraceGraph();
@@ -2027,6 +2037,10 @@ function wireEvents() {
       byId("global-search").focus();
     }
   });
+  window.addEventListener("popstate", () => {
+    const name = window.location.hash.slice(1);
+    showView(VIEW_NAMES.has(name) ? name : "overview", { updateHistory: false });
+  });
   window.addEventListener("resize", () => {
     drawAnalysisCanvases();
     drawTraceEdges();
@@ -2060,6 +2074,11 @@ async function initialize() {
     byId("summary-inputs").textContent = state.catalog.parameters.length + state.catalog.data_files.length;
   } catch (error) {
     setGlobalError(error.message);
+  } finally {
+    const initialView = window.location.hash.slice(1);
+    if (VIEW_NAMES.has(initialView)) {
+      showView(initialView, { updateHistory: false, focusHeading: false });
+    }
   }
 }
 
