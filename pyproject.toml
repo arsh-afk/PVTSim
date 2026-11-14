@@ -28,7 +28,7 @@ dependencies = [
 
 [project.optional-dependencies]
 units = ["pint>=0.23"]
-solar = ["pvlib[all]>=0.15"]
+solar = ["pvlib>=0.15"]
 sensitivity = ["SALib>=1.4"]
 properties = ["iapws>=1.5"]
 dev = [
@@ -44,7 +44,7 @@ aquasolar = "aquasolar.cli:main"
 where = ["src"]
 
 [tool.setuptools.package-data]
-aquasolar = ["static/*"]
+aquasolar = ["static/*", "static/report-showcase/*"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

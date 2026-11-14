@@ -41,6 +41,9 @@ const state = {
   })(),
 };
 
+const analyticsCore = window.AquaSolarAnalytics;
+if (!analyticsCore) throw new Error("Analytics helpers must load before the workbench.");
+
 const ANALYSIS_VARIABLES = {
   GHI_W_m2: { label: "Global horizontal irradiance", unit: "W/m²", group: "Weather drivers" },
   DNI_W_m2: { label: "Direct normal irradiance", unit: "W/m²", group: "Weather drivers" },
@@ -56,6 +59,13 @@ const ANALYSIS_VARIABLES = {
   E_el_Wh: { label: "Electrical energy per step", unit: "Wh", group: "PVT outputs" },
   E_heat_Wh: { label: "Thermal energy per step", unit: "Wh", group: "PVT outputs" },
 };
+
+const VARIABLE_LINE_STYLES = [
+  { className: "is-solid", dash: [] },
+  { className: "is-dashed", dash: [7, 4] },
+  { className: "is-dotted", dash: [2, 3] },
+  { className: "is-dash-dot", dash: [7, 3, 2, 3] },
+];
 
 const TEMPERATURE_VARIABLES = new Set(["T_ambient_K", "T_f_out_K", "T_cell_K"]);
 
@@ -804,6 +814,7 @@ function setModelTab(name) {
   document.querySelectorAll(".model-panel").forEach((panel) => {
     panel.hidden = panel.id !== `model-panel-${name}`;
   });
+  if (name === "flow") requestAnimationFrame(drawTraceEdges);
 }
 
 function stageModuleToggle(input) {
@@ -892,11 +903,132 @@ function renderTraceGraph() {
     ["steps", "Equations and transformations", state.trace.steps],
     ["outputs", "Outputs", state.trace.outputs],
   ];
-  container.innerHTML = lanes.map(([kind, label, nodes]) => `<section class="trace-lane" aria-label="${escapeHtml(label)}">
-    <h2>${escapeHtml(label)}</h2>
-    <div class="trace-node-list">${nodes.map((node) => traceNodeButton(node, kind, related)).join("")}</div>
-  </section>`).join("");
+  container.innerHTML = `<div class="trace-graph">
+    ${lanes.map(([kind, label, nodes]) => `<section class="trace-lane" aria-label="${escapeHtml(label)}">
+      <h2>${escapeHtml(label)}</h2>
+      <div class="trace-node-list">${nodes.map((node) => traceNodeButton(node, kind, related)).join("")}</div>
+    </section>`).join("")}
+    <svg class="trace-edges" aria-hidden="true" focusable="false">
+      <defs>
+        <marker id="trace-arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L8,4 L0,8 z" fill="#829e98"></path></marker>
+        <marker id="trace-arrow-active" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L8,4 L0,8 z" fill="#087c78"></path></marker>
+      </defs>
+    </svg>
+  </div>`;
+  requestAnimationFrame(drawTraceEdges);
   if (state.selectedTraceNode) renderTraceDetail(state.selectedTraceNode);
+}
+
+function traceFormulaMarkup(step) {
+  const formulas = {
+    "azimuth-mapping": `<math display="block" aria-label="Convert the declared collector azimuth convention to north-zero clockwise degrees">
+      <mtable displaystyle="true" columnalign="left">
+        <mtr><mtd><msub><mi>γ</mi><mi>surface</mi></msub><mo>=</mo><mo>(</mo><mn>180</mn><mo>°</mo><mo>+</mo><msub><mi>γ</mi><mi>declared</mi></msub><mo>)</mo><mi>mod</mi><mn>360</mn><mo>°</mo></mtd><mtd><mtext>south-zero convention</mtext></mtd></mtr>
+        <mtr><mtd><msub><mi>γ</mi><mi>surface</mi></msub><mo>=</mo><msub><mi>γ</mi><mi>declared</mi></msub><mi>mod</mi><mn>360</mn><mo>°</mo></mtd><mtd><mtext>north-zero convention</mtext></mtd></mtr>
+      </mtable>
+    </math>`,
+    "solar-position": `<math display="block" aria-label="Solar position is evaluated at the hourly interval midpoint from latitude, longitude, and elevation">
+      <mrow><mi>SolarPosition</mi><mo>=</mo><mi>pvlib</mi><mo>.</mo><mi>solarposition</mi><mo>.</mo><mi>get_solarposition</mi><mo>(</mo><msub><mi>t</mi><mi>midpoint</mi></msub><mo>,</mo><mi>latitude</mi><mo>,</mo><mi>longitude</mi><mo>,</mo><mi>elevation</mi><mo>)</mo></mrow>
+    </math>`,
+    "irradiance-transposition": `<math display="block" aria-label="Plane of array irradiance is transposed from direct normal, global horizontal, and diffuse horizontal irradiance, surface orientation, solar position, and ground albedo">
+      <mrow><msub><mi>G</mi><mi>POA</mi></msub><mo>=</mo><msub><mi>f</mi><mi>isotropic</mi></msub><mo>(</mo><mi>DNI</mi><mo>,</mo><mi>GHI</mi><mo>,</mo><mi>DHI</mi><mo>,</mo><msub><mi>β</mi><mi>tilt</mi></msub><mo>,</mo><msub><mi>γ</mi><mi>surface</mi></msub><mo>,</mo><mi>albedo</mi><mo>)</mo></mrow>
+    </math>`,
+    "effective-irradiance": `<math display="block" aria-label="Effective irradiance is plane of array irradiance times one minus the shading loss fraction; ambient temperature converts from Celsius to Kelvin">
+      <mtable displaystyle="true" columnalign="left">
+        <mtr><mtd><msub><mi>G</mi><mi>eff</mi></msub><mo>=</mo><msub><mi>G</mi><mi>POA</mi></msub><mo>(</mo><mn>1</mn><mo>−</mo><msub><mi>f</mi><mi>shade</mi></msub><mo>)</mo></mtd></mtr>
+        <mtr><mtd><msub><mi>T</mi><mrow><mi>ambient</mi><mo>,</mo><mi>K</mi></mrow></msub><mo>=</mo><msub><mi>T</mi><mrow><mi>ambient</mi><mo>,</mo><mi>°C</mi></mrow></msub><mo>+</mo><mn>273.15</mn></mtd></mtr>
+      </mtable>
+    </math>`,
+    "flow-selection": `<math display="block" aria-label="Estimated collector gain selects configured mass flow only when irradiance and estimated gain are both positive; otherwise flow is zero">
+      <mtable displaystyle="true" columnalign="left">
+        <mtr><mtd><msub><mi>q</mi><mi>estimate</mi></msub><mo>=</mo><mo>(</mo><mi>τα</mi><mo>−</mo><msub><mi>η</mi><mi>ref</mi></msub><mo>)</mo><msub><mi>G</mi><mi>eff</mi></msub><mo>−</mo><msub><mi>U</mi><mi>L</mi></msub><mo>(</mo><msub><mi>T</mi><mi>in</mi></msub><mo>−</mo><msub><mi>T</mi><mi>ambient</mi></msub><mo>)</mo></mtd></mtr>
+        <mtr><mtd><mover><mi>m</mi><mo>˙</mo></mover><mo>=</mo><mo>{</mo><mtable columnalign="left left"><mtr><mtd><msub><mover><mi>m</mi><mo>˙</mo></mover><mi>fixed</mi></msub></mtd><mtd><mtext>Gₑff &gt; 0 and qₑstimate &gt; 0</mtext></mtd></mtr><mtr><mtd><mn>0</mn></mtd><mtd><mtext>otherwise</mtext></mtd></mtr></mtable></mtd></mtr>
+      </mtable>
+    </math>`,
+    "coupled-pvt": `<math display="block" aria-label="Coupled PVT loop solves mean fluid temperature, temperature-adjusted electrical efficiency, electrical power, useful heat, cell temperature, and outlet temperature">
+      <mtable displaystyle="true" columnalign="left">
+        <mtr><mtd><msub><mi>T</mi><mi>m</mi></msub><mo>=</mo><mfrac><mrow><msub><mi>T</mi><mi>in</mi></msub><mo>+</mo><msub><mi>T</mi><mi>out</mi></msub></mrow><mn>2</mn></mfrac></mtd></mtr>
+        <mtr><mtd><mi>η</mi><mo>=</mo><mi>max</mi><mo>(</mo><mn>0</mn><mo>,</mo><msub><mi>η</mi><mi>ref</mi></msub><mo>[</mo><mn>1</mn><mo>−</mo><mi>β</mi><mo>(</mo><msub><mi>T</mi><mi>c</mi></msub><mo>−</mo><msub><mi>T</mi><mi>ref</mi></msub><mo>)</mo><mo>]</mo><mo>)</mo></mtd></mtr>
+        <mtr><mtd><msub><mi>P</mi><mi>el</mi></msub><mo>=</mo><mi>η</mi><msub><mi>φ</mi><mi>soil</mi></msub><msub><mi>G</mi><mi>eff</mi></msub><mi>A</mi><msub><mi>f</mi><mi>MPP</mi></msub></mtd></mtr>
+        <mtr><mtd><msub><mi>Q</mi><mi>u</mi></msub><mo>=</mo><mi>A</mi><msub><mi>F</mi><mi>R</mi></msub><mo>[</mo><mi>τα</mi><msub><mi>G</mi><mi>eff</mi></msub><mo>−</mo><mfrac><msub><mi>P</mi><mi>el</mi></msub><mi>A</mi></mfrac><mo>−</mo><msub><mi>U</mi><mi>L</mi></msub><mo>(</mo><msub><mi>T</mi><mi>in</mi></msub><mo>−</mo><msub><mi>T</mi><mi>ambient</mi></msub><mo>)</mo><mo>]</mo></mtd></mtr>
+        <mtr><mtd><msub><mi>T</mi><mi>c</mi></msub><mo>=</mo><msub><mi>T</mi><mi>m</mi></msub><mo>+</mo><msub><mi>R</mi><mrow><mi>cell</mi><mo>−</mo><mi>fluid</mi></mrow></msub><mfrac><msub><mi>Q</mi><mi>u</mi></msub><mi>A</mi></mfrac></mtd></mtr>
+        <mtr><mtd><msub><mi>T</mi><mi>out</mi></msub><mo>=</mo><msub><mi>T</mi><mi>in</mi></msub><mo>+</mo><mfrac><msub><mi>Q</mi><mi>u</mi></msub><mrow><mover><mi>m</mi><mo>˙</mo></mover><msub><mi>c</mi><mi>p</mi></msub></mrow></mfrac></mtd></mtr>
+      </mtable>
+    </math>`,
+    "zero-flow-pvt": `<math display="block" aria-label="Zero-flow branch sets flow, useful heat, and outlet rise to zero while estimating stagnation cell temperature and electrical power">
+      <mtable displaystyle="true" columnalign="left">
+        <mtr><mtd><mover><mi>m</mi><mo>˙</mo></mover><mo>=</mo><mn>0</mn><mo>,</mo><mspace width="0.5em"/><msub><mi>T</mi><mi>out</mi></msub><mo>=</mo><msub><mi>T</mi><mi>in</mi></msub><mo>,</mo><mspace width="0.5em"/><msub><mi>Q</mi><mi>u</mi></msub><mo>=</mo><mn>0</mn></mtd></mtr>
+        <mtr><mtd><msub><mi>T</mi><mi>c</mi></msub><mo>=</mo><msub><mi>T</mi><mi>ambient</mi></msub><mo>+</mo><mfrac><msub><mi>G</mi><mi>eff</mi></msub><mrow><mi>max</mi><mo>(</mo><msub><mi>U</mi><mi>L</mi></msub><mo>,</mo><mn>0.1</mn><mo>)</mo></mrow></mfrac></mtd></mtr>
+        <mtr><mtd><msub><mi>P</mi><mi>el</mi></msub><mo>=</mo><mi>max</mi><mo>(</mo><mn>0</mn><mo>,</mo><msub><mi>η</mi><mi>ref</mi></msub><mo>[</mo><mn>1</mn><mo>−</mo><mi>β</mi><mo>(</mo><msub><mi>T</mi><mi>c</mi></msub><mo>−</mo><msub><mi>T</mi><mi>ref</mi></msub><mo>)</mo><mo>]</mo><mo>)</mo><msub><mi>φ</mi><mi>soil</mi></msub><msub><mi>G</mi><mi>eff</mi></msub><mi>A</mi><msub><mi>f</mi><mi>MPP</mi></msub></mtd></mtr>
+      </mtable>
+    </math>`,
+    "hourly-energy": `<math display="block" aria-label="Per-interval electrical and useful-heat energy equals power times the weather interval duration in seconds divided by 3600">
+      <mtable displaystyle="true" columnalign="left">
+        <mtr><mtd><msub><mi>E</mi><mrow><mi>el</mi><mo>,</mo><mi>Wh</mi></mrow></msub><mo>=</mo><msub><mi>P</mi><mi>el</mi></msub><mfrac><msub><mi>Δ</mi><mi>t</mi></msub><mi>3600</mi></mfrac></mtd></mtr>
+        <mtr><mtd><msub><mi>E</mi><mrow><mi>heat</mi><mo>,</mo><mi>Wh</mi></mrow></msub><mo>=</mo><msub><mi>Q</mi><mi>u</mi></msub><mfrac><msub><mi>Δ</mi><mi>t</mi></msub><mi>3600</mi></mfrac></mtd></mtr>
+      </mtable>
+    </math>`,
+    "run-summary": `<math display="block" aria-label="Run energy in kilowatt-hours is the sum of step energy in watt-hours divided by 1000; average power is total step energy divided by number of steps">
+      <mtable displaystyle="true" columnalign="left">
+        <mtr><mtd><msub><mi>E</mi><mi>kWh</mi></msub><mo>=</mo><mfrac><mrow><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>N</mi></munderover><msub><mi>E</mi><mrow><mi>Wh</mi><mo>,</mo><mi>i</mi></mrow></msub></mrow><mn>1000</mn></mfrac></mtd></mtr>
+        <mtr><mtd><msub><mi>P</mi><mi>avg</mi></msub><mo>=</mo><mfrac><mrow><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>N</mi></munderover><msub><mi>E</mi><mrow><mi>Wh</mi><mo>,</mo><mi>i</mi></mrow></msub></mrow><mi>N</mi></mfrac></mtd></mtr>
+      </mtable>
+    </math>`,
+  };
+  if (formulas[step.id]) return formulas[step.id];
+  if (step.id === "parameter-validation") {
+    return `<div class="trace-rule-block"><strong>Supported-input rule</strong><p>${escapeHtml(step.formula || step.description || "Inputs must satisfy the runner's required parameter and mode checks.")}</p></div>`;
+  }
+  return `<div class="trace-rule-block"><strong>Implementation rule</strong><p>${escapeHtml(step.formula || "No equation or rule is recorded for this step.")}</p></div>`;
+}
+
+function drawTraceEdges() {
+  const map = byId("trace-graph").querySelector(".trace-graph");
+  if (!map || !state.trace) return;
+  const svg = map.querySelector(".trace-edges");
+  const mapRect = map.getBoundingClientRect();
+  const width = map.scrollWidth;
+  const height = map.scrollHeight;
+  svg.setAttribute("viewBox", `0 0 ${width} ${height}`);
+  svg.setAttribute("width", String(width));
+  svg.setAttribute("height", String(height));
+  svg.replaceChildren(svg.querySelector("defs"));
+
+  const related = state.selectedTraceNode
+    ? relatedTraceNodes(state.selectedTraceNode)
+    : { upstream: new Set(), downstream: new Set() };
+  const paths = [];
+  for (const edge of state.trace.edges || []) {
+    const source = map.querySelector(`[data-trace-node="${CSS.escape(edge.source)}"]`);
+    const target = map.querySelector(`[data-trace-node="${CSS.escape(edge.target)}"]`);
+    if (!source || !target) continue;
+    const sourceRect = source.getBoundingClientRect();
+    const targetRect = target.getBoundingClientRect();
+    let path;
+    if (sourceRect.right <= targetRect.left) {
+      const x1 = sourceRect.right - mapRect.left;
+      const y1 = sourceRect.top + sourceRect.height / 2 - mapRect.top;
+      const x2 = targetRect.left - mapRect.left;
+      const y2 = targetRect.top + targetRect.height / 2 - mapRect.top;
+      const curve = Math.max(22, (x2 - x1) * 0.42);
+      path = `M ${x1} ${y1} C ${x1 + curve} ${y1}, ${x2 - curve} ${y2}, ${x2} ${y2}`;
+    } else {
+      const laneRect = source.closest(".trace-lane").getBoundingClientRect();
+      const x1 = sourceRect.left - mapRect.left;
+      const y1 = sourceRect.top + sourceRect.height / 2 - mapRect.top;
+      const x2 = targetRect.left - mapRect.left;
+      const y2 = targetRect.top + targetRect.height / 2 - mapRect.top;
+      const gutter = laneRect.left - mapRect.left + 8;
+      path = `M ${x1} ${y1} C ${gutter} ${y1}, ${gutter} ${y2}, ${x2} ${y2}`;
+    }
+    const isRelated = (
+      related.upstream.has(edge.source) && related.upstream.has(edge.target)
+    ) || (
+      related.downstream.has(edge.source) && related.downstream.has(edge.target)
+    );
+    paths.push(`<path class="trace-edge${isRelated ? " is-related" : ""}" d="${path}"></path>`);
+  }
+  svg.insertAdjacentHTML("beforeend", paths.join(""));
 }
 
 function renderTraceDetail(nodeId) {
@@ -919,7 +1051,7 @@ function renderTraceDetail(nodeId) {
     );
     container.innerHTML = `<p class="eyebrow">CALCULATION STEP · ${escapeHtml(step.unit || "")}</p>
       <h2>${escapeHtml(step.label)}</h2><p>${escapeHtml(step.description || "")}</p>
-      <div class="formula-block"><span>Implemented formula / rule</span><code>${escapeHtml(step.formula || "No equation is recorded for this step.")}</code></div>
+      <div class="formula-block"><span>Implemented formula / rule · MathML</span>${traceFormulaMarkup(step)}</div>
       <dl class="trace-facts"><div><dt>Input groups</dt><dd>${escapeHtml((step.input_groups || []).map((id) => state.trace.inputs.find((item) => item.id === id)?.label || id).join(", ") || "Previous calculation outputs")}</dd></div><div><dt>Prior calculations</dt><dd>${escapeHtml(dependencyLabels.join(", ") || "None")}</dd></div><div><dt>Code source</dt><dd><code>${escapeHtml(step.source || "—")}</code></dd></div></dl>
       ${ids.length ? `<h3>Current parameter values</h3>${parameterSnapshotTable(ids)}` : ""}`;
     return;
@@ -1151,30 +1283,23 @@ function renderVariablePicker() {
     picker.innerHTML = `<p class="muted">Select a valid run with numeric weather or PVT series.</p>`;
     return;
   }
-  const groups = ["Weather drivers", "PVT outputs"];
-  picker.innerHTML = groups.map((group) => {
-    const options = available.filter((column) => ANALYSIS_VARIABLES[column].group === group);
-    if (!options.length) return "";
-    return `<div class="variable-group"><strong>${group}</strong>${options.map((column) => `
-      <label class="selection-option variable-option">
-        <input type="checkbox" data-variable="${column}" ${state.selectedVariables.includes(column) ? "checked" : ""}>
-        <span>${escapeHtml(getVariableLabel(column))} <small>${escapeHtml(getVariableUnit(column))}</small></span>
-      </label>`).join("")}</div>`;
-  }).join("");
+  const groups = analyticsCore.groupVariablesByUnit(available.map((column) => ({
+    column,
+    unit: getVariableUnit(column),
+  })));
+  picker.innerHTML = groups.map(({ unit, variables }) => `
+    <div class="variable-group"><strong>${escapeHtml(unit)} · shared-axis overlay</strong>
+      ${variables.map((column) => `
+        <label class="selection-option variable-option">
+          <input type="checkbox" data-variable="${column}" ${state.selectedVariables.includes(column) ? "checked" : ""}>
+          <span>${escapeHtml(getVariableLabel(column))} <small>${escapeHtml(getVariableUnit(column))}</small></span>
+        </label>`).join("")}
+    </div>
+  `).join("");
 }
 
 function getFullDomain(records = selectedRunRecords()) {
-  let minimum = Infinity;
-  let maximum = -Infinity;
-  for (const { rows } of records) {
-    for (const row of rows) {
-      const time = Date.parse(row.timestamp);
-      if (!Number.isFinite(time)) continue;
-      minimum = Math.min(minimum, time);
-      maximum = Math.max(maximum, time);
-    }
-  }
-  return Number.isFinite(minimum) ? { start: minimum, end: maximum } : null;
+  return analyticsCore.fullDomain(records);
 }
 
 function getCurrentDomain(records = selectedRunRecords()) {
@@ -1209,10 +1334,7 @@ function formatNumber(value, digits = 3) {
 }
 
 function visibleRows(rows, domain) {
-  return rows.filter((row) => {
-    const time = Date.parse(row.timestamp);
-    return Number.isFinite(time) && time >= domain.start && time <= domain.end;
-  });
+  return analyticsCore.rowsInWindow(rows, domain.start, domain.end);
 }
 
 function renderAnalysis() {
@@ -1223,6 +1345,7 @@ function renderAnalysis() {
   const chartRoot = byId("analysis-charts");
   const empty = byId("chart-empty");
   const hasData = records.length > 0 && Boolean(domain);
+  renderEnergySummary(records, domain);
   empty.classList.toggle("is-hidden", hasData && variables.length > 0);
   empty.textContent = records.length
     ? "Choose one or more numeric variables to chart."
@@ -1238,25 +1361,35 @@ function renderAnalysis() {
       : (Object.keys(state.seriesErrors).length
         ? Object.entries(state.seriesErrors).map(([id, error]) => `${id}: ${error}`).join(" · ")
         : "Select at least one valid saved run.");
-    syncRangeControls(null);
+    if (!hasData) syncRangeControls(null);
+    else syncRangeControls(domain);
     return;
   }
 
-  chartRoot.innerHTML = variables.map((column) => {
-    const label = getVariableLabel(column);
-    const unit = getVariableUnit(column);
-    const legend = records.map(({ run }, index) => `
-      <span class="chart-legend-item"><i style="--series-color:${SERIES_COLORS[index % SERIES_COLORS.length]}"></i>${escapeHtml(run.scenario_id)}</span>
+  const groups = analyticsCore.groupVariablesByUnit(variables.map((column) => ({
+    column,
+    unit: getVariableUnit(column),
+  })));
+  chartRoot.innerHTML = groups.map(({ unit, variables: groupVariables }, groupIndex) => {
+    const labels = groupVariables.map(getVariableLabel);
+    const scenarioLegend = records.map(({ run }, index) => `
+      <span class="chart-legend-item"><i class="chart-legend-swatch scenario-swatch" style="--series-color:${SERIES_COLORS[index % SERIES_COLORS.length]}"></i>${escapeHtml(run.scenario_id)}</span>
     `).join("");
-    return `<section class="analysis-chart-card" data-chart-card="${column}">
-      <div class="analysis-chart-heading"><div><h3>${escapeHtml(label)}</h3><span>${escapeHtml(unit)}</span></div></div>
-      <div class="chart-surface"><canvas class="analysis-chart" data-chart="${column}" tabindex="0" role="img" aria-label="${escapeHtml(label)} time-series comparison"></canvas></div>
-      <div class="chart-legend">${legend}</div>
+    const variableLegend = groupVariables.map((column, index) => `
+      <span class="chart-legend-item"><i class="chart-legend-swatch variable-swatch ${VARIABLE_LINE_STYLES[index % VARIABLE_LINE_STYLES.length].className}"></i>${escapeHtml(getVariableLabel(column))}</span>
+    `).join("");
+    return `<section class="analysis-chart-card" data-chart-card="${groupIndex}">
+      <div class="analysis-chart-heading"><div><h3>${escapeHtml(unit)} overlay</h3><span>${escapeHtml(labels.join(" · "))}</span></div></div>
+      <div class="chart-surface"><canvas class="analysis-chart" data-chart-variables="${groupVariables.join(",")}" tabindex="0" role="img" aria-label="${escapeHtml(`${labels.join(", ")} in ${unit} by scenario`)}"></canvas></div>
+      <div class="chart-legend">
+        <div class="chart-legend-group"><strong>Scenario color</strong>${scenarioLegend}</div>
+        <div class="chart-legend-group"><strong>Variable line</strong>${variableLegend}</div>
+      </div>
     </section>`;
   }).join("");
 
   syncRangeControls(domain);
-  chartRoot.querySelectorAll("canvas[data-chart]").forEach((canvas) => {
+  chartRoot.querySelectorAll("canvas[data-chart-variables]").forEach((canvas) => {
     canvas.addEventListener("pointerdown", handleChartPointerDown);
     canvas.addEventListener("pointermove", handleChartPointerMove);
     canvas.addEventListener("pointerup", handleChartPointerUp);
@@ -1273,6 +1406,29 @@ function renderAnalysis() {
   byId("result-quality").textContent = failures.length
     ? `Could not read: ${failures.join(" · ")}`
     : `${records.length} run${records.length === 1 ? "" : "s"} · ${variables.length} variable${variables.length === 1 ? "" : "s"} · output checks passed`;
+}
+
+function renderEnergySummary(records, domain) {
+  const container = byId("analysis-energy");
+  if (!records.length || !domain) {
+    container.innerHTML = `<p class="muted">Select saved runs to total electrical energy and useful collector heat.</p>`;
+    return;
+  }
+  const body = records.map(({ run, rows }) => {
+    const energy = analyticsCore.sumEnergyWindow(rows, domain.start, domain.end);
+    const electricity = energy.electricKWh === null ? "—" : `${formatNumber(energy.electricKWh)} kWh`;
+    const heat = energy.heatKWh === null ? "—" : `${formatNumber(energy.heatKWh)} kWh`;
+    return `<tr>
+      <td>${escapeHtml(run.scenario_id)}</td>
+      <td>${electricity}<small>${energy.electricSteps}/${energy.intervalCount} intervals</small></td>
+      <td>${heat}<small>${energy.heatSteps}/${energy.intervalCount} intervals</small></td>
+      <td>${energy.intervalCount.toLocaleString()}</td>
+    </tr>`;
+  }).join("");
+  container.innerHTML = `<table class="analysis-table">
+    <thead><tr><th>Scenario</th><th>Electrical energy</th><th>Useful collector heat</th><th>Hourly intervals</th></tr></thead>
+    <tbody>${body}</tbody>
+  </table>`;
 }
 
 function syncRangeControls(domain) {
@@ -1296,15 +1452,15 @@ function syncRangeControls(domain) {
 }
 
 function drawAnalysisCanvases() {
-  byId("analysis-charts").querySelectorAll("canvas[data-chart]").forEach(drawChart);
+  byId("analysis-charts").querySelectorAll("canvas[data-chart-variables]").forEach(drawChart);
 }
 
 function drawChart(canvas) {
-  const column = canvas.dataset.chart;
+  const variables = canvas.dataset.chartVariables.split(",").filter(Boolean);
   const records = selectedRunRecords();
   const domain = getCurrentDomain(records);
   const rect = canvas.getBoundingClientRect();
-  if (!domain || rect.width < 10) return;
+  if (!variables.length || !domain || rect.width < 10) return;
   const ratio = window.devicePixelRatio || 1;
   const width = rect.width;
   const height = Math.max(180, rect.height);
@@ -1316,15 +1472,17 @@ function drawChart(canvas) {
   const margin = { left: 58, right: 14, top: 16, bottom: 34 };
   const chartWidth = Math.max(1, width - margin.left - margin.right);
   const chartHeight = Math.max(1, height - margin.top - margin.bottom);
-  const series = records.map(({ run, rows }, index) => ({
+  const series = records.flatMap(({ run, rows }, runIndex) => variables.map((column, variableIndex) => ({
     run,
-    color: SERIES_COLORS[index % SERIES_COLORS.length],
+    column,
+    variableIndex,
+    color: SERIES_COLORS[runIndex % SERIES_COLORS.length],
     rows: visibleRows(rows, domain).filter((row) => Number.isFinite(Number(row[column]))),
-  }));
-  const values = series.flatMap((item) => item.rows.map((row) => getVariableValue(column, Number(row[column]))));
-  if (!values.length) return;
-  let min = Math.min(...values);
-  let max = Math.max(...values);
+  })));
+  const values = series.flatMap((item) => item.rows.map((row) => getVariableValue(item.column, Number(row[item.column]))));
+  const bounds = analyticsCore.valueBounds(values);
+  if (!bounds) return;
+  let { min, max } = bounds;
   if (min === max) {
     const padding = Math.abs(min) * 0.05 || 1;
     min -= padding;
@@ -1351,16 +1509,19 @@ function drawChart(canvas) {
     context.fillText(formatNumber(value, 2), margin.left - 8, lineY + 4);
   }
   for (const item of series) {
+    const lineStyle = VARIABLE_LINE_STYLES[item.variableIndex % VARIABLE_LINE_STYLES.length];
     context.beginPath();
     item.rows.forEach((row, index) => {
       const pointX = x(Date.parse(row.timestamp));
-      const pointY = y(getVariableValue(column, Number(row[column])));
+      const pointY = y(getVariableValue(item.column, Number(row[item.column])));
       if (index === 0) context.moveTo(pointX, pointY);
       else context.lineTo(pointX, pointY);
     });
     context.strokeStyle = item.color;
     context.lineWidth = 1.8;
+    context.setLineDash(lineStyle.dash);
     context.stroke();
+    context.setLineDash([]);
   }
   context.fillStyle = "#526d71";
   context.textAlign = "center";
@@ -1381,7 +1542,7 @@ function drawChart(canvas) {
       const row = nearestRow(item.rows, state.hoverTime);
       if (!row) return;
       context.beginPath();
-      context.arc(x(Date.parse(row.timestamp)), y(getVariableValue(column, Number(row[column]))), 3.5, 0, Math.PI * 2);
+      context.arc(x(Date.parse(row.timestamp)), y(getVariableValue(item.column, Number(row[item.column]))), 3.5, 0, Math.PI * 2);
       context.fillStyle = item.color;
       context.fill();
     });
@@ -1443,7 +1604,7 @@ function handleChartPointerMove(event) {
       drawAnalysisCanvases();
     });
   }
-  renderCursorReadout(event.currentTarget.dataset.chart, time);
+  renderCursorReadout(event.currentTarget.dataset.chartVariables.split(",").filter(Boolean), time);
 }
 
 function handleChartPointerUp(event) {
@@ -1467,19 +1628,20 @@ function handleChartPointerUp(event) {
 function handleChartPointerLeave() {
   if (state.dragRange) return;
   state.hoverTime = null;
-  byId("cursor-readout").textContent = "Hover over a chart to inspect values across runs. Drag within a chart to zoom all panels to that time range.";
+  byId("cursor-readout").textContent = "Hover over a chart to inspect overlaid variables across runs. Drag within a chart to zoom all panels to that time range.";
   drawAnalysisCanvases();
 }
 
-function renderCursorReadout(column, time) {
-  const label = getVariableLabel(column);
-  const unit = getVariableUnit(column);
+function renderCursorReadout(columns, time) {
   const parts = selectedRunRecords().map(({ run, rows }) => {
     const row = nearestRow(visibleRows(rows, getCurrentDomain()), time);
-    const val = row ? getVariableValue(column, Number(row[column])) : null;
-    return `${run.scenario_id}: ${val !== null && Number.isFinite(val) ? formatNumber(val) : "—"} ${unit}`;
+    const values = columns.map((column) => {
+      const val = row ? getVariableValue(column, Number(row[column])) : null;
+      return `${getVariableLabel(column)}: ${val !== null && Number.isFinite(val) ? formatNumber(val) : "—"} ${getVariableUnit(column)}`;
+    });
+    return `${run.scenario_id} · ${values.join(" · ")}`;
   });
-  byId("cursor-readout").textContent = `${formatTime(time)} · ${label} · ${parts.join(" · ")}`;
+  byId("cursor-readout").textContent = `${formatTime(time)} · ${parts.join(" · ")}`;
 }
 
 function renderStatistics(records, variables, domain) {
@@ -1488,19 +1650,16 @@ function renderStatistics(records, variables, domain) {
     rows: visibleRows(rows, domain),
   }));
   const reference = selected[0];
-  const headers = `<tr><th>Variable</th><th>Scenario</th><th>Count</th><th>Min</th><th>Max</th><th>Mean</th><th>Median</th><th>Std dev</th><th>Mean Δ vs ${escapeHtml(reference.run.scenario_id)}</th></tr>`;
+  const headers = `<tr>
+    <th>Variable</th><th>Scenario</th><th>Count</th><th>Min</th>
+    <th>P05</th><th>Q1</th><th>Median</th><th>Q3</th><th>P95</th>
+    <th>Max</th><th>IQR</th><th>Mean</th><th>Std dev</th>
+    <th><abbr title="Coefficient of variation; not applicable to Celsius temperatures">CV (%)</abbr></th>
+    <th>Mean Δ vs ${escapeHtml(reference.run.scenario_id)}</th>
+  </tr>`;
   const body = variables.flatMap((column) => selected.map(({ run, rows }) => {
     const values = rows.map((row) => getVariableValue(column, Number(row[column]))).filter(Number.isFinite);
-    const sorted = [...values].sort((a, b) => a - b);
-    const mean = values.length ? values.reduce((sum, value) => sum + value, 0) / values.length : NaN;
-    const median = sorted.length
-      ? sorted.length % 2
-        ? sorted[Math.floor(sorted.length / 2)]
-        : (sorted[sorted.length / 2 - 1] + sorted[sorted.length / 2]) / 2
-      : NaN;
-    const deviation = values.length
-      ? Math.sqrt(values.reduce((sum, value) => sum + ((value - mean) ** 2), 0) / values.length)
-      : NaN;
+    const stats = analyticsCore.summarizeValues(values);
     const referenceValues = new Map((reference.rows || []).map((row) => [
       Date.parse(row.timestamp),
       getVariableValue(column, Number(row[column])),
@@ -1515,10 +1674,17 @@ function renderStatistics(records, variables, domain) {
           : NaN;
       }).filter(Number.isFinite);
     const deltaMean = deltas.length ? deltas.reduce((sum, value) => sum + value, 0) / deltas.length : NaN;
+    const coefficientOfVariation = getVariableUnit(column) === "°C"
+      ? null
+      : stats.coefficientOfVariation;
     return `<tr><td>${escapeHtml(getVariableLabel(column))} <small>${escapeHtml(getVariableUnit(column))}</small></td>
-      <td>${escapeHtml(run.scenario_id)}</td><td>${values.length.toLocaleString()}</td>
-      <td>${formatNumber(Math.min(...values))}</td><td>${formatNumber(Math.max(...values))}</td>
-      <td>${formatNumber(mean)}</td><td>${formatNumber(median)}</td><td>${formatNumber(deviation)}</td>
+      <td>${escapeHtml(run.scenario_id)}</td><td>${stats.count.toLocaleString()}</td>
+      <td>${formatNumber(stats.min)}</td><td>${formatNumber(stats.p5)}</td>
+      <td>${formatNumber(stats.q1)}</td><td>${formatNumber(stats.median)}</td>
+      <td>${formatNumber(stats.q3)}</td><td>${formatNumber(stats.p95)}</td>
+      <td>${formatNumber(stats.max)}</td><td>${formatNumber(stats.iqr)}</td>
+      <td>${formatNumber(stats.mean)}</td><td>${formatNumber(stats.standardDeviation)}</td>
+      <td>${formatNumber(coefficientOfVariation, 1)}</td>
       <td>${run.scenario_id === reference.run.scenario_id ? "Reference" : formatNumber(deltaMean)}</td></tr>`;
   })).join("");
   byId("analysis-statistics").innerHTML = `<table class="analysis-table"><thead>${headers}</thead><tbody>${body}</tbody></table>`;
@@ -1836,6 +2002,7 @@ function wireEvents() {
   document.querySelectorAll("[data-model-tab]").forEach((button) => {
     button.addEventListener("click", () => setModelTab(button.dataset.modelTab));
   });
+  window.addEventListener("resize", () => requestAnimationFrame(drawTraceEdges));
   byId("module-list").addEventListener("change", (event) => {
     if (event.target.matches("[data-module-toggle]")) stageModuleToggle(event.target);
   });
@@ -1844,6 +2011,7 @@ function wireEvents() {
     if (!node) return;
     state.selectedTraceNode = node.dataset.traceNode;
     renderTraceGraph();
+    byId("trace-graph").querySelector(`[data-trace-node="${CSS.escape(state.selectedTraceNode)}"]`)?.focus();
   });
   byId("trace-run-select").addEventListener("change", (event) => {
     state.selectedTraceRunId = event.target.value;

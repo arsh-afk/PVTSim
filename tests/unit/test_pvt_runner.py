@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import builtins
 import csv
 import json
 
@@ -168,6 +169,27 @@ def test_pvt_weather_loader_checks_hourly_intervals(tmp_path):
 
     with pytest.raises(ValueError, match="hourly"):
         load_pvt_weather(weather_path)
+
+
+def test_pvt_runner_explains_solar_extra_install_command(tmp_path, monkeypatch):
+    original_import = builtins.__import__
+
+    def import_without_pvlib(name, *args, **kwargs):
+        if name == "pvlib":
+            raise ModuleNotFoundError("No module named 'pvlib'")
+        return original_import(name, *args, **kwargs)
+
+    monkeypatch.setattr(builtins, "__import__", import_without_pvlib)
+    with pytest.raises(RuntimeError) as exc_info:
+        run_pvt_only(
+            tmp_path / "weather.csv",
+            {},
+            tmp_path / "results.csv",
+            tmp_path / "summary.json",
+            "missing-solar-extra",
+        )
+
+    assert 'python -m pip install -e ".[solar]"' in str(exc_info.value)
 
 
 def test_pvt_runner_writes_hourly_results_and_summary(tmp_path):

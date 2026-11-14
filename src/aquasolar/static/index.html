@@ -125,6 +125,77 @@
               <a href="/api/reference" target="_blank" rel="noreferrer">Open corrected source comparison <span aria-hidden="true">↗</span></a>
             </article>
           </div>
+          <section class="overview-report-gallery" id="overview-report-gallery" aria-labelledby="report-gallery-title">
+            <header class="report-gallery-heading">
+              <p class="eyebrow">CMAT-00184 · AQUASOLAR LIVING FINAL REPORT</p>
+              <h2 id="report-gallery-title">Why this simulation was needed</h2>
+              <p>A villa combines changing weather, household hot-water demand, electricity use, and water-treatment loads. A transient simulation lets the team compare those coupled needs across seasons and test design choices before relying on a field trial. The report's motivation includes household bottled-water use despite treated municipal supply, reject water from conventional point-of-use RO, and PV and solar-thermal technologies competing for roof space.</p>
+            </header>
+            <aside class="report-scope-banner">
+              <strong>Report results are not live backend outputs.</strong>
+              <span>The submitted report describes a full-system Python screening model, TRNSYS 17 cross-validation in progress, and a test rig under development. The current web runner executes the PVT collector only; tank, RO, electrical-bus dispatch, and economics are not implemented here.</span>
+            </aside>
+            <div class="report-result-grid" aria-label="Selected results reported by the full-system simulation">
+              <article class="report-result-card"><span>Simulated drinking water</span><strong>9.1 m³/year</strong><small>25 L/day; zero reject to drain in the report scenario</small></article>
+              <article class="report-result-card"><span>Solar share of hot-water energy</span><strong>81–82%</strong><small>Across the report's two AquaSolar configurations</small></article>
+              <article class="report-result-card"><span>Annual net electricity balance</span><strong>+1,478 / +1,510 kWh</strong><small>Option 1 DC / Option 2 Grid, per report results</small></article>
+            </div>
+            <section class="report-gallery-group" aria-labelledby="report-concept-heading">
+              <div class="report-gallery-group-heading"><p class="eyebrow">SYSTEM CONCEPT</p><h3 id="report-concept-heading">One roof, multiple linked services</h3></div>
+              <div class="report-figure-grid report-figure-grid-single">
+                <figure class="report-figure report-system-figure">
+                  <img src="/static/report-showcase/aquasolar-system-process.png" alt="Option 1 concept process diagram: hybrid PVT array, thermal tank and heaters, electrical bus, reverse-osmosis treatment, product-water delivery, and brine-reuse loop" loading="lazy">
+                  <figcaption><strong>Report Figure 1 · AquaSolar-DC concept.</strong> Full system boundary from solar collection through hot-water, electricity, treated water, and concentrate reuse.</figcaption>
+                </figure>
+              </div>
+            </section>
+            <section class="report-gallery-group" aria-labelledby="report-validation-heading">
+              <div class="report-gallery-group-heading"><p class="eyebrow">INDEPENDENT VALIDATION</p><h3 id="report-validation-heading">Python screening model, TRNSYS check, and the physical rig</h3></div>
+              <div class="validation-track-grid">
+                <article class="validation-track"><span class="track-number">01</span><p class="eyebrow">SCREENING MODEL · COMPLETE</p><h4>Team-written Python model</h4><p>The report credits the team's full-year, 10-minute-step transient model as the source of the submitted results, including the 40-run Monte Carlo analysis.</p></article>
+                <article class="validation-track"><span class="track-number">02</span><p class="eyebrow">CROSS-VALIDATION · IN PROGRESS</p><h4>TRNSYS 17 model</h4><p>The team was rebuilding the full system with TRNSYS component Types to independently check energy balances; TRNSYS was not a completed replacement for the Python screening model.</p></article>
+                <article class="validation-track"><span class="track-number">03</span><p class="eyebrow">EXPERIMENTAL CHECK · IN PROGRESS</p><h4>Full-scale test rig</h4><p>The report describes the rig and outdoor commissioning as work in progress, to calibrate collector, tank, and membrane assumptions against measurements.</p></article>
+              </div>
+              <div class="report-figure-grid report-figure-grid-four">
+                <figure class="report-figure"><img src="/static/report-showcase/aquasolar-validation-assembly.jpg" alt="Team members assembling the three-module PVT array on a mobile test frame in the workshop" loading="lazy"><figcaption><strong>Figure 2(a) ·</strong> PVT array assembly.</figcaption></figure>
+                <figure class="report-figure"><img src="/static/report-showcase/aquasolar-validation-equipment.jpg" alt="Validation rig equipment bay with inverter, protection board, and water-treatment equipment" loading="lazy"><figcaption><strong>Figure 2(b) ·</strong> Equipment bay.</figcaption></figure>
+                <figure class="report-figure"><img src="/static/report-showcase/aquasolar-validation-outdoor-rig.jpg" alt="AquaSolar experimental rig positioned outdoors for planned commissioning" loading="lazy"><figcaption><strong>Figure 2(c) ·</strong> Outdoor rig during build-out.</figcaption></figure>
+                <figure class="report-figure"><img src="/static/report-showcase/aquasolar-validation-pv-output.jpeg" alt="Report chart of AquaSolar photovoltaic power production" loading="lazy"><figcaption><strong>Figure 2(d) ·</strong> Reported PV power-production profile.</figcaption></figure>
+              </div>
+            </section>
+            <section class="report-gallery-group" aria-labelledby="report-results-heading">
+              <div class="report-gallery-group-heading"><p class="eyebrow">SIMULATION RESULTS</p><h3 id="report-results-heading">Seasonal operation, roof trade-offs, water, and cost</h3></div>
+              <div class="report-figure-grid report-figure-grid-two">
+                <figure class="report-figure"><img src="/static/report-showcase/aquasolar-winter-summer-operation.png" alt="Report chart comparing simulated PV power, useful heat, heater power, tank temperatures, PV-cell temperature, and ambient temperature over two winter and summer days" loading="lazy"><figcaption><strong>Figure 3 ·</strong> Simulated winter and summer operation for Option 1.</figcaption></figure>
+                <figure class="report-figure"><img src="/static/report-showcase/aquasolar-roof-comparison.png" alt="Report chart comparing annual net electricity balances and solar energy harvested per roof area for five household system options" loading="lazy"><figcaption><strong>Figure 4 ·</strong> Five household options compared on the same roof area.</figcaption></figure>
+                <figure class="report-figure"><img src="/static/report-showcase/aquasolar-ro-water-reuse.png" alt="Report charts showing reverse-osmosis brine salinity, specific energy by recovery, and annual feed-water split between product, reused brine, and drain reject" loading="lazy"><figcaption><strong>Figure 5 ·</strong> RO recovery, energy use, and proposed zero-reject brine reuse.</figcaption></figure>
+                <figure class="report-figure"><img src="/static/report-showcase/aquasolar-project-economics.png" alt="Report charts comparing annual operating costs and cumulative discounted cost of AquaSolar with conventional geysers and bottled water" loading="lazy"><figcaption><strong>Figure 6 ·</strong> Operating and 20-year discounted cost comparison.</figcaption></figure>
+                <figure class="report-figure"><img src="/static/report-showcase/aquasolar-robustness-and-scale.png" alt="Report charts of option two payback sensitivity and payback by villa-community size" loading="lazy"><figcaption><strong>Figure 7 ·</strong> Payback sensitivity and community scale.</figcaption></figure>
+              </div>
+            </section>
+            <section class="report-gallery-group" aria-labelledby="report-appendix-heading">
+              <div class="report-gallery-group-heading"><p class="eyebrow">APPENDIX MATERIAL</p><h3 id="report-appendix-heading">Detailed balances, sensitivities, and system architectures</h3></div>
+              <div class="report-figure-grid report-figure-grid-two">
+                <figure class="report-figure"><img src="/static/report-showcase/aquasolar-monthly-energy-balance.png" alt="Monthly energy balance chart showing PV electricity, useful collector heat, hot-water energy delivered, and backup heating" loading="lazy"><figcaption><strong>Figure A1 ·</strong> Monthly energy balance for Option 1.</figcaption></figure>
+                <figure class="report-figure"><img src="/static/report-showcase/aquasolar-parametric-study.png" alt="Parametric study charts showing net electricity, solar-thermal fraction, and self-sufficiency as loop flow, tank volume, collector area, and battery capacity vary" loading="lazy"><figcaption><strong>Figure A2 ·</strong> Sensitivity to flow, tank volume, PVT area, and battery capacity.</figcaption></figure>
+                <figure class="report-figure"><img src="/static/report-showcase/aquasolar-economic-inputs.png" alt="Screenshot of the report's spreadsheet techno-economic calculator inputs" loading="lazy"><figcaption><strong>Figure A3 ·</strong> Inputs sheet for the report's techno-economic calculator.</figcaption></figure>
+                <figure class="report-figure report-wide-figure"><img src="/static/report-showcase/aquasolar-option-one-detailed-flow.png" alt="Full-size Option 1 AquaSolar-DC process-flow diagram with numbered equipment and instrumentation" loading="lazy"><figcaption><strong>Figure A4 ·</strong> Full-size AquaSolar-DC process diagram.</figcaption></figure>
+                <figure class="report-figure report-wide-figure"><img src="/static/report-showcase/aquasolar-option-two-detailed-flow.png" alt="Full-size Option 2 AquaSolar-Grid process-flow diagram with a grid-tie inverter and net meter" loading="lazy"><figcaption><strong>Figure A5 ·</strong> Full-size AquaSolar-Grid process diagram.</figcaption></figure>
+              </div>
+            </section>
+            <section class="report-gallery-group" aria-labelledby="report-affiliations-heading">
+              <div class="report-gallery-group-heading"><p class="eyebrow">REPORT AFFILIATIONS</p><h3 id="report-affiliations-heading">University, research, and initiative partners</h3></div>
+              <div class="report-partner-grid">
+                <figure class="report-partner-mark"><img src="/static/report-showcase/aquasolar-global-water-hackathon-2026.png" alt="Khalifa University and UNESCO Global Water Hackathon 2026 mark" loading="lazy"><figcaption>Global Water Hackathon 2026</figcaption></figure>
+                <figure class="report-partner-mark"><img src="/static/report-showcase/aquasolar-khalifa-university-logo.jpg" alt="Khalifa University logo in Arabic and English" loading="lazy"><figcaption>Khalifa University</figcaption></figure>
+                <figure class="report-partner-mark"><img src="/static/report-showcase/aquasolar-khalifa-university-cmat.png" alt="Khalifa University and Center for Membranes and Advanced Water Technology logo" loading="lazy"><figcaption>Center for Membranes and Advanced Water Technology</figcaption></figure>
+                <figure class="report-partner-mark"><img src="/static/report-showcase/aquasolar-unesco-chair.png" alt="UNESCO Chair mark" loading="lazy"><figcaption>UNESCO Chair</figcaption></figure>
+                <figure class="report-partner-mark"><img src="/static/report-showcase/aquasolar-youth4water-initiative.png" alt="Youth4Water Initiative logo" loading="lazy"><figcaption>Youth4Water Initiative</figcaption></figure>
+                <figure class="report-partner-mark"><img src="/static/report-showcase/aquasolar-unesco-hydrological-programme.png" alt="UNESCO Intergovernmental Hydrological Programme logo" loading="lazy"><figcaption>UNESCO Intergovernmental Hydrological Programme</figcaption></figure>
+              </div>
+            </section>
+            <p class="report-source-note">Figures and reported results are reproduced from the CMAT-00184 AquaSolar Living Final Report. Declaration signature images are intentionally not published.</p>
+          </section>
         </section>
 
         <section class="view" id="view-parameters" aria-labelledby="parameters-title">
@@ -188,16 +259,26 @@
             <span class="scope-badge">PVT ONLY · EXPLORATORY</span>
           </div>
           <div class="model-tabs" role="tablist" aria-label="Model sections">
-            <button class="model-tab is-active" id="model-tab-flow" type="button" role="tab" aria-selected="true" aria-controls="model-panel-flow" data-model-tab="flow">Calculation flow</button>
+            <button class="model-tab is-active" id="model-tab-flow" type="button" role="tab" aria-selected="true" aria-controls="model-panel-flow" data-model-tab="flow">Live PVT backend</button>
+            <button class="model-tab" id="model-tab-equations" type="button" role="tab" aria-selected="false" aria-controls="model-panel-equations" data-model-tab="equations">Report equation pathways</button>
             <button class="model-tab" id="model-tab-modules" type="button" role="tab" aria-selected="false" aria-controls="model-panel-modules" data-model-tab="modules">Modules &amp; requirements</button>
           </div>
           <section class="model-panel" id="model-panel-flow" role="tabpanel" aria-labelledby="model-tab-flow">
             <div class="model-note" id="model-load-status" role="status">Loading calculation trace…</div>
+            <div class="trace-graph-guide">
+              <p>Follow arrows from registered inputs through the calculations to saved files. Select any node to inspect its formula, values, units, and code source; related dependencies are highlighted.</p>
+              <div class="trace-legend" aria-label="Graph key">
+                <span><i class="trace-key trace-key-input"></i>Inputs</span>
+                <span><i class="trace-key trace-key-step"></i>Calculations</span>
+                <span><i class="trace-key trace-key-output"></i>Outputs</span>
+                <span><i class="trace-key trace-key-arrow"></i>Dependency</span>
+              </div>
+            </div>
             <div class="trace-run-bar">
               <label class="form-field"><span>Saved run snapshot</span><select id="trace-run-select"><option value="">No saved runs</option></select></label>
               <p class="muted">Snapshots show the inputs and summary outputs recorded by that run. Existing runs without a snapshot are identified as unavailable.</p>
             </div>
-            <div class="trace-graph" id="trace-graph" aria-label="Interactive input, calculation, and output graph"></div>
+            <div class="trace-graph-scroll" id="trace-graph" role="region" aria-label="Interactive input, calculation, and output dependency graph" tabindex="0"></div>
             <article class="trace-detail panel" id="trace-detail" aria-live="polite">
               <div class="empty-state"><span class="empty-mark">ƒ</span><h2>Select a graph node</h2><p>Inspect its values, equation, units, dependencies, and implementation source.</p></div>
             </article>
@@ -205,6 +286,170 @@
               <div class="analysis-section-heading"><div><p class="eyebrow">RECORDED RUN</p><h2 id="trace-snapshot-title">Inputs and outputs</h2></div></div>
               <div id="trace-run-snapshot" class="analysis-table-wrap"><p class="muted">Select a saved run to inspect its summary and input snapshot.</p></div>
             </section>
+          </section>
+          <section class="model-panel equation-map-panel" id="model-panel-equations" role="tabpanel" aria-labelledby="model-tab-equations" hidden>
+            <aside class="equation-scope-banner">
+              <strong>Full-system report model · explanatory reference</strong>
+              <p>These are the ten numbered equations in the submitted report, arranged as connected subsystem pathways and rendered with MathML. They explain the Python screening study; only the separate Live PVT backend tab represents calculations implemented in this web runner.</p>
+            </aside>
+            <div class="equation-system-map" role="img" aria-label="Report model block diagram: weather and site drive the PVT collector equations 1 and 2. PVT heat and system inputs feed parallel tank and hot-water equations 3 and 4, and reverse-osmosis equations 5 and 6. Combined system outputs feed exergy equations 7 and 8 and economic equations 9 and 10.">
+              <div class="equation-map-source">
+                <div class="equation-map-block"><span>WEATHER + SITE</span><small>Irradiance · ambient · orientation</small></div>
+                <span class="equation-map-arrow" aria-hidden="true">↓</span>
+                <div class="equation-map-block"><span>PVT COLLECTOR</span><small>Thermal + electrical · (1)–(2)</small></div>
+              </div>
+              <span class="equation-map-arrow" aria-hidden="true">→</span>
+              <div class="equation-map-branches">
+                <span class="equation-map-branch-title">PARALLEL SYSTEM PATHS</span>
+                <div class="equation-map-branch"><span class="equation-map-arrow" aria-hidden="true">↳</span><div class="equation-map-block"><span>TANK + DHW</span><small>Heat + demand · (3)–(4)</small></div></div>
+                <div class="equation-map-branch"><span class="equation-map-arrow" aria-hidden="true">↳</span><div class="equation-map-block"><span>RO + REUSE</span><small>Water + electricity · (5)–(6)</small></div></div>
+              </div>
+              <span class="equation-map-arrow" aria-hidden="true">→</span>
+              <div class="equation-map-outcomes">
+                <span class="equation-map-branch-title">SYSTEM PERFORMANCE</span>
+                <div class="equation-map-block"><span>EXERGY</span><small>Quality + efficiency · (7)–(8)</small></div>
+                <div class="equation-map-block"><span>ECONOMICS</span><small>Lifecycle + payback · (9)–(10)</small></div>
+              </div>
+            </div>
+            <div class="equation-pathway-list">
+              <section class="equation-pathway" aria-labelledby="pathway-pvt-title">
+                <header class="equation-pathway-header"><span class="pathway-index">01</span><div><p class="eyebrow">SOLAR INPUT → CO-GENERATION</p><h2 id="pathway-pvt-title">PVT collector · heat and electricity</h2></div><span class="equation-scope-tag">Report equations (1)–(2)</span></header>
+                <div class="pathway-inputs"><strong>Inputs</strong><span>Plane-of-array irradiance G · collector area A · ambient/inlet temperatures · fluid flow ṁ · collector coefficients</span></div>
+                <ol class="equation-step-list">
+                  <li class="equation-step">
+                    <span class="equation-step-number">1</span><div class="equation-step-content"><div class="equation-step-heading"><h3>Estimate useful heat and fluid outlet temperature</h3><span>Report Eq. (1)</span></div>
+                      <math display="block" aria-label="Useful heat equals area times optical gain minus collector loss divided by the flow correction term; outlet temperature equals inlet temperature plus useful heat divided by mass flow and heat capacity.">
+                        <mtable displaystyle="true" columnalign="left">
+                          <mtr><mtd><msub><mover><mi>Q</mi><mo>˙</mo></mover><mi>u</mi></msub><mo>=</mo><mfrac><mrow><mi>A</mi><mo>[</mo><msub><mi>η</mi><mn>0</mn></msub><mi>G</mi><mo>−</mo><msub><mi>a</mi><mn>1</mn></msub><mo>(</mo><msub><mi>T</mi><mi>in</mi></msub><mo>−</mo><msub><mi>T</mi><mi>a</mi></msub><mo>)</mo><mo>]</mo></mrow><mrow><mn>1</mn><mo>+</mo><mfrac><mrow><mi>A</mi><msub><mi>a</mi><mn>1</mn></msub></mrow><mrow><mn>2</mn><mover><mi>m</mi><mo>˙</mo></mover><msub><mi>c</mi><mi>p</mi></msub></mrow></mfrac></mrow></mfrac></mtd></mtr>
+                          <mtr><mtd><msub><mi>T</mi><mi>out</mi></msub><mo>=</mo><msub><mi>T</mi><mi>in</mi></msub><mo>+</mo><mfrac><msub><mover><mi>Q</mi><mo>˙</mo></mover><mi>u</mi></msub><mrow><mover><mi>m</mi><mo>˙</mo></mover><msub><mi>c</mi><mi>p</mi></msub></mrow></mfrac></mtd></mtr>
+                        </mtable>
+                      </math>
+                      <p class="equation-meaning">Optical solar gain is reduced by the temperature-driven collector loss; mass flow determines the useful outlet-temperature rise.</p>
+                    </div>
+                  </li>
+                  <li class="equation-step">
+                    <span class="equation-step-number">2</span><div class="equation-step-content"><div class="equation-step-heading"><h3>Convert irradiance to cell electrical output</h3><span>Report Eq. (2)</span></div>
+                      <math display="block" aria-label="Electrical power is area times irradiance times reference efficiency and temperature derating. Cell temperature uses the fluid mean with flow or ambient temperature without flow.">
+                        <mtable displaystyle="true" columnalign="left">
+                          <mtr><mtd><msub><mi>P</mi><mi>el</mi></msub><mo>=</mo><mi>A</mi><mi>G</mi><msub><mi>η</mi><mi>ref</mi></msub><mo>[</mo><mn>1</mn><mo>−</mo><mi>β</mi><mo>(</mo><msub><mi>T</mi><mi>c</mi></msub><mo>−</mo><mn>25</mn><mo>)</mo><mo>]</mo><msub><mi>f</mi><mi>d</mi></msub></mtd></mtr>
+                          <mtr><mtd><msub><mi>T</mi><mi>c</mi></msub><mo>=</mo><mo>{</mo><mtable columnalign="left left"><mtr><mtd><msub><mi>T</mi><mi>fm</mi></msub><mo>+</mo><msub><mi>k</mi><mi>c</mi></msub><mi>G</mi></mtd><mtd><mtext>pump on</mtext></mtd></mtr><mtr><mtd><msub><mi>T</mi><mi>a</mi></msub><mo>+</mo><msub><mi>k</mi><mi>nf</mi></msub><mi>G</mi></mtd><mtd><mtext>pump off</mtext></mtd></mtr></mtable></mtd></mtr>
+                        </mtable>
+                      </math>
+                      <p class="equation-meaning">Electrical conversion falls as cell temperature rises; the report uses distinct cell-temperature estimates for flowing and stagnant conditions.</p>
+                    </div>
+                  </li>
+                </ol>
+                <div class="pathway-outputs"><strong>Outputs</strong><span>Useful heat Q̇<sub>u</sub> · outlet temperature T<sub>out</sub> · electric power P<sub>el</sub> · cell temperature T<sub>c</sub></span></div>
+              </section>
+
+              <section class="equation-pathway" aria-labelledby="pathway-tank-title">
+                <header class="equation-pathway-header"><span class="pathway-index">02</span><div><p class="eyebrow">COLLECTOR HEAT → HOT-WATER SERVICE</p><h2 id="pathway-tank-title">Stratified tank and delivery mixing</h2></div><span class="equation-scope-tag">Report equations (3)–(4)</span></header>
+                <div class="pathway-inputs"><strong>Inputs</strong><span>Collector/auxiliary heat · node flow transfers · tank ambient losses · demand and delivery temperatures</span></div>
+                <ol class="equation-step-list">
+                  <li class="equation-step"><span class="equation-step-number">3</span><div class="equation-step-content"><div class="equation-step-heading"><h3>Update energy stored in each tank node</h3><span>Report Eq. (3)</span></div>
+                    <math display="block" aria-label="Tank-node thermal energy rate equals incoming inter-node enthalpy transfer plus ambient heat loss and auxiliary heat.">
+                      <mrow><msub><mi>M</mi><mi>i</mi></msub><msub><mi>c</mi><mi>p</mi></msub><mfrac><mrow><mi>d</mi><msub><mi>T</mi><mi>i</mi></msub></mrow><mrow><mi>d</mi><mi>t</mi></mrow></mfrac><mo>=</mo><munder><mo>∑</mo><mrow><mi>j</mi><mo>→</mo><mi>i</mi></mrow></munder><msub><mover><mi>m</mi><mo>˙</mo></mover><mrow><mi>j</mi><mo>→</mo><mi>i</mi></mrow></msub><msub><mi>c</mi><mi>p</mi></msub><mo>(</mo><msub><mi>T</mi><mi>j</mi></msub><mo>−</mo><msub><mi>T</mi><mi>i</mi></msub><mo>)</mo><mo>+</mo><msub><mi>UA</mi><mi>i</mi></msub><mo>(</mo><msub><mi>T</mi><mi>a</mi></msub><mo>−</mo><msub><mi>T</mi><mi>i</mi></msub><mo>)</mo><mo>+</mo><msub><mover><mi>Q</mi><mo>˙</mo></mover><mrow><mi>aux</mi><mo>,</mo><mi>i</mi></mrow></msub></mrow>
+                    </math>
+                    <p class="equation-meaning">Each of six nodes gains or loses energy through inter-node flow, tank losses to ambient, and auxiliary heating.</p>
+                  </div></li>
+                  <li class="equation-step"><span class="equation-step-number">4</span><div class="equation-step-content"><div class="equation-step-heading"><h3>Mix hot tank water to the delivery setpoint</h3><span>Report Eq. (4)</span></div>
+                    <math display="block" aria-label="Hot-water draw rate equals demand rate times delivery temperature rise divided by tank-top temperature rise.">
+                      <mrow><msub><mover><mi>m</mi><mo>˙</mo></mover><mi>hot</mi></msub><mo>=</mo><msub><mover><mi>m</mi><mo>˙</mo></mover><mi>dem</mi></msub><mfrac><mrow><mo>(</mo><msub><mi>T</mi><mi>del</mi></msub><mo>−</mo><msub><mi>T</mi><mi>mains</mi></msub><mo>)</mo></mrow><mrow><mo>(</mo><msub><mi>T</mi><mi>top</mi></msub><mo>−</mo><msub><mi>T</mi><mi>mains</mi></msub><mo>)</mo></mrow></mfrac></mrow>
+                    </math>
+                    <p class="equation-meaning">The tank-top and mains-water temperatures set how much hot tank water is needed to meet the requested delivery temperature.</p>
+                  </div></li>
+                </ol>
+                <div class="pathway-outputs"><strong>Outputs</strong><span>Tank-node temperature history T<sub>i</sub> · delivered hot-water flow ṁ<sub>hot</sub></span></div>
+              </section>
+
+              <section class="equation-pathway" aria-labelledby="pathway-ro-title">
+                <header class="equation-pathway-header"><span class="pathway-index">03</span><div><p class="eyebrow">MUNICIPAL WATER → PRODUCT + REUSE</p><h2 id="pathway-ro-title">Reverse osmosis and zero-reject water balance</h2></div><span class="equation-scope-tag">Report equations (5)–(6)</span></header>
+                <div class="pathway-inputs"><strong>Inputs</strong><span>Feed flow and salinity · pressure · membrane permeance · temperature and fouling corrections · recovery R</span></div>
+                <ol class="equation-step-list">
+                  <li class="equation-step"><span class="equation-step-number">5</span><div class="equation-step-content"><div class="equation-step-heading"><h3>Estimate membrane permeate flow</h3><span>Report Eq. (5)</span></div>
+                    <math display="block" aria-label="Permeate flow equals temperature-corrected membrane permeance times fouling factor times net pressure; temperature correction is an exponential function of temperature and osmotic pressure is proportional to salinity.">
+                      <mtable displaystyle="true" columnalign="left">
+                        <mtr><mtd><msub><mi>Q</mi><mi>p</mi></msub><mo>=</mo><msub><mi>K</mi><mi>w</mi></msub><mi>TCF</mi><mi>FF</mi><mo>(</mo><mi>Δ</mi><mi>P</mi><mo>−</mo><msub><mi>π</mi><mi>fb</mi></msub><mo>−</mo><msub><mi>π</mi><mi>p</mi></msub><mo>)</mo></mtd></mtr>
+                        <mtr><mtd><mi>TCF</mi><mo>=</mo><msup><mi>e</mi><mrow><mn>2640</mn><mo>(</mo><mfrac><mn>1</mn><mn>298.15</mn></mfrac><mo>−</mo><mfrac><mn>1</mn><mrow><mn>273.15</mn><mo>+</mo><mi>T</mi></mrow></mfrac><mo>)</mo></mrow></msup><mo>,</mo><mspace width="1em"/><mi>π</mi><mo>=</mo><mn>0.7584</mn><mi>X</mi></mtd></mtr>
+                      </mtable>
+                    </math>
+                    <p class="equation-meaning">Net driving pressure, membrane condition, and temperature determine product-water flow.</p>
+                  </div></li>
+                  <li class="equation-step"><span class="equation-step-number">6</span><div class="equation-step-content"><div class="equation-step-heading"><h3>Close the concentrate, salinity, and pumping balances</h3><span>Report Eq. (6)</span></div>
+                    <math display="block" aria-label="Equations for brine flow, brine salinity, booster-pump power, and specific energy consumption.">
+                      <mtable displaystyle="true" columnalign="left">
+                        <mtr><mtd><msub><mi>Q</mi><mi>b</mi></msub><mo>=</mo><msub><mi>Q</mi><mi>p</mi></msub><mfrac><mrow><mn>1</mn><mo>−</mo><mi>R</mi></mrow><mi>R</mi></mfrac><mo>,</mo><mspace width="0.8em"/><msub><mi>X</mi><mi>b</mi></msub><mo>=</mo><mfrac><mrow><msub><mi>X</mi><mi>f</mi></msub><mo>−</mo><mi>R</mi><msub><mi>X</mi><mi>p</mi></msub></mrow><mrow><mn>1</mn><mo>−</mo><mi>R</mi></mrow></mfrac></mtd></mtr>
+                        <mtr><mtd><msub><mi>P</mi><mi>bp</mi></msub><mo>=</mo><mfrac><mrow><msub><mi>Q</mi><mi>f</mi></msub><mi>Δ</mi><mi>P</mi></mrow><msub><mi>η</mi><mi>bp</mi></msub></mfrac><mo>,</mo><mspace width="0.8em"/><mi>SEC</mi><mo>=</mo><mfrac><mrow><msub><mi>P</mi><mi>bp</mi></msub><mo>+</mo><msub><mi>P</mi><mi>aux</mi></msub></mrow><msub><mi>Q</mi><mi>p</mi></msub></mfrac></mtd></mtr>
+                      </mtable>
+                    </math>
+                    <p class="equation-meaning">Recovery partitions product and concentrate flow; a separate salinity balance tracks brine concentration, while pump power determines specific energy.</p>
+                  </div></li>
+                </ol>
+                <div class="pathway-outputs"><strong>Outputs</strong><span>Product Q<sub>p</sub> · reused brine Q<sub>b</sub>, X<sub>b</sub> · pump power P<sub>bp</sub> · SEC</span></div>
+              </section>
+
+              <section class="equation-pathway" aria-labelledby="pathway-exergy-title">
+                <header class="equation-pathway-header"><span class="pathway-index">04</span><div><p class="eyebrow">ENERGY QUANTITY → ENERGY QUALITY</p><h2 id="pathway-exergy-title">Solar exergy and system efficiencies</h2></div><span class="equation-scope-tag">Report equations (7)–(8)</span></header>
+                <div class="pathway-inputs"><strong>Inputs</strong><span>Solar heat input and sun/dead-state temperatures · electricity · useful hot water · component fuel and product exergy</span></div>
+                <ol class="equation-step-list">
+                  <li class="equation-step"><span class="equation-step-number">7</span><div class="equation-step-content"><div class="equation-step-heading"><h3>Convert solar heat to exergy; score each component</h3><span>Report Eq. (7)</span></div>
+                    <math display="block" aria-label="Petela factor converts solar heat to exergy; component second-law efficiency is product exergy divided by fuel exergy.">
+                      <mtable displaystyle="true" columnalign="left">
+                        <mtr><mtd><msub><mi>Ex</mi><mi>sun</mi></msub><mo>=</mo><msub><mi>Q</mi><mi>sun</mi></msub><mo>[</mo><mn>1</mn><mo>−</mo><mfrac><mn>4</mn><mn>3</mn></mfrac><mfrac><msub><mi>T</mi><mn>0</mn></msub><msub><mi>T</mi><mi>s</mi></msub></mfrac><mo>+</mo><mfrac><mn>1</mn><mn>3</mn></mfrac><msup><mrow><mo>(</mo><mfrac><msub><mi>T</mi><mn>0</mn></msub><msub><mi>T</mi><mi>s</mi></msub></mfrac><mo>)</mo></mrow><mn>4</mn></msup><mo>]</mo></mtd></mtr>
+                        <mtr><mtd><msub><mi>η</mi><mrow><mi>II</mi><mo>,</mo><mi>k</mi></mrow></msub><mo>=</mo><mfrac><msub><mi>Ex</mi><mrow><mi>P</mi><mo>,</mo><mi>k</mi></mrow></msub><msub><mi>Ex</mi><mrow><mi>F</mi><mo>,</mo><mi>k</mi></mrow></msub></mfrac></mtd></mtr>
+                      </mtable>
+                    </math>
+                    <p class="equation-meaning">The Petela factor estimates the maximum work available from solar radiation; component efficiency compares useful product exergy with supplied fuel exergy.</p>
+                  </div></li>
+                  <li class="equation-step"><span class="equation-step-number">8</span><div class="equation-step-content"><div class="equation-step-heading"><h3>Aggregate first- and second-law system efficiency</h3><span>Report Eq. (8)</span></div>
+                    <math display="block" aria-label="First-law efficiency counts delivered electricity, useful hot water, and minimum reverse-osmosis work over solar heat; second-law efficiency uses their exergy equivalents over solar exergy.">
+                      <mtable displaystyle="true" columnalign="left">
+                        <mtr><mtd><msub><mi>η</mi><mi>I</mi></msub><mo>=</mo><mfrac><mrow><msub><mi>W</mi><mi>villa</mi></msub><mo>+</mo><msub><mi>Q</mi><mi>DHW</mi></msub><mo>+</mo><msub><mi>W</mi><mrow><mi>min</mi><mo>,</mo><mi>RO</mi></mrow></msub></mrow><msub><mi>Q</mi><mi>sun</mi></msub></mfrac></mtd></mtr>
+                        <mtr><mtd><msub><mi>η</mi><mi>II</mi></msub><mo>=</mo><mfrac><mrow><msub><mi>W</mi><mi>villa</mi></msub><mo>+</mo><msub><mi>Ex</mi><mi>DHW</mi></msub><mo>+</mo><msub><mi>W</mi><mrow><mi>min</mi><mo>,</mo><mi>RO</mi></mrow></msub></mrow><msub><mi>Ex</mi><mi>sun</mi></msub></mfrac></mtd></mtr>
+                      </mtable>
+                    </math>
+                    <p class="equation-meaning">Energy-based efficiency and exergy-based efficiency answer different questions; low-temperature heat has less work potential than electricity.</p>
+                  </div></li>
+                </ol>
+                <div class="pathway-outputs"><strong>Outputs</strong><span>Solar exergy Ex<sub>sun</sub> · component and system η<sub>I</sub>, η<sub>II</sub></span></div>
+              </section>
+
+              <section class="equation-pathway" aria-labelledby="pathway-economics-title">
+                <header class="equation-pathway-header"><span class="pathway-index">05</span><div><p class="eyebrow">SIMULATED PERFORMANCE → FINANCIAL METRICS</p><h2 id="pathway-economics-title">Capital recovery, lifecycle cost, and payback</h2></div><span class="equation-scope-tag">Report equations (9)–(10)</span></header>
+                <div class="pathway-inputs"><strong>Inputs</strong><span>Installed capital · annual costs and replacements · discount rate · project life · annual savings · drinking-water production</span></div>
+                <ol class="equation-step-list">
+                  <li class="equation-step"><span class="equation-step-number">9</span><div class="equation-step-content"><div class="equation-step-heading"><h3>Annualize capital and discount lifecycle costs</h3><span>Report Eq. (9)</span></div>
+                    <math display="block" aria-label="Capital recovery factor is i times one plus i to the n, divided by one plus i to the n minus one. Lifecycle cost is installed capital plus discounted annual costs and replacements.">
+                      <mtable displaystyle="true" columnalign="left">
+                        <mtr><mtd><mi>CRF</mi><mo>=</mo><mfrac><mrow><mi>i</mi><msup><mrow><mo>(</mo><mn>1</mn><mo>+</mo><mi>i</mi><mo>)</mo></mrow><mi>n</mi></msup></mrow><mrow><msup><mrow><mo>(</mo><mn>1</mn><mo>+</mo><mi>i</mi><mo>)</mo></mrow><mi>n</mi></msup><mo>−</mo><mn>1</mn></mrow></mfrac></mtd></mtr>
+                        <mtr><mtd><mi>LCC</mi><mo>=</mo><mi>CAPEX</mi><mo>+</mo><munderover><mo>∑</mo><mrow><mi>y</mi><mo>=</mo><mn>1</mn></mrow><mi>n</mi></munderover><mfrac><mrow><msub><mi>C</mi><mi>y</mi></msub><mo>+</mo><msub><mi>R</mi><mi>y</mi></msub></mrow><msup><mrow><mo>(</mo><mn>1</mn><mo>+</mo><mi>i</mi><mo>)</mo></mrow><mi>y</mi></msup></mfrac></mtd></mtr>
+                      </mtable>
+                    </math>
+                    <p class="equation-meaning">The capital recovery factor converts investment to an equivalent annual amount; lifecycle cost adds discounted operating and replacement costs.</p>
+                  </div></li>
+                  <li class="equation-step"><span class="equation-step-number">10</span><div class="equation-step-content"><div class="equation-step-heading"><h3>Compute simple payback and levelized water cost</h3><span>Report Eq. (10)</span></div>
+                    <math display="block" aria-label="Simple payback is incremental capital cost divided by annual savings; levelized water cost divides annualized water-system capital and annual operating costs by drinking-water volume.">
+                      <mtable displaystyle="true" columnalign="left">
+                        <mtr><mtd><mi>SPB</mi><mo>=</mo><mfrac><mi>ΔCAPEX</mi><mi>ΔC</mi></mfrac></mtd></mtr>
+                        <mtr><mtd><mi>LCOW</mi><mo>=</mo><mfrac><mrow><msub><mi>CAPEX</mi><mi>W</mi></msub><mi>CRF</mi><mo>+</mo><msub><mi>CO&amp;M</mi><mi>W</mi></msub><mo>+</mo><msub><mi>C</mi><mi>water</mi></msub><mo>+</mo><msub><mi>C</mi><mrow><mi>el</mi><mo>,</mo><mi>RO</mi></mrow></msub></mrow><msub><mi>V</mi><mi>drink</mi></msub></mfrac></mtd></mtr>
+                      </mtable>
+                    </math>
+                    <p class="equation-meaning">Payback compares extra installed cost with annual savings; LCOW spreads annualized water-system cost over drinking-water volume.</p>
+                  </div></li>
+                </ol>
+                <div class="pathway-outputs"><strong>Outputs</strong><span>Capital recovery CRF · lifecycle cost LCC · simple payback SPB · levelized water cost LCOW</span></div>
+              </section>
+            </div>
+            <details class="variable-glossary" open>
+              <summary>Variables and units · report equation glossary</summary>
+              <div class="variable-glossary-grid">
+                <section><h3>Solar and PVT</h3><dl><div><dt>A</dt><dd>Collector area · m²</dd></div><div><dt>G</dt><dd>Plane-of-array irradiance · W/m²</dd></div><div><dt>η₀, a₁</dt><dd>Zero-loss efficiency; collector loss coefficient · W/(m²·K)</dd></div><div><dt>ṁ, c<sub>p</sub></dt><dd>Mass flow · kg/s; specific heat · J/(kg·K)</dd></div><div><dt>T<sub>in</sub>, T<sub>out</sub>, T<sub>a</sub>, T<sub>fm</sub>, T<sub>c</sub></dt><dd>Inlet, outlet, ambient, mean-fluid, and cell temperatures · °C or K</dd></div><div><dt>η<sub>ref</sub>, β, f<sub>d</sub></dt><dd>Reference electrical efficiency; temperature coefficient · 1/K; derate factor</dd></div><div><dt>τ α, F<sub>R</sub>, U<sub>L</sub>, k<sub>c</sub>, k<sub>nf</sub></dt><dd>Optical/collector parameters; loss coefficient · W/(m²·K); cell-temperature coefficients</dd></div><div><dt>Q̇<sub>u</sub>, P<sub>el</sub></dt><dd>Useful thermal power and electrical power · W</dd></div></dl></section>
+                <section><h3>Tank and hot water</h3><dl><div><dt>M<sub>i</sub>, T<sub>i</sub></dt><dd>Mass and temperature of tank node i · kg, °C or K</dd></div><div><dt>ṁ<sub>j→i</sub></dt><dd>Mass flow from tank node j to i · kg/s</dd></div><div><dt>UA<sub>i</sub>, Q̇<sub>aux,i</sub></dt><dd>Node heat-loss conductance · W/K; auxiliary heat · W</dd></div><div><dt>T<sub>del</sub>, T<sub>mains</sub>, T<sub>top</sub></dt><dd>Delivery, mains, and tank-top temperatures</dd></div><div><dt>ṁ<sub>dem</sub>, ṁ<sub>hot</sub></dt><dd>Demand and mixed hot-water flow · kg/s</dd></div></dl></section>
+                <section><h3>Reverse osmosis</h3><dl><div><dt>Q<sub>p</sub>, Q<sub>f</sub>, Q<sub>b</sub></dt><dd>Permeate, feed, and brine flow · units follow report basis</dd></div><div><dt>K<sub>w</sub>, TCF, FF</dt><dd>Membrane permeance, temperature correction, fouling factor</dd></div><div><dt>ΔP, π<sub>fb</sub>, π<sub>p</sub></dt><dd>Applied pressure and feed/brine-side osmotic pressures · bar</dd></div><div><dt>X<sub>f</sub>, X<sub>p</sub>, X<sub>b</sub>, R</dt><dd>Feed, permeate, brine salinity and recovery fraction</dd></div><div><dt>P<sub>bp</sub>, P<sub>aux</sub>, SEC</dt><dd>Booster and auxiliary power · W; specific energy · kWh/m³</dd></div></dl></section>
+                <section><h3>Exergy and economics</h3><dl><div><dt>Ex<sub>sun</sub>, Ex<sub>F,k</sub>, Ex<sub>P,k</sub></dt><dd>Solar, component fuel, and product exergy · W</dd></div><div><dt>T₀, T<sub>s</sub></dt><dd>Dead-state and effective sun temperatures · K</dd></div><div><dt>η<sub>I</sub>, η<sub>II</sub></dt><dd>First- and second-law efficiencies</dd></div><div><dt>CRF, i, n, C<sub>y</sub>, R<sub>y</sub>, LCC</dt><dd>Capital recovery factor, discount rate, life, annual costs, replacements, lifecycle cost</dd></div><div><dt>SPB, ΔCAPEX, ΔC, LCOW</dt><dd>Simple payback, extra capital, annual savings, levelized cost of water · years, currency, currency/year, currency/m³</dd></div></dl></section>
+              </div>
+            </details>
+            <p class="report-source-note">Source: CMAT-00184 AquaSolar Living Final Report, Section 6.2, Eqs. (1)–(10). The report's broader transient model is distinct from the current PVT-only web runner.</p>
           </section>
           <section class="model-panel" id="model-panel-modules" role="tabpanel" aria-labelledby="model-tab-modules" hidden>
             <div class="module-intro panel">
@@ -247,6 +492,7 @@
                 </fieldset>
                 <fieldset class="selection-field">
                   <legend>Variables to chart</legend>
+                  <p class="muted">Variables with matching units share an axis; line style marks variables and color marks scenarios.</p>
                   <div id="variable-picker" class="selection-list"><p class="muted">Choose one or more variables.</p></div>
                 </fieldset>
               </div>
@@ -258,19 +504,23 @@
                     <button type="button" class="temp-unit-btn is-active" data-temp-unit="C" title="Display charts in Celsius (°C)" aria-pressed="true">°C</button>
                     <button type="button" class="temp-unit-btn" data-temp-unit="K" title="Display charts in Kelvin (K)" aria-pressed="false">K</button>
                   </div>
-                  <label class="range-control"><span>From</span><input id="range-start" type="datetime-local" step="3600" aria-label="Zoom range start"></label>
-                  <label class="range-control"><span>To</span><input id="range-end" type="datetime-local" step="3600" aria-label="Zoom range end"></label>
+                  <label class="range-control"><span>From (inclusive)</span><input id="range-start" type="datetime-local" step="3600" aria-label="Analysis window start, inclusive"></label>
+                  <label class="range-control"><span>To (exclusive)</span><input id="range-end" type="datetime-local" step="3600" aria-label="Analysis window end, exclusive"></label>
                   <button class="button button-quiet" id="apply-range" type="button" disabled>Apply range</button>
                   <button class="button button-quiet" id="zoom-out" type="button" disabled>Zoom out</button>
                   <button class="button button-quiet" id="reset-zoom" type="button" disabled>Reset range</button>
                   <button class="button button-quiet" id="export-table" type="button" disabled>Export table CSV</button>
                 </div>
               </div>
-              <div id="cursor-readout" class="cursor-readout" aria-live="polite">Hover over a chart to inspect values across runs. Drag within a chart to zoom all panels to that time range.</div>
+              <div id="cursor-readout" class="cursor-readout" aria-live="polite">Hover over a chart to inspect overlaid variables across runs. Drag within a chart to zoom all panels to that time range.</div>
               <div id="analysis-charts" class="analysis-charts"></div>
               <p class="chart-empty" id="chart-empty">Choose one or more valid saved runs to compare.</p>
+              <section class="analysis-section" aria-labelledby="energy-summary-title">
+                <div class="analysis-section-heading"><div><p class="eyebrow">SELECTED TIME WINDOW · [FROM, TO)</p><h3 id="energy-summary-title">PVT energy totals</h3></div><span class="muted">Sum of stored hourly energy per run</span></div>
+                <div id="analysis-energy" class="analysis-table-wrap" aria-live="polite"><p class="muted">Select saved runs to total electrical energy and useful collector heat.</p></div>
+              </section>
               <section class="analysis-section" aria-labelledby="statistics-title">
-                <div class="analysis-section-heading"><div><p class="eyebrow">SELECTED TIME WINDOW</p><h3 id="statistics-title">Window statistics</h3></div><span class="muted">Per run and variable</span></div>
+                <div class="analysis-section-heading"><div><p class="eyebrow">SELECTED TIME WINDOW · [FROM, TO)</p><h3 id="statistics-title">Window statistics</h3></div><span class="muted">Per run and variable</span></div>
                 <div id="analysis-statistics" class="analysis-table-wrap"><p class="muted">Select runs and variables to calculate statistics.</p></div>
               </section>
               <section class="analysis-section" aria-labelledby="hourly-table-title">
@@ -304,6 +554,7 @@
         <div class="dialog-actions"><button class="button button-quiet" value="cancel">Keep editing</button><button class="button button-primary" id="confirm-apply" value="confirm">Preview changes</button></div>
       </form>
     </dialog>
+    <script src="/static/analytics-core.js" defer></script>
     <script src="/static/app.js" defer></script>
   </body>
 </html>

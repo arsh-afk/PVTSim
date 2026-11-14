@@ -37,6 +37,15 @@ can zoom, pan, and save figures.
 .\.venv\Scripts\python.exe -m aquasolar web-ui
 ```
 
+If a run reports that `pvlib` is missing, from the project root install the
+solar extra into the same Python environment used to launch the workbench:
+
+```powershell
+.\.venv\Scripts\python.exe -m pip install -e ".[solar]"
+```
+
+Restart the workbench after installing dependencies.
+
 Open the printed `http://127.0.0.1:8765` address. The workbench searches
 parameters, data files and columns, outputs, metrics, saved runs, and
 validation findings. Parameter edits and replacement CSV/metadata files remain

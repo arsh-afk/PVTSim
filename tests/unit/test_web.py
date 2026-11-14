@@ -172,6 +172,56 @@ def test_model_trace_matches_runner_requirements_and_uses_valid_graph_edges(tmp_
     }
 
 
+def test_report_figures_and_equation_map_are_available(tmp_path):
+    client = TestClient(create_app(tmp_path))
+
+    page = client.get("/")
+    assert 'id="overview-report-gallery"' in page.text
+    assert 'id="model-panel-equations"' in page.text
+    assert "Report equations (9)–(10)" in page.text
+    assert page.text.count("<math ") == 10
+    assert "Signature:" not in page.text
+
+    for filename in (
+        "aquasolar-system-process.png",
+        "aquasolar-validation-assembly.jpg",
+        "aquasolar-validation-equipment.jpg",
+        "aquasolar-validation-outdoor-rig.jpg",
+        "aquasolar-validation-pv-output.jpeg",
+        "aquasolar-winter-summer-operation.png",
+        "aquasolar-roof-comparison.png",
+        "aquasolar-ro-water-reuse.png",
+        "aquasolar-project-economics.png",
+        "aquasolar-robustness-and-scale.png",
+        "aquasolar-monthly-energy-balance.png",
+        "aquasolar-parametric-study.png",
+        "aquasolar-economic-inputs.png",
+        "aquasolar-option-one-detailed-flow.png",
+        "aquasolar-option-two-detailed-flow.png",
+        "aquasolar-global-water-hackathon-2026.png",
+        "aquasolar-khalifa-university-logo.jpg",
+        "aquasolar-khalifa-university-cmat.png",
+        "aquasolar-unesco-chair.png",
+        "aquasolar-youth4water-initiative.png",
+        "aquasolar-unesco-hydrological-programme.png",
+    ):
+        response = client.get(f"/static/report-showcase/{filename}")
+        assert response.status_code == 200
+        assert response.headers["content-type"].startswith("image/")
+
+
+def test_analytics_helpers_are_served_before_workbench_script(tmp_path):
+    client = TestClient(create_app(tmp_path))
+
+    page = client.get("/")
+    assert page.status_code == 200
+    assert page.text.index("/static/analytics-core.js") < page.text.index("/static/app.js")
+
+    helpers = client.get("/static/analytics-core.js")
+    assert helpers.status_code == 200
+    assert "sumEnergyWindow" in helpers.text
+
+
 def test_module_toggles_require_preview_and_disable_pvt_runs(tmp_path):
     _make_project(tmp_path)
     client = TestClient(create_app(tmp_path))

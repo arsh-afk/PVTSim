@@ -343,8 +343,9 @@ def run_pvt_only(
         import pvlib
     except ImportError as exc:
         raise RuntimeError(
-            "PVT-only solar calculations require the project solar extra: "
-            "install aquasolar[solar]"
+            "PVT-only solar calculations require pvlib. From the project root, "
+            "install the solar extra in the same Python environment as the "
+            'web UI with `python -m pip install -e ".[solar]"`.'
         ) from exc
 
     from aquasolar.pvt.collector import pvt_solve
