@@ -2263,6 +2263,7 @@ const DESIGN_UNITS = {
   drinking_water: { unit: " L/day", digits: 0 },
   electricity_tariff: { unit: " AED/kWh", digits: 2 },
   bottled_water_price: { unit: " AED/m³", digits: 1, scale: 1000 },
+  baseline_kettle_load: { unit: " kWh/year", digits: 0 },
 };
 
 function designField(format) {
@@ -2401,6 +2402,7 @@ function renderDesignResults(result) {
   designKpi("kpi-solar", `${formatNumber((summary.solar_heating_fraction ?? 0) * 100, 0)}`, "%");
   designKpi("kpi-self", `${formatNumber((summary.self_sufficiency ?? 0) * 100, 0)}`, "%");
   designKpi("kpi-payback", Number.isFinite(summary.payback_years) ? formatNumber(summary.payback_years, 1) : "—", "yrs");
+  designKpi("kpi-savings", formatNumber(summary.annual_cost_savings, 0), "AED/year");
   designKpi("kpi-water", formatNumber(summary.drinking_water_m3_year, 1), "m³");
   designKpi("kpi-net", formatNumber(summary.net_electricity_kwh, 0), "kWh");
   renderDesignBars(summary);

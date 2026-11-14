@@ -103,7 +103,6 @@ class RunRequest(BaseModel):
 class DesignRequest(BaseModel):
     weather: str
     changes: dict[str, Any] = Field(default_factory=dict)
-    with_experiments: bool = True
 
 
 def _read_yaml(path: Path) -> Any:
@@ -994,7 +993,6 @@ def create_app(
         payload = asdict(DesignInputs())
         return {
             "defaults": payload,
-            "atomic": ["collector_area", "tank_volume", "delivery_temperature", "battery_capacity"],
             "limitations": [
                 "Screening calculator: not the validated transient model or TRNSYS cross-check.",
                 "Tank is a single well-mixed node; RO contaminants and pipe losses are not modelled.",
@@ -1020,7 +1018,6 @@ def create_app(
                 root,
                 root / weather_path,
                 payload.changes,
-                with_experiments=payload.with_experiments,
             )
         except (OSError, ImportError, TypeError, ValueError, RuntimeError) as exc:
             raise HTTPException(

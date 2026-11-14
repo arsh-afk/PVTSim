@@ -1,0 +1,400 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AquaSolar PV-T Simulation — Complete Project Reference</title>
+    <style>
+        :root {
+            --bg: #0f172a; --card: #1e293b; --text: #f8fafc; --muted: #94a3b8;
+            --accent: #38bdf8; --green: #34d399; --amber: #fbbf24; --border: #334155;
+            --code-bg: #090d16; --hover: #273548;
+        }
+        @media (prefers-color-scheme: light) {
+            :root:not([data-theme="dark"]) {
+                --bg: #f8fafc; --card: #ffffff; --text: #0f172a; --muted: #64748b;
+                --accent: #0284c7; --green: #059669; --amber: #d97706; --border: #e2e8f0;
+                --code-bg: #f1f5f9; --hover: #f8fafc;
+            }
+        }
+        :root[data-theme="dark"] { --bg: #0f172a; --card: #1e293b; --text: #f8fafc; --muted: #94a3b8;
+            --accent: #38bdf8; --green: #34d399; --amber: #fbbf24; --border: #334155; --code-bg: #090d16; --hover: #273548; }
+
+        * { box-sizing: border-box; }
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg); color: var(--text); line-height: 1.6; margin: 0; padding: 2rem 1rem; }
+        .container { max-width: 1500px; margin: 0 auto; }
+        header { text-align: center; margin-bottom: 2.5rem; border-bottom: 2px solid var(--border); padding-bottom: 1.75rem; }
+        h1 { font-size: 2.3rem; color: var(--accent); margin: 0 0 .5rem; }
+        .subtitle { font-size: 1.15rem; color: var(--muted); margin: 0 0 1rem; }
+        .badge { display: inline-block; padding: .2rem .7rem; font-size: .78rem; font-weight: 600; border-radius: 9999px;
+            background: rgba(56,189,248,.1); color: var(--accent); border: 1px solid rgba(56,189,248,.2); margin: .15rem; }
+
+        .card { background: var(--card); border: 1px solid var(--border); border-radius: 12px;
+            padding: 1.5rem; margin-bottom: 1.75rem; box-shadow: 0 4px 6px -1px rgba(0,0,0,.1); }
+        h2 { margin: 0 0 1rem; font-size: 1.3rem; color: var(--accent); border-bottom: 1px solid var(--border); padding-bottom: .6rem; }
+        h3 { margin: 1.4rem 0 .6rem; font-size: 1.05rem; color: var(--green); }
+        p { margin: .4rem 0 .8rem; }
+        code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; background: var(--code-bg);
+            padding: .12rem .35rem; border-radius: 4px; font-size: .8rem; }
+        pre { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; background: var(--code-bg);
+            padding: 1.1rem; overflow-x: auto; border: 1px solid var(--border); border-radius: 8px; font-size: .82rem; line-height: 1.5; margin: .8rem 0; }
+
+        .tblwrap { overflow-x: auto; margin: .8rem 0; }
+        table { width: 100%; border-collapse: collapse; font-size: .84rem; }
+        th, td { text-align: left; padding: .55rem .7rem; border-bottom: 1px solid var(--border); vertical-align: top; }
+        th { color: var(--muted); font-weight: 700; background: rgba(0,0,0,.05); position: sticky; top: 0; }
+        tbody tr:hover { background: var(--hover); }
+        td code { white-space: nowrap; }
+        ul, ol { padding-left: 1.4rem; margin: .5rem 0; }
+        li { margin-bottom: .4rem; font-size: .9rem; }
+        .grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(460px, 1fr)); gap: 1.5rem; }
+        footer { text-align: center; margin-top: 3rem; color: var(--muted); font-size: .88rem; border-top: 1px solid var(--border); padding-top: 1.25rem; }
+    </style>
+</head>
+<body>
+<div class="container">
+
+<header>
+    <h1>AquaSolar PV-T Simulation — Complete Project Reference</h1>
+    <p class="subtitle">Full architecture: every file, function, variable, constant, table, and purpose — with pipeline flow</p>
+    <div>
+        <span class="badge">Version 0.1.0</span>
+        <span class="badge">Python ≥ 3.10</span>
+        <span class="badge">45 source files</span>
+        <span class="badge">26 test files</span>
+        <span class="badge">27 table/timeseries datasets</span>
+    </div>
+</header>
+
+<!-- ============ 1. PROJECT STRUCTURE ============ -->
+<div class="card">
+    <h2>📁 Project Structure Overview</h2>
+<pre>Simulation/
+├── pyproject.toml                 # Python project config & dependencies
+├── render.yaml                    # Cloud deployment (Render readonly showcase)
+├── README.md                      # Setup & usage (CLI, UI, commands)
+├── AGENT_INSTRUCTIONS.md          # AI agent working rules
+├── PROJECT_REPORT.md              # Implementation inventory (2026-10-29)
+├── REPACKAGE_INSTRUCTIONS.md      # Carnot 2026 submission guide
+├── inputs/
+│   ├── tables/                    # Static config tables (14 CSV + .meta.yaml)
+│   ├── timeseries/                # Dynamic time-series data (11 CSV + .meta.yaml)
+│   ├── approvals/                 # Gate sign-off templates (13 files)
+│   ├── STATUS.md                  # Operational status of modules
+│   ├── input_index.yaml           # Master parameter index
+│   └── module_registry.yaml       # Module lifecycle config
+├── src/aquasolar/                 # Main simulation code (45 Python files)
+└── tests/                         # Test suite (25 unit files, 5 fixtures)</pre>
+    <p>Villa-scale Photovoltaic-Thermal (PVT) hybrid collector + water-assurance treatment simulation system.</p>
+</div>
+
+<!-- ============ 2. ROOT CONFIG ============ -->
+<div class="card">
+    <h2>📄 Root Configuration Files</h2>
+    <div class="tblwrap"><table>
+        <thead><tr><th style="width:22%">File</th><th>Purpose</th></tr></thead>
+        <tbody>
+        <tr><td><code>pyproject.toml</code></td><td>Project metadata (name: aquasolar, v0.1.0, Python≥3.10), dependencies (numpy, pandas, pyyaml, pydantic, scipy, matplotlib, fastapi, pytest), extras [units], [solar], [sensitivity], [properties], [dev], CLI entry point</td></tr>
+        <tr><td><code>render.yaml</code></td><td>Render cloud config (free readonly service, entrypoint: <code>uvicorn aquasolar.web:app</code>, env var <code>AQUASOLAR_READ_ONLY=true</code>)</td></tr>
+        <tr><td><code>README.md</code></td><td>Setup instructions (venv, pip install), CLI commands (check-inputs, apply-demo-defaults, run, convert-tm2, tests), known limitations (PVT-only), deployment config</td></tr>
+        <tr><td><code>AGENT_INSTRUCTIONS.md</code></td><td>Project rules: preserve documented vs assumption values, never infer model from docs, enforce numeric literal rule (0,1,2 only), password-limited demo_defaults.yaml</td></tr>
+        <tr><td><code>PROJECT_REPORT.md</code></td><td>Directory structure, data flow, equations (EQ-PVT-01..04), coded but not wired modules, 82+ tests, coding conventions</td></tr>
+        <tr><td><code>REPACKAGE_INSTRUCTIONS.md</code></td><td>Carnot 2026 submission step-by-step (15-item checklist), target package structure (CARNOT2026_AquaSolar/), deadline 13 Nov</td></tr>
+        </tbody>
+    </table></div>
+</div>
+
+<!-- ============ 3. INPUT DATA LAYER ============ -->
+<div class="card">
+    <h2>🗂️ Input Data Layer</h2>
+
+    <h3>3.1 inputs/tables/ — Static Configuration (14 CSV + 13 .meta.yaml)</h3>
+    <p>Purpose: Entities and scenarios defined as tables (species, sensors, specs, curves).</p>
+    <div class="tblwrap"><table>
+        <thead><tr><th>Filename</th><th>Purpose</th><th>Key Columns</th></tr></thead>
+        <tbody>
+        <tr><td><code>species_registry.csv</code></td><td>Registered water-quality species (TDS, hardness, chloro, turbidity, etc.)</td><td>species_id, common_name, spec_id, unit, required, source_type</td></tr>
+        <tr><td><code>sensors.csv</code></td><td>Sensor specifications (accuracy, drift rate, validation ranges)</td><td>sensor_id, accuracy, drift_rate_per_year, min_valid, max_valid</td></tr>
+        <tr><td><code>scale_scenarios.csv</code></td><td>Community deployment cost scenarios</td><td>scenario_id, community_members, capex_per_m, opex_per_year_per_m</td></tr>
+        <tr><td><code>consumable_costs.csv</code></td><td>Replacement costs for consumables over 10-year lifecycle</td><td>consumable_id, gas_cost, filter_cost, annual_rate</td></tr>
+        <tr><td><code>pathway_costs.csv</code></td><td>Treatment pathway capital/operation costs</td><td>pathway_id, spec_id, annual_rate_multiplier</td></tr>
+        <tr><td><code>treatment_removal.csv</code></td><td>Removal coefficients per treatment stage</td><td>stage_type, chemical_id, removal_coefficient, required</td></tr>
+        <tr><td><code>controller_rules.csv</code></td><td>Control strategy settings</td><td>controller_type, param_name, rule_logic, required</td></tr>
+        <tr><td><code>pvt_curves.csv</code></td><td>PVT performance curves (v, T_amb, G_eff → found)</td><td>v, T_amb, G_eff, found</td></tr>
+        <tr><td><code>pressure_drop_vs_loading.csv</code></td><td>Pipe pressure drop vs flow conditions</td><td>flow_rate_m3_per_h, pressure_drop_m</td></tr>
+        <tr><td><code>decay_test_data.csv</code></td><td>Degradation rates for components</td><td>component_id, degradation_type, annual_rate</td></tr>
+        <tr><td><code>product_quality_limits.csv</code></td><td>Water quality target ranges</td><td>spec_id, min_value, max_value, target_value</td></tr>
+        <tr><td><code>initial_tank_profile.csv</code></td><td>Initial temperature distribution (stratification)</td><td>node_id, volume_fraction, initial_temp</td></tr>
+        <tr><td><code>validation_acceptance.csv</code></td><td>Validation acceptance thresholds</td><td>test_type, pass_criteria, severity</td></tr>
+        </tbody>
+    </table></div>
+
+    <h3>3.2 inputs/timeseries/ — Dynamic Time Series (11 CSV + 11 .meta.yaml)</h3>
+    <p>Purpose: Boundary conditions over time intervals (weather, demand, tariffs).</p>
+    <div class="tblwrap"><table>
+        <thead><tr><th>Filename</th><th>Purpose</th><th>Key Variables</th></tr></thead>
+        <tbody>
+        <tr><td><code>weather.csv</code></td><td>Solar irradiance, ambient temp, wind, humidity (hourly)</td><td>timestamp, ghi, dni, dhi, poa_irradiance, t_ambient, wind_speed, relative_humidity, cloud_cover, qc_flag</td></tr>
+        <tr><td><code>feed_water_quality.csv</code></td><td>Feed water quality (TDS, hardness, etc.)</td><td>timestamp, TDS, hardness, chloro, turbidity</td></tr>
+        <tr><td><code>dhw_draw.csv</code></td><td>Domestic hot water demand profile</td><td>timestamp, draw_volume_liters_per_day</td></tr>
+        <tr><td><code>drinking_demand.csv</code></td><td>Potable drinking water demand</td><td>timestamp, demand_liters_per_day</td></tr>
+        <tr><td><code>measured_pvt.csv</code></td><td>Measured PVT system output (validation vs model)</td><td>timestamp, output_energy_wh, efficiency</td></tr>
+        <tr><td><code>measured_pv_only.csv</code></td><td>PV-only baseline measurements</td><td>timestamp, output_energy_wh, efficiency</td></tr>
+        <tr><td><code>measured_tank_profile.csv</code></td><td>Measured tank temperature stratification</td><td>timestamp, node_id, temperature_c</td></tr>
+        <tr><td><code>soiling_events.csv</code></td><td>Soiling events (date, location, intensity)</td><td>timestamp, event_type, surface_area_m2, duration_days</td></tr>
+        <tr><td><code>storage_flows.csv</code></td><td>Storage flows (in/out)</td><td>timestamp, flow_rate_m3_per_h, from_tank_id, to_tank_id</td></tr>
+        <tr><td><code>tank_ambient.csv</code></td><td>Tank ambient temperature (environmental)</td><td>timestamp, ambient_temp_c</td></tr>
+        <tr><td><code>tariffs.csv</code></td><td>Electric tariff structure (time-of-use)</td><td>timestamp, rate_dollars_per_kwh</td></tr>
+        </tbody>
+    </table></div>
+
+    <h3>3.3 inputs/approvals/ — Governance (13 files)</h3>
+    <div class="tblwrap"><table>
+        <thead><tr><th>File</th><th>Purpose</th></tr></thead>
+        <tbody>
+        <tr><td><code>gate_signoff_TEMPLATE.md</code></td><td>Structured template for phase gate decisions (Decision, Items approved, Changes required, Parameters entered)</td></tr>
+        <tr><td>12 gate sign-off files</td><td>Submitted approval documents per workflow gate (Names, dates, items approved, parameter updates)</td></tr>
+        </tbody>
+    </table></div>
+
+    <h3>3.4 Root Input Files</h3>
+    <div class="tblwrap"><table>
+        <thead><tr><th>File</th><th>Purpose</th></tr></thead>
+        <tbody>
+        <tr><td><code>STATUS.md</code></td><td>Current operational status (pvt_runner=operational, other modules=prototype/not_integrated)</td></tr>
+        <tr><td><code>input_index.yaml</code></td><td>Central machine-readable index grouping all parameters by file with metadata</td></tr>
+        <tr><td><code>module_registry.yaml</code></td><td>Module definitions (id, operational_status, enabled toggle, parameter_files, data_kinds, requirements)</td></tr>
+        </tbody>
+    </table></div>
+</div>
+
+<!-- ============ 4. CORE ENGINE ============ -->
+<div class="card">
+    <h2>🧮 Core Simulation Engine</h2>
+    <div class="tblwrap"><table>
+        <thead><tr><th style="width:13%">File</th><th style="width:22%">Purpose</th><th>Key Functions</th><th>Key Variables</th></tr></thead>
+        <tbody>
+        <tr><td><code>simulate.py</code></td><td>Simulation driver executing main time-stepping loop</td><td><code>run_simulation()</code></td><td>registry, weather_series, dt, max_steps, results</td></tr>
+        <tr><td><code>integrator.py</code></td><td>Full-system integrator orchestrating all subsystems</td><td><code>AquaSolarSimulator.__init__()</code>, <code>initialize()</code>, <code>simulate_step()</code>, <code>_simulate_pvt()</code>, <code>_simulate_loop()</code>, <code>_simulate_tank()</code>, <code>_simulate_mnt()</code>, <code>_simulate_treatment()</code>, <code>_simulate_electrical()</code></td><td>self.registry, self.weather_module, self.pvt_module, self.tank_module, self.solar_loop_module, self.water_treatment_module, outputs, ledgers</td></tr>
+        <tr><td><code>cli.py</code></td><td>CLI commands for validation, defaults, runs, conversions</td><td><code>cmd_check_inputs()</code>, <code>cmd_apply_demo_defaults()</code>, <code>cmd_web_ui()</code>, <code>cmd_run_pvt_only()</code>, <code>cmd_convert_tm2()</code>, <code>main()</code></td><td>PROJECT_ROOT, DEFAULT_WEB_PORT</td></tr>
+        <tr><td><code>__main__.py</code></td><td>Package entry point (<code>python -m aquasolar</code>)</td><td>none</td><td>none</td></tr>
+        <tr><td><code>__init__.py</code></td><td>Package init defining version metadata</td><td>none</td><td><code>__version__ = "0.1.0"</code></td></tr>
+        <tr><td><code>module_registry.py</code></td><td>Loads/validates module lifecycle from yaml</td><td><code>load_module_registry()</code>, <code>module_is_enabled()</code></td><td>_MODULE_ID_PATTERN, _OPERATIONAL_STATES, _DATA_KINDS</td></tr>
+        <tr><td><code>defaults.py</code></td><td>Static demo defaults, units, documentation, bounds</td><td>none (data structures)</td><td>DEMO_SEED, ENTERED_ON, ENTERED_BY, DOCUMENT_REF, _UNITS, _DOCUMENTED, _TEXT_VALUES, _BOUNDS</td></tr>
+        <tr><td><code>ui.py</code></td><td>Tkinter desktop interface for parameter editing &amp; browsing</td><td><code>load_parameter_catalog()</code>, <code>load_data_input_catalog()</code>, <code>available_weather_files()</code>, <code>read_pvt_series()</code>, <code>save_parameter_entry()</code></td><td>PARAMETERS_DIR, INPUT_INDEX, PARAMETER_FIELDS, STEP_OUTPUTS, SUMMARY_OUTPUTS</td></tr>
+        <tr><td><code>web.py</code></td><td>FastAPI web server with interactive preview/validation/runs</td><td><code>create_app()</code>, <code>_parameter_yaml_overrides()</code>, <code>_catalog()</code></td><td>PROJECT_ROOT, STATIC_DIR, _METRIC_COLUMNS, _EDITABLE_PARAMETER_FIELDS</td></tr>
+        <tr><td><code>validation.py</code></td><td>Structured non-mutating validation engine</td><td><code>validate_project()</code>, <code>_validate_parameters()</code>, <code>_load_parameters()</code>, <code>_validate_data_directory()</code></td><td>ValidationIssue, ValidationReport</td></tr>
+        </tbody>
+    </table></div>
+</div>
+
+<!-- ============ 5. REGISTRY & DATA LOADING ============ -->
+<div class="card">
+    <h2>🔄 Registry &amp; Data Loading System</h2>
+
+    <h3>5.1 IO Layer (<code>src/aquasolar/io/</code>)</h3>
+    <div class="tblwrap"><table>
+        <thead><tr><th>File</th><th>Purpose</th><th>Key Functions</th><th>Key Variables</th></tr></thead>
+        <tbody>
+        <tr><td><code>__init__.py</code></td><td>Exports all IO functions</td><td>-</td><td>-</td></tr>
+        <tr><td><code>epw.py</code></td><td>Convert EnergyPlus Weather to project CSV</td><td><code>convert_epw_to_weather_csv()</code>, <code>_parse_weather_value()</code></td><td>_LOCATION_COLUMNS, _EPW_DATA_COLUMNS, _WEATHER_COLUMNS</td></tr>
+        <tr><td><code>nasa_power.py</code></td><td>Convert NASA POWER hourly JSON to CSV</td><td><code>convert_nasa_power_hourly_json()</code></td><td>_POWER_TO_WEATHER, _WEATHER_COLUMNS, _EXPECTED_UNITS</td></tr>
+        <tr><td><code>tm2.py</code></td><td>Convert TRNSYS TMY2 TM2 file to CSV</td><td><code>convert_tm2_to_weather_csv()</code>, <code>_read_station_header()</code>, <code>_parse_record()</code></td><td>_RECORD_FIELDS (142 chars), _WEATHER_COLUMNS, _HEADER_PATTERN</td></tr>
+        <tr><td><code>tables.py</code></td><td>Load static table CSVs</td><td><code>load_table()</code></td><td>-</td></tr>
+        <tr><td><code>timeseries.py</code></td><td>Load time-series with gap handling</td><td><code>load_timeseries()</code>, <code>validate_timeseries()</code>, <code>_find_gaps()</code></td><td>_READ_BUFFER_SIZE = 2097152</td></tr>
+        <tr><td><code>quality_report.py</code></td><td>Generate Markdown QC reports</td><td><code>write_quality_report()</code>, <code>generate_all_quality_reports()</code></td><td>-</td></tr>
+        </tbody>
+    </table></div>
+
+    <h3>5.2 Registry System (<code>src/aquasolar/registry/</code>)</h3>
+    <div class="tblwrap"><table>
+        <thead><tr><th>File</th><th>Purpose</th><th>Key Functions/Classes</th><th>Key Variables</th></tr></thead>
+        <tbody>
+        <tr><td><code>schema.py</code></td><td>Pydantic models for parameter validation</td><td><code>ParameterEntry(BaseModel)</code> (id, value, unit, source_type, source_ref, uncertainty, valid_range, status, entered_by, entered_on); <code>UncertaintySpec</code>; <code>ValidRange</code></td><td>-</td></tr>
+        <tr><td><code>load.py</code></td><td>Load and serve all user inputs from registry</td><td><code>Registry(params, tables, timeseries, file_hashes)</code> → <code>get(id_)</code>, <code>require(ids)</code>, <code>status_report()</code>, <code>file_hashes()</code>; <code>load_registry()</code></td><td>_INPUT_INDEX_PATH, _PARAMETERS_DIR, _TABLES_DIR, _TIMESERIES_DIR</td></tr>
+        <tr><td><code>conditions.py</code></td><td>Evaluate <code>required_when</code> expressions</td><td><code>evaluate_required_when(expr, registry)</code></td><td>_SIMPLE_RE = r"^([a-zA-Z_][a-zA-Z0-9_.]*)\s*(==|!=|in)\s*(.+)$"</td></tr>
+        <tr><td><code>errors.py</code></td><td>Typed input errors with structural fix messages</td><td><code>InputError</code> (base), <code>MissingInputError</code>, <code>DraftInputError</code>, <code>InvalidInputError</code>; <code>format_input_error(file_path, location, problem, expected, found, fix)</code></td><td>Required error format</td></tr>
+        <tr><td><code>__init__.py</code></td><td>Registry exports</td><td>Export: load_registry, Registry, ParameterEntry, RegistryError, evaluate_required_when</td><td>-</td></tr>
+        </tbody>
+    </table></div>
+
+    <h3>5.3 Units System (<code>src/aquasolar/units/</code>)</h3>
+    <div class="tblwrap"><table>
+        <thead><tr><th>File</th><th>Purpose</th><th>Key Functions</th><th>Key Variables</th></tr></thead>
+        <tbody>
+        <tr><td><code>__init__.py</code></td><td>SI conversion and dimensional analysis</td><td><code>get_unit_registry()</code>, <code>convert_to_si()</code>, <code>validate_unit()</code>, <code>parse_temperature()</code>, <code>format_quantity()</code></td><td>_ureg (lazy global)</td></tr>
+        </tbody>
+    </table></div>
+
+    <h3>5.4 Integration (<code>src/aquasolar/integration/</code>)</h3>
+    <div class="tblwrap"><table>
+        <thead><tr><th>File</th><th>Purpose</th><th>Key Functions/Classes</th><th>Key Variables</th></tr></thead>
+        <tbody>
+        <tr><td><code>manifest.py</code></td><td>Generate reproducibility manifest</td><td><code>Manifest(run_id, inputs, ...)</code>, <code>write_manifest()</code></td><td>Uses git.Repo for commit hash</td></tr>
+        <tr><td><code>__init__.py</code></td><td>Exports</td><td>Export: Manifest, write_manifest</td><td>-</td></tr>
+        </tbody>
+    </table></div>
+</div>
+
+<!-- ============ 6. PHYSICS & ENGINE ============ -->
+<div class="card">
+    <h2>⚡ Physics &amp; Engine Submodules</h2>
+
+    <h3>6.1 PVT Collector Models (<code>src/aquasolar/pvt/</code>)</h3>
+    <div class="tblwrap"><table>
+        <thead><tr><th>File</th><th>Purpose</th><th>Key Functions</th><th>Key Variables</th></tr></thead>
+        <tbody>
+        <tr><td><code>collector.py</code></td><td>Coordinates solving PVT energy balance</td><td><code>pvt_solve()</code>, <code>pvt_series_solve()</code>, <code>PVTCoupledResult</code></td><td>T_in, m_dot, G_eff, T_amb, wind_speed</td></tr>
+        <tr><td><code>coupled.py</code></td><td>Algebraic loop solver for electrical + thermal</td><td><code>coupled_solve()</code>, <code>_fixed_point_solve()</code>, <code>_bracket_solve()</code></td><td>tau_alpha, F_R, U_L, R_cell_fluid, T_fluid_max</td></tr>
+        <tr><td><code>electrical.py</code></td><td>Calculate PV electrical power output</td><td><code>electrical_output()</code>, <code>electrical_output_series()</code></td><td>eta_ref, T_ref, beta, phi_soil, A</td></tr>
+        <tr><td><code>thermal.py</code></td><td>Calculate useful thermal energy extraction</td><td><code>useful_heat()</code>, <code>useful_heat_no_flow()</code></td><td>tau_alpha, F_R, U_L</td></tr>
+        <tr><td><code>pv_only.py</code></td><td>PV-only reference baseline</td><td><code>pv_only_reference()</code></td><td>U_L_pv, alpha, beta_wind</td></tr>
+        <tr><td><code>runner.py</code></td><td>Exploratory PVT-only hourly simulation</td><td><code>run_pvt_only()</code>, <code>load_pvt_parameters()</code></td><td>_REQUIRED_PARAMETERS (registry keys)</td></tr>
+        <tr><td><code>trace.py</code></td><td>Metadata and calculation tracing</td><td><code>calculation_trace()</code></td><td>-</td></tr>
+        </tbody>
+    </table></div>
+
+    <h3>6.2 Thermal Storage Tank (<code>src/aquasolar/tank/</code>)</h3>
+    <div class="tblwrap"><table>
+        <thead><tr><th>File</th><th>Purpose</th><th>Key Functions</th><th>Key Variables</th></tr></thead>
+        <tbody>
+        <tr><td><code>__init__.py</code></td><td>Tank exports</td><td>-</td><td>-</td></tr>
+        <tr><td><code>step.py</code></td><td>Tank time-step integration (stratification)</td><td><code>tank_step()</code>, <code>tank_series_step()</code></td><td>cp, rho, mixing_model, Q_loss, U_loss</td></tr>
+        <tr><td><code>grid.py</code></td><td>Vertical stratification grid representation</td><td><code>TankGrid</code> (class), <code>create_tank_grid()</code></td><td>n_nodes, volume_total, T, m, node_height</td></tr>
+        <tr><td><code>mixing.py</code></td><td>Mixing models for stratified nodes</td><td><code>apply_mixing_model()</code>, <code>ideal_mixing()</code>, <code>stratified_mixing()</code>, <code>partial_mixing()</code>, <code>no_mixing()</code></td><td>Mixing coefficient</td></tr>
+        <tr><td><code>draw.py</code></td><td>Water draw profiles &amp; delivery temperature</td><td><code>draw_profile()</code>, <code>draw_from_tank()</code>, <code>draw_series()</code></td><td>DOMESTIC hot water draw voltage</td></tr>
+        <tr><td><code>auxiliary_heating.py</code></td><td>Top-node electric heating logic</td><td><code>aux_heating()</code></td><td>target_temp, max_power, efficiency, deadband</td></tr>
+        </tbody>
+    </table></div>
+
+    <h3>6.3 Solar Loop Hydraulics (<code>src/aquasolar/solar_loop/</code>)</h3>
+    <div class="tblwrap"><table>
+        <thead><tr><th>File</th><th>Purpose</th><th>Key Functions</th><th>Key Variables</th></tr></thead>
+        <tbody>
+        <tr><td><code>pump.py</code></td><td>Pump power &amp; flow rate characteristics</td><td><code>pump_flow_rate()</code>, <code>pump_power()</code>, <code>pump_speed_from_flow()</code></td><td>Pump curve parameters</td></tr>
+        <tr><td><code>pipes.py</code></td><td>Heat loss &amp; pressure drop</td><td><code>pipe_heat_loss()</code>, <code>pipe_pressure_drop()</code>, <code>collector_loop_thermal()</code></td><td>Loss coefficients</td></tr>
+        <tr><td><code>controller.py</code></td><td>Differential temp &amp; protection control</td><td><code>differential_controller()</code>, <code>solar_controller()</code></td><td>Deadband, setpoint</td></tr>
+        </tbody>
+    </table></div>
+
+    <h3>6.4 Weather &amp; Solar (<code>src/aquasolar/weather/</code>)</h3>
+    <div class="tblwrap"><table>
+        <thead><tr><th>File</th><th>Purpose</th><th>Key Functions</th><th>Key Variables</th></tr></thead>
+        <tbody>
+        <tr><td><code>solar_geometry.py</code></td><td>Solar position, angles</td><td>-</td><td>-</td></tr>
+        <tr><td><code>iam.py</code></td><td>Irradiance angle-of-incidence modifier</td><td><code>iam_factor()</code></td><td>-</td></tr>
+        <tr><td><code>transposition.py</code></td><td>Transposition to plane of array</td><td><code>transposition_factor()</code></td><td>-</td></tr>
+        <tr><td><code>soiling.py</code></td><td>Soiling loss calculation</td><td><code>soiling_loss()</code>, <code>schedule_soiling()</code></td><td>Soiling coefficients, drift rate</td></tr>
+        </tbody>
+    </table></div>
+
+    <h3>6.5 Water Treatment (<code>src/aquasolar/water_treatment/</code>)</h3>
+    <div class="tblwrap"><table>
+        <thead><tr><th>File</th><th>Purpose</th><th>Key Functions</th><th>Key Variables</th></tr></thead>
+        <tbody>
+        <tr><td><code>train.py</code></td><td>Orchestrates treatment pathways</td><td><code>pathway_a()</code>, <code>pathway_b()</code>, <code>pathway_c()</code>, <code>run_treatment_train()</code></td><td>Pathway configs</td></tr>
+        <tr><td><code>stages.py</code></td><td>Stage-specific removal mechanics</td><td><code>sediment_filter()</code>, <code>carbon_filter()</code>, <code>uv_disinfection()</code>, <code>ultrafiltration()</code>, <code>nanofiltration()</code>, <code>remineralization()</code></td><td>Removal coefficients, dosages</td></tr>
+        </tbody>
+    </table></div>
+
+    <h3>6.6 Electrical Balance (<code>src/aquasolar/electrical/</code>)</h3>
+    <div class="tblwrap"><table>
+        <thead><tr><th>File</th><th>Purpose</th><th>Key Functions</th><th>Key Variables</th></tr></thead>
+        <tbody>
+        <tr><td><code>balance.py</code></td><td>Electrical power flow balancing</td><td><code>electrical_balance()</code>, <code>battery_dispatch()</code></td><td>Battery SOC, grid limit, load</td></tr>
+        </tbody>
+    </table></div>
+
+    <h3>6.7 Monitoring &amp; Telemetry (<code>src/aquasolar/mnt/</code>)</h3>
+    <div class="tblwrap"><table>
+        <thead><tr><th>File</th><th>Purpose</th><th>Key Functions/Classes</th><th>Key Variables</th></tr></thead>
+        <tbody>
+        <tr><td><code>oracle.py</code></td><td>MNT logic for pathway selection based on quality index</td><td><code>water_quality_index()</code>, <code>mnt_oracle()</code></td><td>WQI thresholds, pathway assignments</td></tr>
+        <tr><td><code>sensors.py</code></td><td>Water quality sensor models with drift/noise</td><td><code>WaterQualitySensor</code> (class), <code>read_sensor_suite()</code></td><td>Accuracy, drift_rate, noise model</td></tr>
+        <tr><td><code>controller.py</code></td><td>Sensor-based control with hysteresis &amp; adaptation</td><td><code>sensor_based_controller()</code>, <code>hysteresis_controller()</code>, <code>adaptive_controller()</code></td><td>Deadband, adaptation_rate</td></tr>
+        </tbody>
+    </table></div>
+
+    <h3>6.8 Reporting, Economics, Uncertainty</h3>
+    <div class="tblwrap"><table>
+        <thead><tr><th>File</th><th>Purpose</th><th>Key Functions/Classes</th><th>Key Variables</th></tr></thead>
+        <tbody>
+        <tr><td><code>reporting/dashboard.py</code></td><td>HTML dashboard + JSON report</td><td><code>dashboard()</code>, <code>generate_html()</code></td><td>Render config, layout</td></tr>
+        <tr><td><code>reporting/metrics.py</code></td><td>Compute KPIs</td><td><code>compute_metrics()</code>, <code>excess_energy_percent()</code>, <code>capacity_factor()</code>, <code>pareto_front()</code></td><td>-</td></tr>
+        <tr><td><code>economics/lcoe.py</code></td><td>LCOE, payback, NPV, lifecycle cost</td><td><code>lcoe()</code>, <code>payback_period()</code>, <code>npv()</code>, <code>lifecycle_cost()</code></td><td>Discount rate, lifetime years</td></tr>
+        <tr><td><code>uncertainty/monte_carlo.py</code></td><td>Monte Carlo sampling</td><td><code>mc_run()</code>, <code>_build_distributions()</code>, <code>_sample()</code></td><td>Sample count, distributions</td></tr>
+        <tr><td><code>uncertainty/sobol.py</code></td><td>Sensitivity analysis</td><td><code>sobol_indices()</code>, <code>_query()</code></td><td>First/total order, anchor points</td></tr>
+        </tbody>
+    </table></div>
+</div>
+
+<!-- ============ 7. TEST SUITE ============ -->
+<div class="card">
+    <h2>🧪 Test Suite</h2>
+    <div class="tblwrap"><table>
+        <thead><tr><th>File</th><th>Purpose</th><th>Key Tests</th><th>Module Under Test</th></tr></thead>
+        <tbody>
+        <tr><td><code>conftest.py</code></td><td>Shared pytest fixtures project paths</td><td>project_root, inputs_dir, params_dir, tables_dir, timeseries_dir</td><td>Test infrastructure</td></tr>
+        <tr><td><code>unit/test_literal_scan.py</code></td><td>Detect numeric literal violations</td><td>scan_py_files(), regex fallback</td><td>Rule R2 enforcement</td></tr>
+        <tr><td><code>unit/test_conditions.py</code></td><td>required_when grammar evaluation</td><td>Equality, membership, inequalities, always</td><td>Conditions evaluator</td></tr>
+        <tr><td><code>unit/test_units.py</code></td><td>Temperature parsing</td><td>Kelvin, Celsius, ΔT parsing</td><td>Units module</td></tr>
+        <tr><td><code>unit/test_electrical.py</code></td><td>Electrical balance &amp; battery</td><td>Export/Import, charge/discharge, SOC limits</td><td>Electrical balance</td></tr>
+        <tr><td><code>unit/test_uncertainty.py</code></td><td>MC &amp; Sobol sensitivity</td><td>Normal, LHS sampling, First/total order</td><td>Monte Carlo, Sobol</td></tr>
+        <tr><td><code>unit/test_economics.py</code></td><td>LCOE, payback, NPV, bottled water savings</td><td>Basic LCOE, payback, NPV, used vs bottled</td><td>LCOE module</td></tr>
+        <tr><td><code>unit/test_reporting.py</code></td><td>Metrics, dashboard, JSON/text reports</td><td>All metrics present, dashboard generation</td><td>Reporting metrics, dashboard</td></tr>
+        <tr><td><code>unit/test_registry.py</code></td><td>Registry structure &amp; InputError</td><td>Parameter entry validation, error format</td><td>Registry, load, errors</td></tr>
+        <tr><td><code>unit/test_epw.py</code></td><td>EPW → CSV conversion</td><td>Overwrite protection, required irradiance</td><td>IO epw</td></tr>
+        <tr><td><code>unit/test_nasa_power.py</code></td><td>NASA POWER JSON → CSV</td><td>UTC validation, fill values</td><td>IO nasa_power</td></tr>
+        <tr><td><code>unit/test_tm2.py</code></td><td>TRNSYS TMY2 conversion</td><td>8760-hour validation, leap year rejection</td><td>IO tm2</td></tr>
+        <tr><td><code>unit/test_defaults.py</code></td><td>Demo defaults apply correctly</td><td>Source labeling, idempotence, comments</td><td>defaults</td></tr>
+        <tr><td><code>unit/test_validation.py</code></td><td>Project validation &amp; preview</td><td>Conditional required_when, data validation</td><td>validation</td></tr>
+        <tr><td><code>unit/test_ui_catalog.py</code></td><td>UI output catalog definitions</td><td>All files exist, metric groups, weather filter</td><td>UI catalog</td></tr>
+        <tr><td><code>unit/test_tank.py</code></td><td>Tank simulation</td><td>Grid init, energy conservation, mixing, aux heating</td><td>Tank grid, step, mixing, draw, aux_heating</td></tr>
+        <tr><td><code>unit/test_pvt.py</code></td><td>PVT hybrid performance</td><td>Electrical output, thermal, coupled solve convergence</td><td>pvt.electrical, thermal, coupled</td></tr>
+        <tr><td><code>test_pvt_runner.py</code></td><td>PVT-only runner integration</td><td>Parameter loader, weather loader, run execution</td><td>pvt.runner</td></tr>
+        <tr><td><code>test_web.py</code></td><td>FastAPI web server</td><td>Parse routes, preview, apply, runs, CORS, read-only mode</td><td>web</td></tr>
+        </tbody>
+    </table></div>
+</div>
+
+<!-- ============ 8. PIPELINE ============ -->
+<div class="card">
+    <h2>📊 Pipeline Flow (Phases 0–9)</h2>
+    <ol>
+        <li><strong>Phase 0–1:</strong> Numerics, weather, site location</li>
+        <li><strong>Phase 2:</strong> Physical constants (registry)</li>
+        <li><strong>Phase 3:</strong> PVT electrical/thermal specs, curves, soiling</li>
+        <li><strong>Phase 4:</strong> Tank geometry, heating cycle</li>
+        <li><strong>Phase 5:</strong> Solar loop hydraulics</li>
+        <li><strong>Phase 6:</strong> Treatment pathways, removal coefficients</li>
+        <li><strong>Phase 7:</strong> Electrical system, controllers, sensors</li>
+        <li><strong>Phase 8:</strong> Output interval</li>
+        <li><strong>Phase 9:</strong> Economics, tariffs, scenarios</li>
+    </ol>
+</div>
+
+<!-- ============ 9. STATISTICS ============ -->
+<div class="card">
+    <h2>📈 Statistics</h2>
+    <div class="tblwrap"><table>
+        <thead><tr><th>Category</th><th>Count</th></tr></thead>
+        <tbody>
+        <tr><td>Root config files</td><td>6</td></tr>
+        <tr><td>Input tables (CSV+meta)</td><td>27 files (28 total)</td></tr>
+        <tr><td>Input timeseries (CSV+meta)</td><td>22 files (23 total)</td></tr>
+        <tr><td>Input approvals</td><td>13 files</td></tr>
+        <tr><td>Source Python files</td><td>45 files</td></tr>
+        <tr><td>Test files</td><td>26 files</td></tr>
+        <tr><td>Total project files</td><td>~170+ files</td></tr>
+        </tbody>
+    </table></div>
+</div>
+
+<footer>
+    <p>AquaSolar Simulation Project &bull; Complete Project Reference &bull; Generated via Claude Code</p>
+</footer>
+
+</div>
+</body>
+</html>

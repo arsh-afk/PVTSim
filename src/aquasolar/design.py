@@ -59,6 +59,8 @@ LIMITS: dict[str, tuple[float, float]] = {
     "lifetime": (float(1), float(50)),
     "discount_rate": (float(0), float("0.3")),
     "bottled_water_price": (float(0), float("0.5")),
+    "baseline_heater_cop": (float("0.5"), float(6)),
+    "baseline_kettle_load": (float(0), float(5000)),
 }
 
 _NUMERIC_FIELDS = tuple(LIMITS)
@@ -103,6 +105,8 @@ class DesignInputs:
     lifetime: float = 20.0
     discount_rate: float = 0.06
     bottled_water_price: float = 0.002
+    baseline_heater_cop: float = 1.0
+    baseline_kettle_load: float = 0.0
 
 
 @dataclass
@@ -123,11 +127,11 @@ class DesignResult:
 
 def _literals(seed: int, count: int, low: float, high: float) -> tuple[float, ...]:
     """Deterministic seeded spread for the uncertainty band (reproducible)."""
-    state = seed & int("7fffffff")
+    state = seed & int("2147483647")
     values = []
     for _ in range(count):
-        state = (int("1103515245") * state + int("12345")) & int("7fffffff")
-        values.append(low + (high - low) * (state / int("7fffffff")))
+        state = (int("1103515245") * state + int("12345")) & int("2147483647")
+        values.append(low + (high - low) * (state / int("2147483647")))
     return tuple(values)
 
 
@@ -309,10 +313,11 @@ def _simulate(
     totals = {
         key: 0.0
         for key in (
-            "pvt_kwh", "pump_kwh", "ro_kwh", "backup_kwh", "load_kwh",
-            "import_kwh", "export_kwh", "battery_in_kwh", "battery_out_kwh",
-            "curtailed_kwh", "heat_kwh", "hot_water_kwh", "delivered_kwh",
-            "draw_litres", "pump_hours", "spilled_heat_kwh",
+            "pvt_kwh", "pump_kwh", "ro_kwh", "backup_kwh", "backup_thermal_kwh",
+            "load_kwh", "import_kwh", "export_kwh", "battery_in_kwh",
+            "battery_out_kwh", "curtailed_kwh", "unserved_kwh", "heat_kwh",
+            "hot_water_kwh", "delivered_kwh", "draw_litres", "pump_hours",
+            "spilled_heat_kwh",
         )
     }
     hourly: list[dict[str, Any]] = []
@@ -328,16 +333,24 @@ def _simulate(
             0.0,
         )
 
-        hint_gain = (
-            (parameters["pvt_th.tau_alpha"] - parameters["pvt_el.eta_ref"]) * irradiance
-            - parameters["pvt_th.U_L"] * (tank_c - ambient_c)
+        available_gain = max(
+            (parameters["pvt_th.tau_alpha"] - parameters["pvt_el.eta_ref"])
+            * irradiance
+            - parameters["pvt_th.U_L"] * (tank_c - ambient_c),
+            0.0,
+        )
+        estimated_temperature_gain = (
+            available_gain
+            * parameters["pvt_th.F_R"]
+            * base_area
+            / (max(float(parameters["loop.mass_flow_fixed"]), float("1e-9")) * fluid_cp)
         )
         threshold = inputs.pump_set_gain
         if pump_on:
             threshold -= inputs.ambient_cutout
         pump_on = (
-            not (irradiance <= 0 or ambient_c <= -inputs.ambient_cutout)
-            and hint_gain > threshold
+            irradiance > 0
+            and estimated_temperature_gain > threshold
             and tank_c < temperature_cap - float("0.5")
         )
 
@@ -350,7 +363,7 @@ def _simulate(
             result = pvt_solve(
                 T_in=inlet_c + KELVIN_OFFSET,
                 m_dot=flow,
-                G_eff=irradiance * modules,
+                G_eff=irradiance,
                 T_amb=ambient_c + KELVIN_OFFSET,
                 wind_speed=float(row["wind_speed"]),
                 registry={**parameters, "pvt_th.collector_area": inputs.collector_area},
@@ -369,26 +382,18 @@ def _simulate(
                 nonconverged += 1
 
         net_heat_w = useful_w - pump_w
-        tank_energy_kwh = storage_kwh + net_heat_w / JOULES_PER_KWH
+        tank_energy_kwh = storage_kwh + net_heat_w / float(1000)
         if tank_energy_kwh < 0:
             tank_energy_kwh = 0.0
 
         # Hot-water draw mixes tank water down to the delivery setpoint.
-        usable_c = max(tank_c, inputs.mains_temperature)
-        blend = (
-            (inputs.delivery_temperature - inputs.mains_temperature)
-            / max(usable_c - inputs.mains_temperature, float("1e-9"))
-        )
-        blend = min(max(blend, 0.0), 1.0)
+
         needed_kwh = (
             draw * WATER_SPECIFIC_HEAT
             * (inputs.delivery_temperature - inputs.mains_temperature)
             / SECONDS_PER_HOUR
         )
-        from_tank_kwh = min(
-            needed_kwh,
-            tank_energy_kwh * blend if blend > 0 else 0.0,
-        )
+        from_tank_kwh = min(needed_kwh, tank_energy_kwh)
         tank_energy_kwh = max(tank_energy_kwh - from_tank_kwh, 0.0)
         backup_thermal_kwh = max(needed_kwh - from_tank_kwh, 0.0)
         backup_elec_kwh = (
@@ -396,12 +401,18 @@ def _simulate(
             if use_heat_pump
             else backup_thermal_kwh / inputs.backup_efficiency
         )
-        tank_energy_kwh += backup_thermal_kwh
 
-        tank_loss_kwh = (
-            inputs.tank_heat_loss * (tank_c - ambient_c) / JOULES_PER_KWH
+        tank_temperature_before_loss = (
+            inputs.mains_temperature
+            + tank_energy_kwh * SECONDS_PER_HOUR / tank_heat_capacity
+            if tank_heat_capacity > 0
+            else inputs.mains_temperature
         )
-        tank_loss_kwh = max(tank_loss_kwh, 0.0)
+        tank_loss_kwh = max(
+            inputs.tank_heat_loss * (tank_temperature_before_loss - ambient_c)
+            / float(1000),
+            0.0,
+        )
         recovered = min(tank_loss_kwh, tank_energy_kwh)
         tank_energy_kwh -= recovered
         tank_c = (
@@ -423,9 +434,11 @@ def _simulate(
             )
 
         ro_elec_kwh = (
-            draw / max(inputs.ro_recovery, float("1e-9"))
+            inputs.drinking_water
+            / max(inputs.ro_recovery, float("1e-9"))
             * inputs.ro_specific_energy
             / LITRES_PER_CUBIC_METRE
+            / HOURS_PER_DAY
         )
         pvt_kwh = pvt_w / float(1000)
         pump_kwh = pump_w / float(1000)
@@ -442,8 +455,6 @@ def _simulate(
             leftover = surplus - battery_in / battery_round_trip
             if inputs.electrical_mode == "grid_tie":
                 grid_export = max(leftover, 0.0)
-                if inputs.battery_capacity <= 0:
-                    totals["curtailed_kwh"] += grid_export
             else:
                 totals["curtailed_kwh"] += max(leftover, 0.0)
         else:
@@ -455,12 +466,13 @@ def _simulate(
             if inputs.electrical_mode == "grid_tie":
                 grid_import = deficit
             elif deficit > 0:
-                totals["unserved_kwh"] = totals.get("unserved_kwh", 0.0) + deficit
+                totals["unserved_kwh"] += deficit
 
         totals["pvt_kwh"] += pvt_kwh
         totals["pump_kwh"] += pump_kwh
         totals["ro_kwh"] += ro_elec_kwh
         totals["backup_kwh"] += backup_elec_kwh
+        totals["backup_thermal_kwh"] += backup_thermal_kwh
         totals["load_kwh"] += load_kwh
         totals["import_kwh"] += grid_import
         totals["export_kwh"] += grid_export
@@ -517,6 +529,8 @@ def _summarise(
 
     def annual(key: str) -> float:
         return totals.get(key, 0.0) * factor
+    def finite_or_none(value: float) -> float | None:
+        return _round(value) if math.isfinite(value) else None
 
     pvt_annual = annual("pvt_kwh")
     heat_annual = annual("heat_kwh")
@@ -526,8 +540,9 @@ def _summarise(
     import_annual = annual("import_kwh")
     export_annual = annual("export_kwh")
     backup_annual = annual("backup_kwh")
+    backup_thermal_annual = annual("backup_thermal_kwh")
     solar_fraction = (
-        (hot_water_annual - backup_annual * inputs.backup_efficiency)
+        (hot_water_annual - backup_thermal_annual)
         / hot_water_annual
         if hot_water_annual > 0
         else 0.0
@@ -540,7 +555,7 @@ def _summarise(
     )
     brine_m3 = max(feed_m3 - drinking_m3, 0.0)
     brine_salinity = inputs.ro_salinity / (1.0 - inputs.ro_recovery)
-    feed_salinity = brine_salinity * (1.0 - inputs.ro_recovery) + inputs.ro_salinity * inputs.ro_recovery
+    feed_salinity = inputs.ro_salinity
     operating_cost = (
         import_annual * inputs.electricity_tariff
         - export_annual * inputs.export_price
@@ -551,14 +566,29 @@ def _summarise(
         + inputs.battery_cost_per_kwh * inputs.battery_capacity
         + inputs.ro_cost
     )
-    avoided_bottled = drinking_m3 * LITRES_PER_CUBIC_METRE * inputs.bottled_water_price
+    baseline_heating_kwh = hot_water_annual / inputs.baseline_heater_cop
+    baseline_electric_kwh = baseline_heating_kwh + load_annual - backup_annual
+    comparison_savings = (
+        (baseline_electric_kwh - import_annual) * inputs.electricity_tariff
+        + export_annual * inputs.export_price
+        + inputs.bottled_water_price * inputs.drinking_water * float(365)
+    )
     economics = _annualise(
         capex,
         inputs.lifetime,
         inputs.discount_rate,
         operating_cost,
-        avoided_bottled,
+        comparison_savings,
     )
+    baseline_cost = (
+        baseline_electric_kwh * inputs.electricity_tariff
+        + inputs.baseline_kettle_load * inputs.electricity_tariff
+        + inputs.bottled_water_price * inputs.drinking_water * float(365)
+    )
+    system_cost = operating_cost + export_annual * inputs.export_price
+    avoided_annual_cost = baseline_cost - system_cost
+    payback_years = capex / avoided_annual_cost if avoided_annual_cost > 0 else 0.0
+    lifecost = _annualise(capex, inputs.lifetime, inputs.discount_rate, operating_cost, 0.0)
     summary = {
         "annual_pvt_kwh": _round(pvt_annual),
         "annual_heat_kwh": _round(heat_annual),
@@ -580,10 +610,14 @@ def _summarise(
         "feed_salinity_mg_l": _round(feed_salinity),
         "operating_cost_year": _round(operating_cost),
         "capex": _round(capex),
-        "payback_years": _round(economics["simple_payback_years"], 2),
-        "net_present_value": _round(economics["net_present_value"]),
+        "payback_years": finite_or_none(payback_years),
+        "net_present_value": _round(avoided_annual_cost - lifecost["annualised_capex"]),
+        "annual_baseline_cost": _round(baseline_cost),
+        "annual_system_cost": _round(system_cost),
+        "annual_cost_savings": _round(avoided_annual_cost),
+        "annualised_capex": _round(lifecost["annualised_capex"]),
         "lcoh_aed_per_m3": _round(
-            (economics["annualised_capex"] + operating_cost) / drinking_m3
+            (lifecost["annualised_capex"] + operating_cost) / drinking_m3
             if drinking_m3 > 0
             else 0.0
         ),
@@ -660,10 +694,10 @@ def ensemble(
     results = []
     for member in range(runs):
         candidate = dict(base)
-        for field_name, low, high in fields:
-            value = _literals(seed + member, 1, low, high)[0]
-            if field_name in {"mains_temperature", "tank_heat_loss", "ro_recovery", "bottled_water_price"}:
-                candidate[field_name] = value
+        for field_index, (field_name, low, high) in enumerate(fields):
+            sample_seed = seed + member * int("65537") + field_index * int("104729")
+            value = _literals(sample_seed, 1, low, high)[0]
+            candidate[field_name] = value
         simulated = _simulate(rows, poa, parameters, _validate(candidate), record_hourly=False)
         summary, _ = _summarise(simulated, _validate(candidate), len(rows))
         results.append(
@@ -677,8 +711,12 @@ def ensemble(
     return results
 
 
-def _band(values: list[float]) -> dict[str, float]:
-    ordered = sorted(value for value in values if math.isfinite(value))
+def _band(values: list[float | None]) -> dict[str, float]:
+    ordered = sorted(
+        float(value)
+        for value in values
+        if isinstance(value, (int, float)) and math.isfinite(value)
+    )
     if not ordered:
         return {"p05": 0.0, "median": 0.0, "p95": 0.0}
     return {
@@ -764,7 +802,7 @@ def run_design_screening(
         {
             "name": "Electrical bus",
             "value": inputs.electrical_mode.replace("_", " "),
-            "note": "PVT DC, pump, RO, and backup loads share one bus; battery round-trip efficiency is split symmetrically.",
+            "note": "PVT DC, pump, RO, and backup loads share one bus; battery round-trip efficiency is split symmetrically. Grid-tied surplus is exported; island surplus is curtailed.",
         },
         {
             "name": "Reverse osmosis",
@@ -774,7 +812,7 @@ def run_design_screening(
         {
             "name": "Economics",
             "value": f"{inputs.lifetime:g} years, {inputs.discount_rate * 100:g}% discount",
-            "note": "Capital and tariff values are user changes, not calibrated report inputs.",
+            "note": "Simple payback compares annual net-import cost with an electric-geyser plus bottled-water baseline; capital/tariffs are user assumptions, not calibrated report inputs.",
         },
     ]
     status = {

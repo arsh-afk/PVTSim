@@ -210,6 +210,43 @@ def test_report_figures_and_equation_map_are_available(tmp_path):
         assert response.headers["content-type"].startswith("image/")
 
 
+def test_design_studio_route_is_exposed_and_labelled_as_screening(tmp_path):
+    client = TestClient(create_app(tmp_path))
+
+    page = client.get("/")
+    defaults = client.get("/api/design/defaults")
+
+    assert page.status_code == 200
+    assert 'id="view-design"' in page.text
+    assert 'data-view="design"' in page.text
+    assert "SCREENING · NOT VALIDATED" in page.text
+    assert "report's full transient model" in page.text
+    assert defaults.status_code == 200
+    assert defaults.json()["defaults"]["tank_volume"] == 150.0
+    assert "not the validated transient model" in defaults.json()["limitations"][0]
+
+
+def test_design_screening_endpoint_rejects_unregistered_weather_and_unknown_fields(tmp_path):
+    _make_project(tmp_path)
+    client = TestClient(create_app(tmp_path))
+
+    missing_weather = client.post(
+        "/api/design/simulate",
+        json={"weather": "inputs/timeseries/../secret.csv", "changes": {}},
+    )
+    unknown_field = client.post(
+        "/api/design/simulate",
+        json={
+            "weather": "inputs/timeseries/weather.csv",
+            "changes": {"unsourced_option": 1},
+        },
+    )
+
+    assert missing_weather.status_code == 400
+    assert unknown_field.status_code == 400
+    assert "Unsupported change" in unknown_field.json()["detail"]
+
+
 def test_analytics_helpers_are_served_before_workbench_script(tmp_path):
     client = TestClient(create_app(tmp_path))
 
