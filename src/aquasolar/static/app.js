@@ -2229,7 +2229,6 @@ async function initialize() {
     }
     await Promise.all([refreshValidation(), loadWeather(), refreshRuns(), loadModel()]);
     byId("summary-inputs").textContent = state.catalog.parameters.length + state.catalog.data_files.length;
-    if (window.location.hash.slice(1) === "design") await loadDesignDefaults();
   } catch (error) {
     setGlobalError(error.message);
   } finally {
@@ -2237,10 +2236,12 @@ async function initialize() {
     if (VIEW_NAMES.has(initialView)) {
       showView(initialView, { updateHistory: false, focusHeading: false });
     }
+    if (initialView === "design") {
+      if (state.design) drawDesignChart();
+      else loadDesignDefaults();
+    }
   }
 }
-
-initialize();
 
 /* ------------------------------------------------------------------ */
 /* Design studio: interactive whole-system screening                   */
@@ -2566,3 +2567,5 @@ async function loadDesignDefaults() {
     byId("design-status").classList.add("is-error");
   }
 }
+
+initialize();

@@ -69,14 +69,44 @@ _SOURCE_REF_PLACEHOLDERS = {
 
 
 def _read_pvt_parameters(parameters_dir: Path) -> dict[str, dict[str, Any]]:
-    import yaml
+    try:
+        import yaml
+    except ImportError as exc:
+        raise RuntimeError(
+            "Reading PVT parameters requires PyYAML. Install it with "
+            '`python -m pip install pyyaml`.'
+        ) from exc
+    if not parameters_dir.is_dir():
+        raise FileNotFoundError(
+            f"PVT parameters directory does not exist: {parameters_dir}"
+        )
 
     parameters: dict[str, dict[str, Any]] = {}
     for path in sorted(parameters_dir.glob("*.yaml")):
-        with path.open(encoding="utf-8") as stream:
-            data = yaml.safe_load(stream) or {}
+        try:
+            with path.open(encoding="utf-8") as stream:
+                data = yaml.safe_load(stream) or {}
+        except UnicodeDecodeError as exc:
+            raise ValueError(
+                f"PVT parameter file {path.name} is not valid UTF-8 text: {exc}"
+            ) from exc
+        except yaml.YAMLError as exc:
+            raise ValueError(
+                f"PVT parameter file {path.name} contains invalid YAML: {exc}"
+            ) from exc
+        if not isinstance(data, dict):
+            raise ValueError(
+                f"PVT parameter file {path.name} must contain a mapping at the "
+                "document root"
+            )
         for item in data.get("parameters", []):
-            parameters[item["id"]] = item
+            try:
+                parameters[item["id"]] = item
+            except (KeyError, TypeError) as exc:
+                raise ValueError(
+                    f"PVT parameter file {path.name} has a parameter entry "
+                    "without an 'id' field"
+                ) from exc
     missing = [key for key in _REQUIRED_PARAMETERS if key not in parameters]
     if missing:
         raise ValueError(f"Missing PVT parameters: {', '.join(missing)}")
@@ -268,50 +298,72 @@ def load_pvt_parameters(parameters_dir: Path) -> dict[str, Any]:
 
 def load_pvt_weather(weather_path: Path) -> tuple[list[dict[str, Any]], float]:
     """Load and validate hourly weather records used by the PVT-only runner."""
+    if not weather_path.is_file():
+        raise FileNotFoundError(f"Weather CSV does not exist: {weather_path}")
     rows: list[dict[str, Any]] = []
-    with weather_path.open(encoding="utf-8", newline="") as stream:
-        reader = csv.DictReader(stream)
-        required_columns = {
-            "timestamp",
-            "ghi",
-            "dni",
-            "dhi",
-            "t_ambient",
-            "wind_speed",
-        }
-        missing_columns = required_columns - set(reader.fieldnames or [])
-        if missing_columns:
-            raise ValueError(
-                f"Weather CSV missing columns: {', '.join(sorted(missing_columns))}"
-            )
-        for line_number, row in enumerate(reader, start=2):
-            try:
-                timestamp = datetime.fromisoformat(row["timestamp"])
-                if timestamp.tzinfo is None:
-                    raise ValueError("timestamp needs an explicit UTC offset")
-                weather_row = {
-                    "timestamp": timestamp,
-                    "ghi": float(row["ghi"]),
-                    "dni": float(row["dni"]),
-                    "dhi": float(row["dhi"]),
-                    "t_ambient": float(row["t_ambient"]),
-                    "wind_speed": float(row["wind_speed"]),
-                }
-            except (TypeError, ValueError) as exc:
+    try:
+        weather_stream = weather_path.open(encoding="utf-8", newline="")
+    except OSError as exc:
+        raise RuntimeError(
+            f"Could not open weather CSV {weather_path}: {exc}"
+        ) from exc
+    with weather_stream as stream:
+        try:
+            reader = csv.DictReader(stream)
+
+            required_columns = {
+                "timestamp",
+                "ghi",
+                "dni",
+                "dhi",
+                "t_ambient",
+                "wind_speed",
+            }
+            missing_columns = required_columns - set(reader.fieldnames or [])
+            if missing_columns:
                 raise ValueError(
-                    f"Invalid required weather value on CSV line {line_number}: {exc}"
-                ) from exc
-            if not all(
-                math.isfinite(weather_row[key])
-                for key in ("ghi", "dni", "dhi", "t_ambient", "wind_speed")
-            ):
-                raise ValueError(f"Non-finite weather value on line {line_number}")
-            if any(
-                weather_row[key] < 0
-                for key in ("ghi", "dni", "dhi", "wind_speed")
-            ):
-                raise ValueError(f"Negative radiation or wind speed on line {line_number}")
-            rows.append(weather_row)
+                    f"Weather CSV missing columns: {', '.join(sorted(missing_columns))}"
+                )
+            for line_number, row in enumerate(reader, start=2):
+                try:
+                    timestamp = datetime.fromisoformat(row["timestamp"])
+                    if timestamp.tzinfo is None:
+                        raise ValueError("timestamp needs an explicit UTC offset")
+                    weather_row = {
+                        "timestamp": timestamp,
+                        "ghi": float(row["ghi"]),
+                        "dni": float(row["dni"]),
+                        "dhi": float(row["dhi"]),
+                        "t_ambient": float(row["t_ambient"]),
+                        "wind_speed": float(row["wind_speed"]),
+                    }
+                except (TypeError, ValueError) as exc:
+                    raise ValueError(
+                        f"Invalid required weather value on CSV line {line_number}: {exc}"
+                    ) from exc
+                if not all(
+                    math.isfinite(weather_row[key])
+                    for key in ("ghi", "dni", "dhi", "t_ambient", "wind_speed")
+                ):
+                    raise ValueError(f"Non-finite weather value on line {line_number}")
+                if any(
+                    weather_row[key] < 0
+                    for key in ("ghi", "dni", "dhi", "wind_speed")
+                ):
+                    raise ValueError(f"Negative radiation or wind speed on line {line_number}")
+                rows.append(weather_row)
+        except UnicodeDecodeError as exc:
+            raise ValueError(
+                f"Weather CSV {weather_path.name} is not valid UTF-8 text: {exc}"
+            ) from exc
+        except csv.Error as exc:
+            raise ValueError(
+                f"Malformed weather CSV {weather_path.name}: {exc}"
+            ) from exc
+        except OSError as exc:
+            raise RuntimeError(
+                f"Could not read weather CSV {weather_path}: {exc}"
+            ) from exc
 
     if len(rows) < 2:
         raise ValueError("At least two consecutive weather records are required")
@@ -443,11 +495,16 @@ def run_pvt_only(
             }
         )
 
-    output_path.parent.mkdir(parents=True, exist_ok=True)
-    with output_path.open("x", encoding="utf-8", newline="") as stream:
-        writer = csv.DictWriter(stream, fieldnames=list(output_rows[0]))
-        writer.writeheader()
-        writer.writerows(output_rows)
+    try:
+        output_path.parent.mkdir(parents=True, exist_ok=True)
+        with output_path.open("x", encoding="utf-8", newline="") as stream:
+            writer = csv.DictWriter(stream, fieldnames=list(output_rows[0]))
+            writer.writeheader()
+            writer.writerows(output_rows)
+    except OSError as exc:
+        raise RuntimeError(
+            f"Could not write PVT results CSV {output_path}: {exc}"
+        ) from exc
     summary = {
         "scenario_id": scenario_id,
         "scope": "PVT-only exploratory",
@@ -483,6 +540,11 @@ def run_pvt_only(
             "Generated demo assumptions are not suitable for design or safety decisions.",
         ],
     }
-    with summary_path.open("x", encoding="utf-8") as stream:
-        json.dump(summary, stream, indent=2)
+    try:
+        with summary_path.open("x", encoding="utf-8") as stream:
+            json.dump(summary, stream, indent=2)
+    except (OSError, TypeError, ValueError) as exc:
+        raise RuntimeError(
+            f"Could not write PVT summary JSON {summary_path}: {exc}"
+        ) from exc
     return summary
