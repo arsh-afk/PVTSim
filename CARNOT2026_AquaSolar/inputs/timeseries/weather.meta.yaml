@@ -43,13 +43,13 @@ columns:
   sensor_or_source: ALLSKY_SFC_SW_DWN, Wh/m^2 per one-hour interval
 - name: dni
   description: Direct normal irradiance
-  required: false
+  required: true
   unit: W/m2
   quantity_kind: irradiance
   sensor_or_source: ALLSKY_SFC_SW_DNI, Wh/m^2 per one-hour interval
 - name: dhi
   description: Diffuse horizontal irradiance
-  required: false
+  required: true
   unit: W/m2
   quantity_kind: irradiance
   sensor_or_source: ALLSKY_SFC_SW_DIFF, Wh/m^2 per one-hour interval

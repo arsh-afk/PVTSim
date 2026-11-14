@@ -190,10 +190,10 @@ def convert_epw_to_weather_csv(
                     "timestamp": timestamp.isoformat(timespec="seconds"),
                     "ghi": ghi,
                     "dni": _parse_weather_value(
-                        data["direct_normal_radiation"], "DNI", "9999", False, record_number
+                        data["direct_normal_radiation"], "DNI", "9999", True, record_number
                     ),
                     "dhi": _parse_weather_value(
-                        data["diffuse_horizontal_radiation"], "DHI", "9999", False, record_number
+                        data["diffuse_horizontal_radiation"], "DHI", "9999", True, record_number
                     ),
                     "poa_irradiance": "",
                     "t_ambient": ambient_temperature,

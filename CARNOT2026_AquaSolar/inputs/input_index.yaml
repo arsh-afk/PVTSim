@@ -1590,6 +1590,8 @@ timeseries:
     required:
     - timestamp
     - ghi
+    - dni
+    - dhi
     - t_ambient
     - wind_speed
   soiling_events:

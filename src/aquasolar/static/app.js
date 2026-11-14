@@ -7,6 +7,11 @@ const state = {
   modelError: null,
   weather: [],
   runs: [],
+  design: null,
+  designTimer: null,
+  designLoadId: 0,
+  designDay: 0,
+  designPending: false,
   selectedParameter: null,
   selectedDataFile: null,
   stagedParameters: {},
@@ -127,6 +132,7 @@ const VIEW_LABELS = Object.freeze({
   validation: "Validation",
   model: "Model",
   runs: "Runs & plots",
+  design: "Design studio",
 });
 const VIEW_NAMES = new Set(Object.keys(VIEW_LABELS));
 
@@ -209,6 +215,7 @@ function showView(name, { updateHistory = true, focusHeading = true } = {}) {
     renderTraceGraph();
     renderTraceRunSnapshot();
   }
+  if (name === "design") requestAnimationFrame(drawDesignChart);
 }
 
 function stagedCount() {
@@ -1195,6 +1202,7 @@ async function refreshRuns() {
   state.selectedRuns = state.selectedRuns.filter((id) => validIds.includes(id));
   if (!state.selectedRuns.length) state.selectedRuns = validIds.slice(0, 3);
   renderRunPicker();
+  renderDesignWeatherOptions();
   await loadSelectedRuns();
 }
 
@@ -2086,6 +2094,20 @@ function wireEvents() {
   byId("refresh-validation").addEventListener("click", refreshValidation);
   byId("weather-select").addEventListener("change", updateWeatherOption);
   byId("start-run").addEventListener("click", startRun);
+  byId("design-form").addEventListener("input", handleDesignInput);
+  byId("design-form").addEventListener("change", handleDesignInput);
+  byId("design-form").addEventListener("submit", (event) => {
+    event.preventDefault();
+    runDesignScreening({ immediate: true });
+  });
+  byId("design-reset").addEventListener("click", resetDesignControls);
+  byId("design-day").addEventListener("input", (event) => {
+    state.designDay = Number(event.target.value) || 0;
+    renderDesignDayChart();
+  });
+  window.addEventListener("resize", () => {
+    if (byId("view-design").classList.contains("is-visible")) renderDesignDayChart();
+  });
   byId("refresh-runs").addEventListener("click", refreshRuns);
   byId("run-picker").addEventListener("change", (event) => {
     if (!event.target.matches("[data-run-id]")) return;
@@ -2207,6 +2229,7 @@ async function initialize() {
     }
     await Promise.all([refreshValidation(), loadWeather(), refreshRuns(), loadModel()]);
     byId("summary-inputs").textContent = state.catalog.parameters.length + state.catalog.data_files.length;
+    if (window.location.hash.slice(1) === "design") await loadDesignDefaults();
   } catch (error) {
     setGlobalError(error.message);
   } finally {
@@ -2218,3 +2241,328 @@ async function initialize() {
 }
 
 initialize();
+
+/* ------------------------------------------------------------------ */
+/* Design studio: interactive whole-system screening                   */
+/* ------------------------------------------------------------------ */
+
+const DESIGN_UNITS = {
+  collector_area: { unit: " m²", digits: 1 },
+  tank_volume: { unit: " L", digits: 0 },
+  tank_heat_loss: { unit: " W/K", digits: 1 },
+  daily_draw: { unit: " L/day", digits: 0 },
+  delivery_temperature: { unit: " °C", digits: 0 },
+  mains_temperature: { unit: " °C", digits: 0 },
+  draw_peaking: { unit: "×", digits: 1 },
+  pump_set_gain: { unit: " K", digits: 0 },
+  pump_power: { unit: " W", digits: 0 },
+  battery_capacity: { unit: " kWh", digits: 0 },
+  auxiliary_cop: { unit: "", digits: 1 },
+  ro_recovery: { unit: " %", digits: 0, scale: 100 },
+  drinking_water: { unit: " L/day", digits: 0 },
+  electricity_tariff: { unit: " AED/kWh", digits: 2 },
+  bottled_water_price: { unit: " AED/m³", digits: 1, scale: 1000 },
+};
+
+function designField(format) {
+  return document.querySelector(`[data-design-field="${format}"]`);
+}
+
+function designOutputs() {
+  document.querySelectorAll("[data-design-out]").forEach((output) => {
+    const name = output.dataset.designOut;
+    const spec = DESIGN_UNITS[name] || { unit: "", digits: 2 };
+    let value = Number(designField(name)?.value ?? 0);
+    if (!Number.isFinite(value)) value = 0;
+    if (spec.scale) value = value * spec.scale;
+    output.textContent = `${formatNumber(value, spec.digits)}${spec.unit}`;
+    if (name === "auxiliary_cop") {
+      output.textContent = value <= 1 ? "1.0 (element)" : `${formatNumber(value, 1)} (heat pump)`;
+    }
+  });
+}
+
+function readDesignControls() {
+  const changes = {};
+  document.querySelectorAll("[data-design-field]").forEach((input) => {
+    const name = input.dataset.designField;
+    const value = input.type === "range" && !DESIGN_UNITS[name]?.scale ? Number(input.value) : input.value;
+    changes[name] = value;
+  });
+  const recovery = Number(changes.ro_recovery);
+  changes.ro_recovery = Number.isFinite(recovery) ? recovery / 100 : 0.5;
+  return changes;
+}
+
+function applyDesignControls(values) {
+  document.querySelectorAll("[data-design-field]").forEach((input) => {
+    const name = input.dataset.designField;
+    if (!Object.hasOwn(values, name)) return;
+    let value = values[name];
+    const spec = DESIGN_UNITS[name] || {};
+    if (spec.scale) value = value * spec.scale;
+    input.value = String(value);
+  });
+  designOutputs();
+}
+
+function renderDesignWeatherOptions() {
+  const select = byId("design-weather");
+  if (!select) return;
+  const current = select.value || byId("weather-select").value;
+  const options = state.weather.filter((item) => item.valid);
+  select.innerHTML = options.length
+    ? options.map((item) => `<option value="${escapeHtml(item.file)}">${escapeHtml(item.file.split("/").at(-1))}</option>`).join("")
+    : `<option value="">No compatible hourly weather</option>`;
+  if (options.some((item) => item.file === current)) select.value = current;
+  else if (options.length) select.value = options[0].file;
+}
+
+function handleDesignInput(event) {
+  const target = event.target;
+  if (!target.matches("[data-design-field]")) return;
+  designOutputs();
+  if (target.tagName === "SELECT" || event.type === "submit") {
+    runDesignScreening({ immediate: true });
+  } else {
+    runDesignScreening();
+  }
+}
+
+function resetDesignControls() {
+  if (!state.design?.inputs) return;
+  applyDesignControls(state.design.inputs);
+  runDesignScreening({ immediate: true });
+}
+
+function scheduleDesignRun() {
+  if (state.designTimer) clearTimeout(state.designTimer);
+  state.designTimer = setTimeout(() => runDesignScreening({ immediate: true }), 220);
+}
+
+async function runDesignScreening({ immediate = false } = {}) {
+  const weather = byId("design-weather")?.value;
+  if (!weather) {
+    byId("design-status").textContent = "Add a compatible hourly weather file before running the screening.";
+    return;
+  }
+  if (!immediate) {
+    byId("design-status").textContent = "Screening the change…";
+    scheduleDesignRun();
+    return;
+  }
+  if (state.designTimer) {
+    clearTimeout(state.designTimer);
+    state.designTimer = null;
+  }
+  const loadId = ++state.designLoadId;
+  const status = byId("design-status");
+  status.textContent = "Running the whole-system screening…";
+  status.classList.remove("is-error");
+  byId("design-run").disabled = true;
+  try {
+    const result = await request("/api/design/simulate", {
+      method: "POST",
+      body: JSON.stringify({
+        weather,
+        changes: readDesignControls(),
+        with_experiments: true,
+      }),
+    });
+    if (loadId !== state.designLoadId) return;
+    state.design = result;
+    state.designDay = Math.min(state.designDay, Math.max(0, Math.floor(result.hourly.length / 24) - 1));
+    renderDesignResults(result);
+    status.textContent = result.status.converged
+      ? `Screened ${result.status.steps.toLocaleString()} hourly intervals. `
+        + "Trends are defensible; absolute values depend on the assumptions below."
+      : `Screened with ${result.status.nonconverged_steps} non-converged collector step(s). Treat the affected hours as unavailable.`;
+    status.classList.toggle("is-error", !result.status.converged);
+  } catch (error) {
+    if (loadId !== state.designLoadId) return;
+    status.textContent = `Screening failed: ${error.message}`;
+    status.classList.add("is-error");
+  } finally {
+    if (loadId === state.designLoadId) byId("design-run").disabled = false;
+  }
+}
+
+function designKpi(id, value, unit) {
+  const node = byId(id);
+  if (!node) return;
+  node.textContent = value;
+  node.dataset.unit = unit || "";
+}
+
+function renderDesignResults(result) {
+  const summary = result.summary || {};
+  designKpi("kpi-pvt", formatNumber(summary.annual_pvt_kwh, 0), "kWh");
+  designKpi("kpi-solar", `${formatNumber((summary.solar_heating_fraction ?? 0) * 100, 0)}`, "%");
+  designKpi("kpi-self", `${formatNumber((summary.self_sufficiency ?? 0) * 100, 0)}`, "%");
+  designKpi("kpi-payback", Number.isFinite(summary.payback_years) ? formatNumber(summary.payback_years, 1) : "—", "yrs");
+  designKpi("kpi-water", formatNumber(summary.drinking_water_m3_year, 1), "m³");
+  designKpi("kpi-net", formatNumber(summary.net_electricity_kwh, 0), "kWh");
+  renderDesignBars(summary);
+  renderDesignSweeps(summary.sensitivity || []);
+  renderDesignAssumptions(result.assumptions || [], result.ensemble || []);
+  const days = Math.max(0, Math.floor((result.hourly || []).length / 24) - 1);
+  const day = byId("design-day");
+  day.max = String(days);
+  day.value = String(state.designDay);
+  renderDesignDayChart();
+}
+
+function renderDesignBars(summary) {
+  const container = byId("design-bars");
+  const rows = [
+    ["PVT electricity generated", summary.annual_pvt_kwh, "#d08b2e"],
+    ["Hot-water demand", summary.annual_hot_water_kwh, "#087c78"],
+    ["Backup heating electricity", summary.annual_backup_kwh, "#b13e35"],
+    ["Pump and RO electricity", (summary.annual_pump_kwh || 0) + (summary.annual_ro_kwh || 0), "#4472c4"],
+    ["Grid import", summary.annual_import_kwh, "#8062ad"],
+  ].filter(([, value]) => Number.isFinite(Number(value)));
+  const max = Math.max(...rows.map(([, value]) => Math.abs(Number(value))), 1);
+  container.innerHTML = rows.map(([label, value, color]) => `
+    <div class="design-bar-row">
+      <span>${escapeHtml(label)}</span>
+      <div class="design-bar-track"><i style="width:${Math.max((Math.abs(Number(value)) / max) * 100, 1)}%;--c:${color}"></i></div>
+      <strong>${formatNumber(Number(value), 0)}</strong>
+    </div>`).join("");
+}
+
+function renderDesignSweeps(sensitivity) {
+  const container = byId("design-sweeps");
+  if (!sensitivity.length) {
+    container.innerHTML = `<p class="muted">No sensitivity runs were returned.</p>`;
+    return;
+  }
+  const labels = {
+    collector_area: { title: "Array area", unit: "m²", metric: "solar_heating_fraction", metricLabel: "Solar heating" },
+    tank_volume: { title: "Tank volume", unit: "L", metric: "solar_heating_fraction", metricLabel: "Solar heating" },
+    battery_capacity: { title: "Battery", unit: "kWh", metric: "self_sufficiency", metricLabel: "Self-sufficiency" },
+  };
+  container.innerHTML = sensitivity.map((group) => {
+    const spec = labels[group.parameter] || { title: group.parameter, unit: "", metric: "solar_heating_fraction", metricLabel: "Metric" };
+    const points = group.points || [];
+    const max = Math.max(...points.map((point) => Number(point[spec.metric]) || 0), 0.01);
+    return `<section class="design-sweep">
+      <header><strong>${escapeHtml(spec.title)}</strong><small>vs ${escapeHtml(spec.metricLabel.toLowerCase())}</small></header>
+      <div class="design-sweep-bars">${points.map((point) => `
+        <div class="design-sweep-point" title="${escapeHtml(spec.title)} ${formatNumber(point.value, 1)} ${escapeHtml(spec.unit)} → ${formatNumber((point[spec.metric] || 0) * 100, 0)}%">
+          <i style="height:${Math.max(((Number(point[spec.metric]) || 0) / max) * 100, 2)}%"></i>
+          <span>${formatNumber(point.value, point.value < 10 ? 1 : 0)}</span>
+        </div>`).join("")}</div>
+      <p class="muted">${points.map((point) => `${formatNumber((point[spec.metric] || 0) * 100, 0)}%`).join(" · ")}</p>
+    </section>`;
+  }).join("");
+}
+
+function renderDesignAssumptions(assumptions, ensemble) {
+  const container = byId("design-assumption-list");
+  const band = state.design?.summary?.ensemble;
+  const bandHtml = band && Object.keys(band).length
+    ? `<div class="design-band">
+        <strong>Reproducible ensemble · ${state.design.status.ensemble_runs} seeded members</strong>
+        <span>This is a transparency band over the least-evidenced inputs, not the report's 40-run Monte Carlo.</span>
+        <div>${Object.entries(band).map(([key, values]) => `<span class="design-band-pill"><b>${escapeHtml(key.replaceAll("_", " "))}</b> P05 ${formatNumber(values.p05, 2)} · median ${formatNumber(values.median, 2)} · P95 ${formatNumber(values.p95, 2)}</span>`).join("")}</div>
+      </div>`
+    : "";
+  container.innerHTML = `${bandHtml}
+    <table class="design-assumption-table"><thead><tr><th>Assumption</th><th>Value</th><th>What it means</th></tr></thead><tbody>
+    ${assumptions.map((row) => `<tr><td>${escapeHtml(row.name)}</td><td><code>${escapeHtml(row.value)}</code></td><td>${escapeHtml(row.note)}</td></tr>`).join("")}
+    </tbody></table>
+    <p class="report-source-note">Collector physics uses registered, source-labelled project parameters through the same coupled solver as the validated PVT runner. Tank, draw, RO, dispatch, and cost values above are screening inputs, not measured villa data.</p>`;
+}
+
+function renderDesignDayChart() {
+  const canvas = byId("design-day-chart");
+  if (!canvas || !state.design?.hourly?.length) return;
+  const rows = state.design.hourly;
+  const dayCount = Math.max(1, Math.floor(rows.length / 24));
+  state.designDay = Math.min(Math.max(state.designDay, 0), dayCount - 1);
+  const start = state.designDay * 24;
+  const slice = rows.slice(start, start + 24);
+  byId("design-day-label").textContent = slice[0] ? new Date(slice[0].timestamp).toLocaleDateString(undefined, { weekday: "short", month: "short", day: "numeric" }) : "—";
+  const rect = canvas.getBoundingClientRect();
+  const width = Math.max(rect.width, 320);
+  const height = Math.max(rect.height, 220);
+  const ratio = window.devicePixelRatio || 1;
+  canvas.width = Math.floor(width * ratio);
+  canvas.height = Math.floor(height * ratio);
+  const context = canvas.getContext("2d");
+  context.setTransform(ratio, 0, 0, ratio, 0, 0);
+  context.clearRect(0, 0, width, height);
+  const margin = { left: 44, right: 44, top: 16, bottom: 26 };
+  const plotW = width - margin.left - margin.right;
+  const plotH = height - margin.top - margin.bottom;
+  const powerMax = Math.max(...slice.flatMap((row) => [
+    Number(row.P_el_kW) || 0,
+    Number(row.backup_kW) || 0,
+    Number(row.load_kW) || 0,
+  ]), 0.5);
+  const tempValues = slice.flatMap((row) => [Number(row.T_tank_C) || 0, Number(row.T_ambient_C) || 0]);
+  const tempMin = Math.floor(Math.min(...tempValues, 20) - 2);
+  const tempMax = Math.ceil(Math.max(...tempValues, 60) + 2);
+  const x = (hour) => margin.left + (hour / 23) * plotW;
+  const yPower = (value) => margin.top + plotH - (value / powerMax) * plotH;
+  const yTemp = (value) => margin.top + plotH - ((value - tempMin) / (tempMax - tempMin || 1)) * plotH;
+
+  context.strokeStyle = "#e4ece8";
+  context.fillStyle = "#71878a";
+  context.font = "10px Segoe UI, sans-serif";
+  context.textAlign = "right";
+  for (let tick = 0; tick <= 4; tick += 1) {
+    const lineY = margin.top + (plotH * tick) / 4;
+    context.beginPath();
+    context.moveTo(margin.left, lineY);
+    context.lineTo(width - margin.right, lineY);
+    context.stroke();
+    context.fillText(formatNumber(powerMax - (powerMax * tick) / 4, 2), margin.left - 6, lineY + 3);
+    context.textAlign = "left";
+    context.fillText(`${formatNumber(tempMax - ((tempMax - tempMin) * tick) / 4, 0)}°`, width - margin.right + 6, lineY + 3);
+    context.textAlign = "right";
+  }
+
+  const series = [
+    { key: "P_el_kW", colour: "#d08b2e", scale: yPower, dash: [] },
+    { key: "backup_kW", colour: "#b13e35", scale: yPower, dash: [6, 3] },
+    { key: "load_kW", colour: "#4472c4", scale: yPower, dash: [2, 3] },
+    { key: "T_tank_C", colour: "#087c78", scale: yTemp, dash: [] },
+  ];
+  for (const item of series) {
+    context.beginPath();
+    slice.forEach((row, index) => {
+      const pointX = x(index);
+      const pointY = item.scale(Number(row[item.key]) || 0);
+      if (index === 0) context.moveTo(pointX, pointY);
+      else context.lineTo(pointX, pointY);
+    });
+    context.strokeStyle = item.colour;
+    context.lineWidth = 1.9;
+    context.setLineDash(item.dash);
+    context.stroke();
+    context.setLineDash([]);
+  }
+  context.fillStyle = "#526d71";
+  context.textAlign = "center";
+  [0, 6, 12, 18, 23].forEach((hour) => {
+    context.fillText(`${String(hour).padStart(2, "0")}:00`, x(hour), height - 8);
+  });
+}
+
+function drawDesignChart() {
+  designOutputs();
+  renderDesignDayChart();
+}
+
+async function loadDesignDefaults() {
+  try {
+    const payload = await request("/api/design/defaults");
+    applyDesignControls(payload.defaults);
+    renderDesignWeatherOptions();
+    await runDesignScreening({ immediate: true });
+  } catch (error) {
+    byId("design-status").textContent = `Could not prepare the design studio: ${error.message}`;
+    byId("design-status").classList.add("is-error");
+  }
+}

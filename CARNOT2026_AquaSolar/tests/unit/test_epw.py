@@ -90,3 +90,22 @@ def test_rejects_missing_required_irradiance(tmp_path: Path) -> None:
         convert_epw_to_weather_csv(source, output, calendar_year=2001)
 
     assert not output.exists()
+
+
+@pytest.mark.parametrize(
+    ("field_index", "field_name"),
+    [(14, "DNI"), (15, "DHI")],
+)
+def test_rejects_missing_runner_required_irradiance(
+    tmp_path: Path, field_index: int, field_name: str
+) -> None:
+    source = tmp_path / "toy.epw"
+    output = tmp_path / "weather.csv"
+    record = _toy_epw_record()
+    record[field_index] = "9999"
+    _write_toy_epw(source, [record])
+
+    with pytest.raises(ValueError, match=f"missing-value sentinel for {field_name}"):
+        convert_epw_to_weather_csv(source, output, calendar_year=2001)
+
+    assert not output.exists()

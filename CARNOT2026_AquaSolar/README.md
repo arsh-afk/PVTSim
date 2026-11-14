@@ -56,6 +56,22 @@ Run the included weather scenario:
 python -m aquasolar run carnot-reproduction --weather inputs/timeseries/weather.csv
 ```
 
+Convert common weather data to the simulation CSV format from the project root:
+
+```bash
+python -m aquasolar.io.weather_converter --format epw source.epw inputs/timeseries/weather-new.csv --calendar-year 2025 --site-timezone Asia/Dubai
+python -m aquasolar.io.weather_converter --format tm2 source.tm2 inputs/timeseries/weather-new.csv --calendar-year 2025 --site-timezone Asia/Dubai
+python -m aquasolar.io.weather_converter --format nasa-power source.json inputs/timeseries/weather-new.csv --site-timezone Asia/Dubai
+```
+
+The converter writes the weather CSV and a matching `.meta.yaml` sidecar. For
+the WebUI, add both files using the weather dataset upload controls. Required
+CSV fields are `timestamp` (ISO 8601 with an explicit UTC offset), `ghi`, `dni`,
+and `dhi` (W/m²), `t_ambient` (°C), and `wind_speed` (m/s). Records must be
+hourly, chronological, and contain numeric values for all required fields.
+`poa_irradiance`, `relative_humidity`, `cloud_cover`, and `qc_flag` are
+optional; document the source unit for cloud cover in the metadata.
+
 Results are written under `outputs/pvt_only/`. The packaged reference results
 are in `outputs/pvt_only/` under the `carnot-demo` scenario ID. Scenario IDs
 must be unique; use a different ID for a fresh run rather than overwriting the

@@ -33,10 +33,14 @@
             <p class="nav-section-label">ANALYZE</p>
             <button type="button" class="nav-link" data-view="runs"><span>06</span> Runs &amp; plots</button>
           </div>
+          <div class="nav-group">
+            <p class="nav-section-label">EXPLORE</p>
+            <button type="button" class="nav-link" data-view="design"><span>07</span> Design studio <b class="nav-new-badge">NEW</b></button>
+          </div>
         </nav>
         <div class="sidebar-footer">
           <span class="eyebrow">MODEL SCOPE</span>
-          <p>Exploratory PVT-only estimate. Tank, DHW, electrical bus, and treatment are not simulated.</p>
+          <p>Validated-input PVT runner plus an interactive screening view of tank, draw, RO, and dispatch. Screenings are not validated engineering outputs.</p>
         </div>
       </aside>
 
@@ -78,7 +82,7 @@
               <div class="flow-node"><span>OUTPUTS</span><strong>Power + useful heat</strong></div>
             </div>
           </div>
-          <nav class="workflow-strip" aria-label="Simulation workflow">
+          <nav class="workflow-strip" aria-label="Simulation workflow" style="grid-template-columns: repeat(5, minmax(0, 1fr));">
             <button class="workflow-step" data-go="parameters" type="button">
               <span>01 · PREPARE</span><strong>Review inputs</strong><small>Parameters and weather files</small>
             </button>
@@ -88,8 +92,11 @@
             <button class="workflow-step" data-go="model" type="button">
               <span>03 · UNDERSTAND</span><strong>Follow the model</strong><small>Trace equations to outputs</small>
             </button>
+            <button class="workflow-step" data-go="design" type="button">
+              <span>04 · EXPLORE</span><strong>Size the system</strong><small>Change area, tank, battery live</small>
+            </button>
             <button class="workflow-step" data-go="runs" type="button">
-              <span>04 · ANALYZE</span><strong>Compare runs</strong><small>Explore hourly results</small>
+              <span>05 · ANALYZE</span><strong>Compare runs</strong><small>Explore hourly results</small>
             </button>
           </nav>
           <div class="readiness-grid">
@@ -536,6 +543,98 @@
               </details>
               <div class="result-quality" id="result-quality" aria-live="polite"></div>
             </article>
+          </div>
+        </section>
+
+        <section class="view" id="view-design" aria-labelledby="design-title">
+          <div class="page-heading compact-heading">
+            <div><p class="eyebrow">WHOLE-SYSTEM SCREENING · INTERACTIVE</p><h1 id="design-title" tabindex="-1">Design studio</h1><p class="lede">Change the array, tank, delivery setpoint, and battery, then immediately see the annual energy, water, and cost consequences. The collector physics come from the validated project parameters; everything beyond the collector is a labelled screening model.</p></div>
+            <span class="scope-badge scope-badge-warn">SCREENING · NOT VALIDATED</span>
+          </div>
+          <aside class="design-scope-banner" role="note">
+            <strong>What this does and does not claim</strong>
+            <p>This view composes the same coupled PVT solver used by the validated runner with a simplified tank, draw, pump, RO, and dispatch model. It is not the report's full transient model, and it is not a TRNSYS cross-check. Numbers update live so you can defend <em>trends and sensitivities</em>; they are not design, safety, or potable-water evidence.</p>
+          </aside>
+
+          <div class="design-layout">
+            <form class="panel design-controls" id="design-form" autocomplete="off">
+              <div class="panel-heading"><div><p class="eyebrow">SCENARIO</p><h2>Size the system</h2></div><button class="button button-quiet" id="design-reset" type="button">Reset</button></div>
+              <label class="form-field"><span>Hourly weather file</span><select id="design-weather"></select></label>
+
+              <fieldset class="design-group">
+                <legend>Roof and storage</legend>
+                <label class="design-slider"><span>Collector area <output data-design-out="collector_area">6 m²</output></span><input type="range" min="1" max="24" step="0.5" data-design-field="collector_area" value="6"></label>
+                <label class="design-slider"><span>Tank volume <output data-design-out="tank_volume">150 L</output></span><input type="range" min="50" max="800" step="10" data-design-field="tank_volume" value="150"></label>
+                <label class="design-slider"><span>Tank heat loss <output data-design-out="tank_heat_loss">2 W/K</output></span><input type="range" min="0.5" max="8" step="0.1" data-design-field="tank_heat_loss" value="2"></label>
+              </fieldset>
+
+              <fieldset class="design-group">
+                <legend>Hot-water demand</legend>
+                <label class="form-field"><span>Draw profile</span><select data-design-field="draw_strategy"><option value="household">Household peaks</option><option value="square_wave">Continuous draw</option></select></label>
+                <label class="design-slider"><span>Daily draw <output data-design-out="daily_draw">150 L/day</output></span><input type="range" min="20" max="500" step="5" data-design-field="daily_draw" value="150"></label>
+                <label class="design-slider"><span>Delivery setpoint <output data-design-out="delivery_temperature">50 °C</output></span><input type="range" min="40" max="70" step="1" data-design-field="delivery_temperature" value="50"></label>
+                <label class="design-slider"><span>Mains temperature <output data-design-out="mains_temperature">28 °C</output></span><input type="range" min="15" max="35" step="1" data-design-field="mains_temperature" value="28"></label>
+                <label class="design-slider"><span>Evening peaking <output data-design-out="draw_peaking">1×</output></span><input type="range" min="1" max="2" step="0.1" data-design-field="draw_peaking" value="1"></label>
+              </fieldset>
+
+              <fieldset class="design-group">
+                <legend>Loop, backup, and electricity</legend>
+                <label class="design-slider"><span>Pump start gain <output data-design-out="pump_set_gain">8 K</output></span><input type="range" min="2" max="30" step="1" data-design-field="pump_set_gain" value="8"></label>
+                <label class="design-slider"><span>Pump power <output data-design-out="pump_power">6 W</output></span><input type="range" min="1" max="60" step="1" data-design-field="pump_power" value="6"></label>
+                <label class="design-slider"><span>Battery <output data-design-out="battery_capacity">0 kWh</output></span><input type="range" min="0" max="20" step="1" data-design-field="battery_capacity" value="0"></label>
+
+                <label class="design-slider"><span>Backup heat COP <output data-design-out="auxiliary_cop">1.0 (element)</output></span><input type="range" min="1" max="4" step="0.1" data-design-field="auxiliary_cop" value="1"></label>
+                <label class="form-field"><span>Electrical bus</span><select data-design-field="electrical_mode"><option value="grid_tie">Grid-tied (net meter)</option><option value="island">Islanded (battery only)</option></select></label>
+              </fieldset>
+
+              <fieldset class="design-group">
+                <legend>Water and costs</legend>
+                <label class="design-slider"><span>RO recovery <output data-design-out="ro_recovery">50 %</output></span><input type="range" min="20" max="85" step="1" data-design-field="ro_recovery" value="50"></label>
+                <label class="design-slider"><span>Drinking water <output data-design-out="drinking_water">25 L/day</output></span><input type="range" min="5" max="200" step="5" data-design-field="drinking_water" value="25"></label>
+                <label class="design-slider"><span>Electricity tariff <output data-design-out="electricity_tariff">0.45 AED/kWh</output></span><input type="range" min="0" max="1" step="0.01" data-design-field="electricity_tariff" value="0.45"></label>
+                <label class="design-slider"><span>Bottled-water value <output data-design-out="bottled_water_price">2 AED/m³</output></span><input type="range" min="0" max="0.01" step="0.0005" data-design-field="bottled_water_price" value="0.002"></label>
+              </fieldset>
+
+              <button class="button button-primary button-wide" id="design-run" type="submit">Run screening</button>
+              <p class="design-status" id="design-status" role="status" aria-live="polite">Adjust a control to see the screening update.</p>
+            </form>
+
+            <div class="design-results">
+              <div class="design-kpi-grid" id="design-kpis" aria-live="polite">
+                <article class="design-kpi"><span>Annual PVT electricity</span><strong id="kpi-pvt">—</strong><small>DC energy at the array</small></article>
+                <article class="design-kpi"><span>Solar heating fraction</span><strong id="kpi-solar">—</strong><small>Of delivered hot-water energy</small></article>
+                <article class="design-kpi"><span>Electric self-sufficiency</span><strong id="kpi-self">—</strong><small>Load met without import</small></article>
+                <article class="design-kpi"><span>Payback</span><strong id="kpi-payback">—</strong><small>Simple, on bottled-water savings</small></article>
+                <article class="design-kpi"><span>Drinking water</span><strong id="kpi-water">—</strong><small>m³ per year</small></article>
+                <article class="design-kpi"><span>Net electricity</span><strong id="kpi-net">—</strong><small>PVT minus total load</small></article>
+              </div>
+
+              <article class="panel design-chart-panel">
+                <div class="panel-heading"><div><p class="eyebrow">DAILY OPERATION · UPDATES LIVE</p><h2>One day in the villa</h2></div><span class="muted" id="design-day-label">—</span></div>
+                <div class="design-chart-toolbar">
+                  <label>Day <input type="range" id="design-day" min="0" max="0" step="1" value="0"></label>
+                  <div class="design-chart-legend"><span><i style="--c:#d08b2e"></i>PVT power</span><span><i style="--c:#087c78"></i>Tank</span><span><i style="--c:#b13e35"></i>Backup</span><span><i style="--c:#4472c4"></i>Battery</span></div>
+                </div>
+                <div class="design-chart-surface"><canvas id="design-day-chart" role="img" aria-label="Hourly PVT power, tank temperature, backup power, and battery state for one day"></canvas></div>
+              </article>
+
+              <article class="panel design-chart-panel">
+                <div class="panel-heading"><div><p class="eyebrow">ANNUAL ENERGY BALANCE</p><h2>Where the energy goes</h2></div><span class="muted">kWh per year</span></div>
+                <div class="design-bar-list" id="design-bars"></div>
+              </article>
+
+              <article class="panel">
+                <div class="panel-heading"><div><p class="eyebrow">SENSITIVITY</p><h2>What moves the answer</h2></div><span class="muted">One-at-a-time</span></div>
+                <div class="design-sweep-grid" id="design-sweeps"></div>
+              </article>
+
+              <article class="panel">
+                <details class="design-assumptions">
+                  <summary><strong>Assumptions and provenance</strong><span>The numbers above depend on every row below.</span></summary>
+                  <div id="design-assumption-list"></div>
+                </details>
+              </article>
+            </div>
           </div>
         </section>
 

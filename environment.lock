@@ -1,0 +1,28 @@
+# AquaSolar Living - Environment Lock File
+# Generated: 2026-10-11
+# This file pins all dependencies for reproducible builds.
+# Do not edit manually; use `pip freeze > environment.lock` after installation.
+
+# Core dependencies
+numpy==2.4.2
+pandas==3.0.0
+pyyaml==6.0.3
+pydantic==2.13.4
+scipy==1.17.0
+matplotlib==3.10.8
+
+# Unit handling
+pint==0.26.1
+
+# Solar geometry and transposition
+pvlib==0.16.1
+
+# Testing
+pytest==9.0.3
+hypothesis==6.168.5
+
+# Sensitivity analysis
+SALib==1.6.0
+
+# Optional (install with extras)
+# iapws==1.5.4  # GPL-3.0 - use only if license acceptable

@@ -310,6 +310,11 @@
               <button class="button button-primary button-wide" id="start-run" type="button" disabled>Start PVT run</button>
               <div id="run-job-status" class="run-job-status" aria-live="polite"></div>
               <details class="weather-upload-details">
+                <summary>Convert weather data and required fields</summary>
+                <p class="muted">From the project folder, run <code>python -m aquasolar.io.weather_converter --format epw source.epw inputs/timeseries/weather-new.csv --calendar-year 2025 --site-timezone Asia/Dubai</code>. Use <code>tm2</code> for TRNSYS TMY2/TM2 files or <code>nasa-power</code> for NASA POWER hourly JSON. TM2 and EPW need <code>--calendar-year</code>; all formats need the modeled site's IANA <code>--site-timezone</code>. The converter creates a CSV and matching <code>.meta.yaml</code>; choose unique filenames and upload both below.</p>
+                <p class="muted">Required CSV headers and units: <code>timestamp</code> (ISO 8601 with explicit UTC offset), <code>ghi</code>, <code>dni</code>, and <code>dhi</code> (W/m²), <code>t_ambient</code> (°C), and <code>wind_speed</code> (m/s). Use hourly, chronological records with numeric values in every required field. Optional headers are <code>poa_irradiance</code> (W/m²), <code>relative_humidity</code> (%), <code>cloud_cover</code> (use the source's documented unit), and <code>qc_flag</code>.</p>
+              </details>
+              <details class="weather-upload-details">
                 <summary>Add a weather dataset</summary>
                 <p class="muted">Add a unique hourly CSV with its matching metadata sidecar. The pair is validated in preview and saved only after confirmation.</p>
                 <label class="form-field"><span>Weather CSV</span><input id="weather-csv-upload" type="file" accept=".csv,text/csv"></label>

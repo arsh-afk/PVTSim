@@ -31,6 +31,7 @@ from pydantic import BaseModel, Field, StrictBool
 from ruamel.yaml import YAML
 from ruamel.yaml.error import YAMLError
 
+from aquasolar.design import DesignInputs, run_design_screening
 from aquasolar.pvt.runner import load_pvt_parameters, load_pvt_weather
 from aquasolar.pvt.trace import calculation_trace
 from aquasolar.module_registry import load_module_registry, module_is_enabled
@@ -97,6 +98,12 @@ class ApplyRequest(ValidationRequest):
 class RunRequest(BaseModel):
     scenario_id: str
     weather: str
+
+
+class DesignRequest(BaseModel):
+    weather: str
+    changes: dict[str, Any] = Field(default_factory=dict)
+    with_experiments: bool = True
 
 
 def _read_yaml(path: Path) -> Any:
@@ -981,6 +988,49 @@ def create_app(
     @app.get("/api/run-readiness")
     def get_run_readiness(weather: str) -> dict[str, Any]:
         return _pvt_preflight(root, weather)
+
+    @app.get("/api/design/defaults")
+    def get_design_defaults() -> dict[str, Any]:
+        payload = asdict(DesignInputs())
+        return {
+            "defaults": payload,
+            "atomic": ["collector_area", "tank_volume", "delivery_temperature", "battery_capacity"],
+            "limitations": [
+                "Screening calculator: not the validated transient model or TRNSYS cross-check.",
+                "Tank is a single well-mixed node; RO contaminants and pipe losses are not modelled.",
+                "Results are not design, safety, or potable-water evidence.",
+            ],
+        }
+
+    @app.post("/api/design/simulate")
+    def simulate_design(payload: DesignRequest) -> dict[str, Any]:
+        weather_path = Path(payload.weather)
+        if (
+            weather_path.is_absolute()
+            or ".." in weather_path.parts
+            or weather_path.parts[:2] != ("inputs", "timeseries")
+            or not (root / weather_path).is_file()
+        ):
+            raise HTTPException(
+                status_code=HTTPStatus.BAD_REQUEST,
+                detail="Choose a registered project weather CSV for design screening.",
+            )
+        try:
+            result = run_design_screening(
+                root,
+                root / weather_path,
+                payload.changes,
+                with_experiments=payload.with_experiments,
+            )
+        except (OSError, ImportError, TypeError, ValueError, RuntimeError) as exc:
+            raise HTTPException(
+                status_code=HTTPStatus.BAD_REQUEST, detail=str(exc)
+            ) from exc
+        return {
+            "scope": "Interactive whole-system screening",
+            "weather": weather_path.as_posix(),
+            **asdict(result),
+        }
 
     @app.get("/api/runs")
     def list_runs() -> list[dict[str, Any]]:
