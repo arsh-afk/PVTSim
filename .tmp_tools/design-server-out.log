@@ -1,0 +1,27 @@
+INFO:     127.0.0.1:62435 - "GET /api/design/defaults HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61483 - "GET /api/design/defaults HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62017 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62017 - "GET /static/app.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59662 - "GET /static/app.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58517 - "GET /static/analytics-core.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59662 - "GET /static/report-showcase/aquasolar-system-process.png HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62017 - "GET /static/report-showcase/aquasolar-validation-assembly.jpg HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58517 - "GET /static/report-showcase/aquasolar-validation-equipment.jpg HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56587 - "GET /static/report-showcase/aquasolar-validation-pv-output.jpeg HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52523 - "GET /api/config HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52421 - "GET /static/report-showcase/aquasolar-validation-outdoor-rig.jpg HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52523 - "GET /favicon.ico HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:58517 - "GET /api/catalog HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56587 - "GET /api/model/trace HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59662 - "GET /api/weather HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52421 - "GET /api/runs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52421 - "GET /api/runs/hi/series HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52523 - "GET /api/runs/scenario-20261110-135050/series HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56587 - "GET /api/runs/scenario-ideal-20261112/series HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59662 - "GET /api/run-readiness?weather=inputs%2Ftimeseries%2Fweather.csv HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58517 - "GET /api/validation HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58517 - "GET /api/run-readiness?weather=inputs%2Ftimeseries%2Fweather.csv HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62017 - "GET /api/modules HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62017 - "GET /api/design/defaults HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52291 - "GET /api/weather HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62017 - "POST /api/design/simulate HTTP/1.1" 200 OK
