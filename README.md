@@ -66,8 +66,9 @@ a time to avoid overwriting changes from another open UI or external editor.
 
 The root `render.yaml` defines a public Render web service for exploring the
 project inputs, validation report, model trace, and any saved results. The
-hosted service is read-only: it rejects edits, uploads, and simulation runs.
-It does not require persistent storage.
+hosted service is read-only: it rejects edits, uploads, and PVT runs, while
+allowing read-only whole-system screening calculations. It does not require
+persistent storage.
 
 1. Push this repository, including `render.yaml` and `.python-version`, to
    GitHub. The Python version file should contain `3.12`.

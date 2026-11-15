@@ -247,6 +247,26 @@ def test_design_screening_endpoint_rejects_unregistered_weather_and_unknown_fiel
     assert "Unsupported change" in unknown_field.json()["detail"]
 
 
+def test_read_only_design_screening_allows_same_host_origin(tmp_path):
+    _make_project(tmp_path)
+    client = TestClient(
+        create_app(tmp_path, read_only=True),
+        base_url="https://aquasolar.onrender.com",
+    )
+
+    response = client.post(
+        "/api/design/simulate",
+        headers={"Origin": "https://aquasolar.onrender.com"},
+        json={
+            "weather": "inputs/timeseries/weather.csv",
+            "changes": {"unsupported_option": 1},
+        },
+    )
+
+    assert response.status_code == 400
+    assert "Unsupported change" in response.json()["detail"]
+
+
 def test_analytics_helpers_are_served_before_workbench_script(tmp_path):
     client = TestClient(create_app(tmp_path))
 

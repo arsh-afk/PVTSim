@@ -759,7 +759,8 @@ def create_app(
     @app.middleware("http")
     async def verify_browser_origin(request, call_next):
         if request.method in {"POST", "PUT", "PATCH", "DELETE"}:
-            if is_read_only:
+            is_design_screening = request.url.path == "/api/design/simulate"
+            if is_read_only and not is_design_screening:
                 return JSONResponse(
                     status_code=HTTPStatus.FORBIDDEN,
                     content={
@@ -768,12 +769,17 @@ def create_app(
                 )
             origin = request.headers.get("origin")
             if origin:
-                if urlparse(origin).hostname not in {
+                origin_host = urlparse(origin).hostname
+                is_local_origin = origin_host in {
                     "localhost",
                     "127.0.0.1",
                     "::1",
                     "testserver",
-                }:
+                }
+                is_same_host_screening = (
+                    is_design_screening and origin_host == request.url.hostname
+                )
+                if not is_local_origin and not is_same_host_screening:
                     return JSONResponse(
                         status_code=HTTPStatus.FORBIDDEN,
                         content={"detail": "Only local browser requests are allowed."},
