@@ -62,13 +62,14 @@ remain visible for review.
 The browser and desktop UIs use the same local project files. Use one editor at
 a time to avoid overwriting changes from another open UI or external editor.
 
-## Deploy a public read-only showcase to Render
+## Deploy a public showcase with PVT runs to Render
 
 The root `render.yaml` defines a public Render web service for exploring the
 project inputs, validation report, model trace, and any saved results. The
-hosted service is read-only: it rejects edits, uploads, and PVT runs, while
-allowing read-only whole-system screening calculations. It does not require
-persistent storage.
+hosted service rejects input edits and uploads, but allows PVT runs and
+whole-system screening calculations. PVT output files are written to Render's
+ephemeral filesystem and may be lost on restart or redeploy; use persistent
+storage if generated results must be retained.
 
 1. Push this repository, including `render.yaml` and `.python-version`, to
    GitHub. The Python version file should contain `3.12`.
@@ -78,8 +79,9 @@ persistent storage.
    and its `solar` extra.
 
 The service is public, so treat all committed project inputs and metadata as
-public information. Render deploys the committed branch contents; local,
-uncommitted files are not uploaded.
+public information. Anyone with access to the public service can start a PVT
+run. Render deploys the committed branch contents; local, uncommitted files
+are not uploaded.
 
 ## Run from the command line
 

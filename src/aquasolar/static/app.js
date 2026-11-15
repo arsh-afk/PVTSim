@@ -1,5 +1,6 @@
 const state = {
   readOnly: false,
+  canRunPvt: true,
   catalog: { parameters: [], data_files: [], metrics: [], outputs: [] },
   report: null,
   trace: null,
@@ -2204,18 +2205,26 @@ async function initialize() {
   try {
     const config = await request("/api/config");
     state.readOnly = config.read_only === true;
+    state.canRunPvt = config.can_run_pvt === true;
     if (state.readOnly) {
       document.body.classList.add("read-only");
+      if (state.canRunPvt) document.body.classList.add("pvt-runs-enabled");
       byId("project-mode").textContent = "Public read-only showcase";
       byId("overview-title").textContent = "Project overview";
       byId("overview-intro").textContent = "Explore this project's registered inputs, validation findings, and PVT model scope.";
       byId("parameters-intro").textContent = "Search and review registered parameter values, requirements, and provenance.";
       byId("data-intro").textContent = "Inspect registered tables and time series, including metadata, sample rows, and validation findings.";
-      byId("runs-intro").textContent = "Review saved PVT-only outputs. This public showcase does not run new scenarios.";
-      byId("readonly-run-note").textContent = "Read-only public demo: input editing and new simulation runs are disabled. Only results already included with the project are available.";
+      byId("runs-intro").textContent = state.canRunPvt
+        ? "Run PVT-only scenarios and compare hourly results. Input editing and uploads are disabled."
+        : "Review saved PVT-only outputs. This public showcase does not run new scenarios.";
+      byId("readonly-run-note").textContent = state.canRunPvt
+        ? "Input editing and uploads are disabled. PVT runs are enabled, but generated outputs are temporary and may be lost when the service restarts or redeploys."
+        : "Read-only public demo: input editing and new simulation runs are disabled. Only results already included with the project are available.";
       byId("readonly-run-note").hidden = false;
       byId("footer-mode").textContent = "AquaSolar · public read-only showcase";
-      byId("save-state").textContent = "Edits and new runs are disabled";
+      byId("save-state").textContent = state.canRunPvt
+        ? "Edits and uploads are disabled; PVT runs are enabled"
+        : "Edits and new runs are disabled";
       byId("parameter-detail").querySelector(".empty-state p").textContent = "Select a parameter to review its definition, requirement, and provenance.";
     }
     state.catalog = await request("/api/catalog");

@@ -9,3 +9,5 @@ services:
     envVars:
       - key: AQUASOLAR_READ_ONLY
         value: "true"
+      - key: AQUASOLAR_ALLOW_PVT_RUNS
+        value: "true"
