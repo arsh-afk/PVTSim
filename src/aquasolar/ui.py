@@ -8,13 +8,21 @@ import os
 import re
 import subprocess
 import sys
-import tkinter as tk
 from datetime import datetime
 from pathlib import Path
-from tkinter import messagebox, ttk
 from typing import Any
 
-from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2Tk
+try:
+    import tkinter as tk
+    from tkinter import messagebox, ttk
+    from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2Tk
+except ImportError:
+    tk = None
+    messagebox = None
+    ttk = None
+    FigureCanvasTkAgg = None
+    NavigationToolbar2Tk = None
+
 from matplotlib.figure import Figure
 import yaml
 from ruamel.yaml import YAML
@@ -994,6 +1002,8 @@ class AquaSolarUI:
 
 def main() -> None:
     """Launch the local parameter-entry interface."""
+    if tk is None:
+        raise RuntimeError("Tkinter is required to run the desktop UI.")
     root = tk.Tk()
     AquaSolarUI(root)
     root.mainloop()

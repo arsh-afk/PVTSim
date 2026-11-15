@@ -5,6 +5,7 @@ Per P9-2: Parameter sampling and uncertainty propagation.
 
 from __future__ import annotations
 
+import math
 import random
 from typing import Any, Callable, Dict, List, Optional, Tuple
 

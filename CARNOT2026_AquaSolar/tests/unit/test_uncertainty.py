@@ -43,6 +43,21 @@ class TestMonteCarlo:
         assert stats["mean"] > float("8.0")
         assert stats["mean"] < float("12.0")
 
+    def test_lognormal_distribution(self):
+        """Test lognormal distribution sampling (P9-2 lognormal path)."""
+        def model(params):
+            return {"output": params["x"]}
+
+        distributions = {
+            "x": {"type": "lognormal", "mean": float("5.0"), "std": float("1.0")},
+        }
+
+        result = monte_carlo_run(model, distributions, n_samples=100, seed=1 + 1)
+
+        assert result["n_samples"] == 100
+        stats = result["statistics"]["output"]
+        assert stats["mean"] > float("0.0")
+
     def test_latin_hypercube(self):
         """Test Latin Hypercube sampling."""
         distributions = {
@@ -65,6 +80,7 @@ class TestSobol:
 
     def test_sobol_indices(self):
         """Test Sobol index computation."""
+        pytest.importorskip("SALib")
         def model(params):
             # Simple additive model: y = 2a + 3b + 0.5c
             return params[:, 0] * float("2.0") + params[:, 1] * float("3.0") + params[:, 2] * float("0.5")
@@ -80,6 +96,7 @@ class TestSobol:
 
     def test_morris_screening(self):
         """Test Morris elementary effects."""
+        pytest.importorskip("SALib")
         def model(params):
             return params[:, 0] + params[:, 1] * float("2.0")
 

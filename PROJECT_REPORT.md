@@ -1,5 +1,8 @@
 # AquaSolar Living — Full Project Report
 
+> [!NOTE]
+> **Superseded Notice:** For the authoritative Carnot 2026 competition submission report, refer to [CARNOT2026_AquaSolar/REPORT.md](CARNOT2026_AquaSolar/REPORT.md). This outer report serves as historical development and architecture documentation. Prior work and AI disclosure is documented directly in [CARNOT2026_AquaSolar/DISCLOSURE.md](CARNOT2026_AquaSolar/DISCLOSURE.md).
+
 **Date:** 2026-10-29
 **Project:** Villa-scale PVT + Water-Assurance Simulator (AquaSolar Living)
 **Working Directory:** `C:\Users\arsh2\OneDrive - American University of Ras Al Khaimah\Fall2026\waterresearch\Simulation`
@@ -323,10 +326,10 @@ Sinks:      P_load + P_aux_heater + P_pump + P_battery_charge + P_grid_export + 
 
 ### Reproducibility Layer (`integration/manifest.py`)
 
-Every run produces a `manifest.json` capturing: git commit hash (truncated to 8 chars), environment fingerprint (currently "placeholder"), SHA-256 of every input file, gate sign-off hashes, solver settings, seeds, scenario id, timestamps. Enables bit-for-bit reproduction later.
+A reproducibility helper is provided to capture run provenance: git commit hash (truncated to 8 chars), environment fingerprint, SHA-256 of input files, solver settings, seeds, scenario id, and timestamps. Individual PVT simulation runs produce a structured scenario summary (`<scenario_id>.summary.json`) capturing the complete input snapshot, weather source, metrics, and convergence records.
 
 - Class `Manifest(run_id, code_commit, environment_hash, input_hashes, gate_signoff_hashes, seeds, solver_settings, scenario_id, start_time, end_time=None, test_summary=None)` — Methods: `to_dict()`, `write(output_path)`.
-- `write_manifest(run_id, output_dir, input_hashes, seeds, solver_settings, scenario_id, gate_signoff_hashes=None, test_summary=None) -> Manifest` — Uses `git.Repo(search_parent_directories=True)` for commit info. Writes to `output_dir / "manifest.json"`.
+- `write_manifest(run_id, output_dir, input_hashes, seeds, solver_settings, scenario_id, gate_signoff_hashes=None, test_summary=None) -> Manifest` — Uses `git.Repo(search_parent_directories=True)` for commit info when available. Writes to `output_dir / "manifest.json"`.
 
 ---
 

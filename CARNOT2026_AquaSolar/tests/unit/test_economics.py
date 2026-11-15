@@ -10,6 +10,7 @@ from aquasolar.economics.lcoe import (
     discounted_payback,
     npv,
     lifecycle_cost,
+    bottled_water_comparison,
     bottlen_water_comparison,
 )
 
@@ -114,10 +115,18 @@ class TestBottledWater:
     """Tests for bottled water comparison."""
 
     def test_savings_calculation(self):
-        result = bottlen_water_comparison(
+        result = bottled_water_comparison(
             system_cost_per_liter=float("0.50"),
             bottled_price_per_liter=float("1.00"),
             annual_volume=float("1000.0"),
         )
         assert result["annual_savings"] > 0.0
         assert result["bottles_avoided"] > 0.0
+
+    def test_legacy_bottlen_alias(self):
+        result = bottlen_water_comparison(
+            system_cost_per_liter=float("0.50"),
+            bottled_price_per_liter=float("1.00"),
+            annual_volume=float("1000.0"),
+        )
+        assert result["annual_savings"] > 0.0

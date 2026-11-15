@@ -195,7 +195,7 @@ def lifecycle_cost(
     }
 
 
-def bottlen_water_comparison(
+def bottled_water_comparison(
     system_cost_per_liter: float,
     bottled_price_per_liter: float,
     annual_volume: float,
@@ -226,3 +226,7 @@ def bottlen_water_comparison(
         "payback_vs_bottled": annual_bottled_cost / (system_cost_per_liter * annual_volume) if system_cost_per_liter > 0 else float("inf"),
         "currency": currency,
     }
+
+
+# Backwards compatibility alias for the legacy typo
+bottlen_water_comparison = bottled_water_comparison

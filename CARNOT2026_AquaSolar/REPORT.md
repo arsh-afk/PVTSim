@@ -8,7 +8,7 @@ AquaSolar Living is a villa-scale mathematical model for an integrated photovolt
 
 The system is designed as a realistic energy-water coupling problem: a solar collector converts irradiance into both electrical output and thermal energy, a thermal loop moves heat toward a storage tank, and a treatment train uses a minimum-necessary-treatment (MNT) logic to balance water quality, energy consumption, and operational burden. The project is not presented as a final validated engineering design; rather, it is a transparent and reproducible research model with a clear numeric backbone and an explicit set of assumptions, limits, and data provenance.
 
-The simulation code in the repository reflects a staged development path. The main full-system architecture is present in the codebase, but the only currently runnable end-to-end path is the PVT-only exploratory simulation. That means the model is strongest as an honest, defendable, reproducible exploratory system model that demonstrates a valid mathematical routine under Abu Dhabi-like conditions.
+The simulation code in the repository reflects a staged development path. The main full-system architecture is present in the codebase, but the only currently runnable end-to-end path is the PVT-only exploratory simulation. That means the model is strongest as an honest, defendable, reproducible exploratory system model that demonstrates a valid mathematical routine under UAE weather conditions (specifically Ras Al Khaimah International Airport TMYx meteorological profile).
 
 ## 2. Real-world problem and relevance
 
@@ -204,7 +204,7 @@ The assumptions register and project documentation identify the main boundary co
 5. Fluid properties are treated as constant over the operating range.
 6. Soiling is represented as a multiplicative correction factor rather than a dynamic deposition process.
 7. The treatment train is represented as a decision model, not a fully validated membrane or UV plant design.
-8. The weather input is a representative Abu Dhabi profile rather than a fully calibrated field dataset.
+8. The weather input is derived from the Ras Al Khaimah International Airport TMYx profile (`ARE_RK_Khaimah.Intl.AP.411840_TMYx.epw`, converted to `inputs/timeseries/weather.csv`) with full metadata sidecar, rather than a fully calibrated field dataset.
 9. The outputs are exploratory research estimates, not certified engineering results.
 10. The model prioritizes transparency, traceability, and defendability over unbounded complexity.
 
@@ -225,6 +225,8 @@ The project report also explains that the repository keeps measured, literature-
 - literature-derived parameter choices,
 - and seeded defaults that are clearly labelled as assumptions until validated.
 
+**Clarification on parameter status:** In the parameter schema and `inputs/STATUS.md`, the status `confirmed` indicates that a parameter record is complete, checked against schema bounds, and backed by a documented reference—it does **not** mean the value has been physically measured or calibrated. Assumptions, design baselines, and literature proxies surface their `source_type` (e.g. `literature`, `assumption`, `design_basis`) and explicit `source_ref` alongside numeric values so reviewers cannot confuse assumptions with observations.
+
 The fact that the simulation requires checks such as `aquasolar check-inputs` and produces `inputs/STATUS.md` is an important contribution to reproducibility and rigour. It ensures that the result is not only numerically reproduceable but also traceable in terms of all conditions that influence the model.
 
 ## 10. Simulation workflow and outputs
@@ -243,16 +245,14 @@ python -m pytest -q
 
 The run produces output artifacts in `outputs/pvt_only/`, including:
 
-- a CSV file with hourly or interval-level simulation results, and
-- a summary JSON with key performance metrics such as electrical energy, useful heat, and other summary quantities.
+- a CSV file with hourly simulation results, and
+- a summary JSON with key performance metrics such as electrical energy, useful heat, and execution metadata.
 
-The project report lists the main output metrics in its metric definitions, including:
+**Active vs Unpopulated Metrics:** The runnable PVT simulation actually emits only two primary metrics:
+- `M-PV-01`: electrical energy generated (joules and kWh)
+- `M-TH-01`: useful thermal heat collected (joules and kWh)
 
-- `M-PV-01`: electrical energy generated,
-- `M-TH-01`: useful heat collected,
-- `M-IN-01`: combined utilization of electrical and thermal energy,
-- water quality and treatment metrics such as recovery and specific energy,
-- economics metrics such as CAPEX, lifecycle cost, and avoided bottled-water spend.
+Other metrics defined in the project register—including `M-IN-01` (combined solar utilization), water-treatment recovery and specific energy, and downstream levelized cost metrics—are formal specifications for the modular subsystems but are **not** populated by the current PVT-only execution path. Reviewers can verify this directly in `outputs/pvt_only/carnot-demo.summary.json`.
 
 These metrics make the results interpretable and support the narrative that the model is not just a solver but a decision-support framework.
 
@@ -293,16 +293,13 @@ This is also relevant to the competition theme because it addresses an energy pr
 
 ## 14. Prior work disclosure and AI usage
 
-The competition rules require prior work to be disclosed and permit AI use if it is properly credited. The project’s disclosure file states that the current package builds on AquaSolar Living work developed at AURAK and the CMAT-00184 Theme 5 project, while also explicitly documenting the new work added for Carnot 2026.
+The competition rules require prior work to be disclosed and permit AI use if it is properly credited. Complete prior work history and AI tool disclosures are documented in [DISCLOSURE.md](DISCLOSURE.md).
 
-The current package should disclose:
+Specifically:
 
-- prior AquaSolar Living work and team-linked project documents,
-- the new structure for the competition package,
-- the new reproducibility and submission files,
-- and the fact that AI tools were used to improve documentation drafting, equation translation, and packaging clarity.
-
-This is important for transparency and compliance with the competition guidelines.
+- Prior AquaSolar Living work and team-linked project documents (CMAT-00184 Theme 5 Final Report, AURAK 2026, and earlier white papers) form the technical baseline.
+- New work for Carnot 2026 includes the restructured mathematical formulation, externalized parameter and weather provenance registries, clean standalone package installation, and reproducibility verification gates.
+- AI tools (large language models and code assistants) were utilized for documentation drafting, equation formatting, and packaging hygiene, while the authors retain full responsibility for the model formulation, scientific interpretation, and verification.
 
 ## 15. Conclusions
 

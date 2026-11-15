@@ -1,11 +1,19 @@
 """Simulation integrator module.
 
 Per P8-1: Full AquaSolar Living simulator integrating all subsystems.
+
+NOTE: This multi-physics full-system integrator is an unvalidated prototype
+and is NOT part of the validated competition run path (which is pvt_only via
+aquasolar.pvt.runner). It must not be presented as a verified or validated
+full-system simulation.
 """
 
 from __future__ import annotations
 
+import logging
 from typing import Any, Dict, List, Optional, Tuple
+
+logger = logging.getLogger(__name__)
 
 
 class AquaSolarSimulator:
@@ -176,12 +184,14 @@ def _simulate_pvt(T_in: float, m_dot: float, G_poa: float, T_amb: float, wind_sp
             "converged": result.converged,
         }
     except Exception as e:
+        logger.warning("PVT step calculation failed: %s", e)
         return {
             "P_el": 0.0,
             "Q_u": 0.0,
             "T_f_out": T_in,
             "T_cell": T_amb + G_poa / registry.get("pvt_th.U_L", float("10.0")),
             "converged": False,
+            "error": str(e),
         }
 
 
@@ -191,8 +201,9 @@ def _simulate_loop(T_collector_out: float, m_dot: float, T_amb: float, registry:
     try:
         T_tank_in, Q_loss, ledger = collector_loop_thermal(T_collector_out, m_dot, T_amb, T_amb, registry)
         return T_tank_in, Q_loss, ledger
-    except Exception:
-        return T_collector_out, 0.0, {"component": "loop", "error": True}
+    except Exception as e:
+        logger.warning("Collector loop simulation failed: %s", e)
+        return T_collector_out, 0.0, {"component": "loop", "error": str(e)}
 
 
 def _simulate_tank(
@@ -222,6 +233,7 @@ def _simulate_tank(
 
         return tank_state, ledger
     except Exception as e:
+        logger.warning("Tank simulation failed: %s", e)
         return tank_state, {"component": "tank", "error": str(e)}
 
 
@@ -234,6 +246,7 @@ def _simulate_mnt(quality_in: Dict, registry: Dict, context: Dict) -> Tuple[str,
         pathway, decision = mnt_oracle(quality_in, context.get("flow", float("0.001")), pathways, params)
         return pathway, decision
     except Exception as e:
+        logger.warning("MNT oracle failed: %s", e)
         return "A", {"component": "mnt", "error": str(e), "selected": "A"}
 
 
@@ -245,6 +258,7 @@ def _simulate_treatment(pathway: str, flow: float, quality_in: Dict, dt: float, 
         quality_out, ledgers = run_treatment_train(pathway, flow, quality_in, dt, params)
         return quality_out, {"component": "treatment", "pathway": pathway, "ledgers": ledgers}
     except Exception as e:
+        logger.warning("Water treatment simulation failed: %s", e)
         return quality_in, {"component": "treatment", "error": str(e)}
 
 
@@ -264,6 +278,7 @@ def _simulate_electrical(P_pvt: float, P_aux: float, P_pump: float, P_load: floa
         )
         return flows, ledger
     except Exception as e:
+        logger.warning("Electrical balance simulation failed: %s", e)
         return {
             "P_pvt": P_pvt,
             "P_aux_heater": P_aux,
