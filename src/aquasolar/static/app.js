@@ -9,6 +9,7 @@ const state = {
   weather: [],
   runs: [],
   design: null,
+  designDays: [],
   designTimer: null,
   designLoadId: 0,
   designDay: 0,
@@ -2381,8 +2382,12 @@ async function runDesignScreening({ immediate = false } = {}) {
       }),
     });
     if (loadId !== state.designLoadId) return;
+    state.designDays = groupDesignRowsByLocalDay(
+      result.hourly,
+      result.site_timezone,
+    );
     state.design = result;
-    state.designDay = Math.min(state.designDay, Math.max(0, Math.floor(result.hourly.length / 24) - 1));
+    state.designDay = Math.min(state.designDay, Math.max(0, state.designDays.length - 1));
     renderDesignResults(result);
     status.textContent = result.status.converged
       ? `Screened ${result.status.steps.toLocaleString()} hourly intervals. `
@@ -2405,6 +2410,46 @@ function designKpi(id, value, unit) {
   node.dataset.unit = unit || "";
 }
 
+function groupDesignRowsByLocalDay(rows, timeZone) {
+  const intervalMs = 60 * 60 * 1000;
+  const timeFormatter = new Intl.DateTimeFormat("en-US", {
+    timeZone,
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+    hourCycle: "h23",
+  });
+  const dateFormatter = new Intl.DateTimeFormat(undefined, {
+    timeZone,
+    weekday: "short",
+    month: "short",
+    day: "numeric",
+  });
+  const days = new Map();
+
+  for (const row of rows) {
+    const midpoint = new Date(Date.parse(row.timestamp) + intervalMs / 2);
+    const fields = Object.fromEntries(
+      timeFormatter.formatToParts(midpoint).map(({ type, value }) => [type, value]),
+    );
+    const date = `${fields.year}-${fields.month}-${fields.day}`;
+    if (!days.has(date)) {
+      days.set(date, { dateLabel: dateFormatter.format(midpoint), points: [] });
+    }
+    days.get(date).points.push({
+      row,
+      hour: Number(fields.hour)
+        + Number(fields.minute) / 60
+        + Number(fields.second) / 3600,
+    });
+  }
+
+  return [...days.values()];
+}
+
 function renderDesignResults(result) {
   const summary = result.summary || {};
   designKpi("kpi-pvt", formatNumber(summary.annual_pvt_kwh, 0), "kWh");
@@ -2417,7 +2462,7 @@ function renderDesignResults(result) {
   renderDesignBars(summary);
   renderDesignSweeps(summary.sensitivity || []);
   renderDesignAssumptions(result.assumptions || [], result.ensemble || []);
-  const days = Math.max(0, Math.floor((result.hourly || []).length / 24) - 1);
+  const days = Math.max(0, state.designDays.length - 1);
   const day = byId("design-day");
   day.max = String(days);
   day.value = String(state.designDay);
@@ -2488,13 +2533,12 @@ function renderDesignAssumptions(assumptions, ensemble) {
 
 function renderDesignDayChart() {
   const canvas = byId("design-day-chart");
-  if (!canvas || !state.design?.hourly?.length) return;
-  const rows = state.design.hourly;
-  const dayCount = Math.max(1, Math.floor(rows.length / 24));
+  if (!canvas || !state.designDays.length) return;
+  const dayCount = state.designDays.length;
   state.designDay = Math.min(Math.max(state.designDay, 0), dayCount - 1);
-  const start = state.designDay * 24;
-  const slice = rows.slice(start, start + 24);
-  byId("design-day-label").textContent = slice[0] ? new Date(slice[0].timestamp).toLocaleDateString(undefined, { weekday: "short", month: "short", day: "numeric" }) : "—";
+  const day = state.designDays[state.designDay];
+  const slice = day.points;
+  byId("design-day-label").textContent = `${day.dateLabel} · ${state.design.site_timezone}`;
   const rect = canvas.getBoundingClientRect();
   const width = Math.max(rect.width, 320);
   const height = Math.max(rect.height, 220);
@@ -2507,15 +2551,15 @@ function renderDesignDayChart() {
   const margin = { left: 44, right: 44, top: 16, bottom: 26 };
   const plotW = width - margin.left - margin.right;
   const plotH = height - margin.top - margin.bottom;
-  const powerMax = Math.max(...slice.flatMap((row) => [
+  const powerMax = Math.max(...slice.flatMap(({ row }) => [
     Number(row.P_el_kW) || 0,
     Number(row.backup_kW) || 0,
     Number(row.load_kW) || 0,
   ]), 0.5);
-  const tempValues = slice.flatMap((row) => [Number(row.T_tank_C) || 0, Number(row.T_ambient_C) || 0]);
+  const tempValues = slice.flatMap(({ row }) => [Number(row.T_tank_C) || 0, Number(row.T_ambient_C) || 0]);
   const tempMin = Math.floor(Math.min(...tempValues, 20) - 2);
   const tempMax = Math.ceil(Math.max(...tempValues, 60) + 2);
-  const x = (hour) => margin.left + (hour / 23) * plotW;
+  const x = (hour) => margin.left + (hour / 24) * plotW;
   const yPower = (value) => margin.top + plotH - (value / powerMax) * plotH;
   const yTemp = (value) => margin.top + plotH - ((value - tempMin) / (tempMax - tempMin || 1)) * plotH;
 
@@ -2543,8 +2587,8 @@ function renderDesignDayChart() {
   ];
   for (const item of series) {
     context.beginPath();
-    slice.forEach((row, index) => {
-      const pointX = x(index);
+    slice.forEach(({ row, hour }, index) => {
+      const pointX = x(hour);
       const pointY = item.scale(Number(row[item.key]) || 0);
       if (index === 0) context.moveTo(pointX, pointY);
       else context.lineTo(pointX, pointY);
@@ -2557,7 +2601,7 @@ function renderDesignDayChart() {
   }
   context.fillStyle = "#526d71";
   context.textAlign = "center";
-  [0, 6, 12, 18, 23].forEach((hour) => {
+  [0, 6, 12, 18, 24].forEach((hour) => {
     context.fillText(`${String(hour).padStart(2, "0")}:00`, x(hour), height - 8);
   });
 }

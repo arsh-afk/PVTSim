@@ -160,3 +160,43 @@ def test_design_screening_requires_a_weather_file(tmp_path: Path):
         design.run_design_screening(
             tmp_path, tmp_path / "missing.csv", {}, with_experiments=False
         )
+
+
+def test_design_result_includes_the_validated_site_timezone(monkeypatch, tmp_path: Path):
+    rows = [{"timestamp": "2025-02-28T00:00:00+00:00"}]
+    monkeypatch.setattr(
+        design,
+        "load_pvt_parameters",
+        lambda _: {"site.timezone": "Asia/Dubai"},
+    )
+    monkeypatch.setattr(design, "load_pvt_weather", lambda _: (rows, 3600.0))
+    monkeypatch.setattr(design, "_solar_geometry", lambda *_: [0.0])
+    monkeypatch.setattr(
+        design,
+        "_simulate",
+        lambda *_args, **_kwargs: {
+            "hourly": rows,
+            "nonconverged": 0,
+            "sunny_steps": 0,
+        },
+    )
+    monkeypatch.setattr(design, "_summarise", lambda *_: ({}, {}))
+
+    result = design.run_design_screening(
+        tmp_path, tmp_path / "weather.csv", with_experiments=False
+    )
+
+    assert result.site_timezone == "Asia/Dubai"
+
+
+def test_design_screening_rejects_an_invalid_site_timezone(monkeypatch, tmp_path: Path):
+    monkeypatch.setattr(
+        design,
+        "load_pvt_parameters",
+        lambda _: {"site.timezone": "Not/A_Real_Zone"},
+    )
+
+    with pytest.raises(ValueError, match="Unknown IANA site time zone"):
+        design.run_design_screening(
+            tmp_path, tmp_path / "weather.csv", with_experiments=False
+        )

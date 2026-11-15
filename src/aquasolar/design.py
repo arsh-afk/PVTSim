@@ -18,6 +18,7 @@ import math
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
 from typing import Any
+from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
 from aquasolar.pvt.runner import load_pvt_parameters, load_pvt_weather
 
@@ -114,6 +115,7 @@ class DesignResult:
     """JSON-serialisable screening result returned to the workbench."""
 
     inputs: dict[str, Any]
+    site_timezone: str
     hourly: list[dict[str, Any]]
     summary: dict[str, Any]
     drivers: dict[str, Any]
@@ -740,6 +742,13 @@ def run_design_screening(
     """
     inputs = _validate(overrides)
     parameters = load_pvt_parameters(project_root / "inputs" / "parameters")
+    site_timezone = parameters.get("site.timezone")
+    if not isinstance(site_timezone, str) or not site_timezone.strip():
+        raise ValueError("A valid site.timezone is required for daily charting.")
+    try:
+        ZoneInfo(site_timezone)
+    except (ValueError, ZoneInfoNotFoundError) as exc:
+        raise ValueError(f"Unknown IANA site time zone: {site_timezone!r}") from exc
     rows, interval_seconds = load_pvt_weather(weather_path)
     if interval_seconds != SECONDS_PER_HOUR:
         raise ValueError("Design mode currently needs hourly weather records.")
@@ -825,6 +834,7 @@ def run_design_screening(
     }
     return DesignResult(
         inputs=asdict(inputs),
+        site_timezone=site_timezone,
         hourly=simulated["hourly"],
         summary=summary,
         drivers=drivers,
