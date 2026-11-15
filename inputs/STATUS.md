@@ -274,6 +274,9 @@
 - `tank_ambient`: loaded
 - `tariffs`: loaded
 - `weather`: loaded
+- `weather_liwa_2025`: loaded
+- `weather_rak_2025`: loaded
+- `weather_sharjah_2025`: loaded
 
 ---
 
