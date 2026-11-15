@@ -267,6 +267,35 @@ def test_read_only_design_screening_allows_same_host_origin(tmp_path):
     assert "Unsupported change" in response.json()["detail"]
 
 
+def test_read_only_mode_can_enable_same_host_pvt_runs_without_enabling_edits(tmp_path):
+    _make_project(tmp_path)
+    client = TestClient(
+        create_app(tmp_path, read_only=True, allow_pvt_runs=True),
+        base_url="https://aquasolar.onrender.com",
+    )
+
+    config = client.get("/api/config")
+    run = client.post(
+        "/api/runs",
+        headers={"Origin": "https://aquasolar.onrender.com"},
+        json={
+            "scenario_id": "test-run",
+            "weather": "inputs/timeseries/weather.csv",
+        },
+    )
+    edit = client.post(
+        "/api/validation/apply",
+        headers={"Origin": "https://aquasolar.onrender.com"},
+        json={"confirmed": True},
+    )
+
+    assert config.json() == {"read_only": True, "can_run_pvt": True}
+    assert run.status_code == 409
+    assert "PVT run is blocked" in run.json()["detail"]["message"]
+    assert edit.status_code == 403
+    assert "read-only" in edit.json()["detail"]
+
+
 def test_analytics_helpers_are_served_before_workbench_script(tmp_path):
     client = TestClient(create_app(tmp_path))
 
@@ -676,7 +705,10 @@ def test_read_only_mode_disables_mutations(tmp_path, monkeypatch):
     monkeypatch.setenv("AQUASOLAR_READ_ONLY", "true")
     client = TestClient(create_app(tmp_path))
 
-    assert client.get("/api/config").json() == {"read_only": True}
+    assert client.get("/api/config").json() == {
+        "read_only": True,
+        "can_run_pvt": False,
+    }
     response = client.post(
         "/api/validation/apply",
         json={

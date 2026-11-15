@@ -1097,7 +1097,7 @@ h3 {
 .read-only .temp-param-helper,
 .read-only .upload-row,
 .read-only .weather-upload-details,
-.read-only .run-form-panel,
+.read-only:not(.pvt-runs-enabled) .run-form-panel,
 .read-only .module-toggle,
 .read-only #apply-staged,
 .read-only #save-state {

@@ -712,7 +712,10 @@ def _run_worker(
 
 
 def create_app(
-    project_root: Path = PROJECT_ROOT, *, read_only: bool | None = None
+    project_root: Path = PROJECT_ROOT,
+    *,
+    read_only: bool | None = None,
+    allow_pvt_runs: bool | None = None,
 ) -> FastAPI:
     """Create the browser app; ``project_root`` is injectable for tests."""
     root = project_root.resolve()
@@ -724,6 +727,11 @@ def create_app(
             "yes",
             "on",
         }
+    if allow_pvt_runs is None:
+        allow_pvt_runs = os.environ.get(
+            "AQUASOLAR_ALLOW_PVT_RUNS", ""
+        ).strip().lower() in {"1", "true", "yes", "on"}
+    can_run_pvt = not is_read_only or allow_pvt_runs
     executor = ThreadPoolExecutor(max_workers=1, thread_name_prefix="aquasolar-run")
     jobs: dict[str, dict[str, Any]] = {}
     jobs_lock = threading.Lock()
@@ -760,11 +768,12 @@ def create_app(
     async def verify_browser_origin(request, call_next):
         if request.method in {"POST", "PUT", "PATCH", "DELETE"}:
             is_design_screening = request.url.path == "/api/design/simulate"
-            if is_read_only and not is_design_screening:
+            is_pvt_run = request.url.path == "/api/runs" and can_run_pvt
+            if is_read_only and not is_design_screening and not is_pvt_run:
                 return JSONResponse(
                     status_code=HTTPStatus.FORBIDDEN,
                     content={
-                        "detail": "This public showcase is read-only; edits and runs are disabled."
+                        "detail": "This public showcase is read-only; edits and uploads are disabled."
                     },
                 )
             origin = request.headers.get("origin")
@@ -776,10 +785,11 @@ def create_app(
                     "::1",
                     "testserver",
                 }
-                is_same_host_screening = (
-                    is_design_screening and origin_host == request.url.hostname
+                is_same_host_allowed = (
+                    (is_design_screening or is_pvt_run)
+                    and origin_host == request.url.hostname
                 )
-                if not is_local_origin and not is_same_host_screening:
+                if not is_local_origin and not is_same_host_allowed:
                     return JSONResponse(
                         status_code=HTTPStatus.FORBIDDEN,
                         content={"detail": "Only local browser requests are allowed."},
@@ -788,7 +798,7 @@ def create_app(
 
     @app.get("/api/config")
     def get_config() -> dict[str, bool]:
-        return {"read_only": is_read_only}
+        return {"read_only": is_read_only, "can_run_pvt": can_run_pvt}
 
     @app.get("/")
     def index() -> FileResponse:
@@ -1072,7 +1082,7 @@ def create_app(
             weather_path.is_absolute()
             or ".." in weather_path.parts
             or weather_path.parts[:2] != ("inputs", "timeseries")
-            or not weather_path.is_file()
+            or not (root / weather_path).is_file()
             or not (root / weather_path).resolve().is_relative_to(root)
         ):
             raise HTTPException(
